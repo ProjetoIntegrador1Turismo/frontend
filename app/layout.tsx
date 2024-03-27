@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import React from 'react';
-import { poppins } from './util/fonts';
+import { poppins } from '../lib/fonts';
 
 export const metadata: Metadata = {
   title: 'TourLink',
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className={poppins.className} lang='en'>
-      <body className='font-extralight'>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
