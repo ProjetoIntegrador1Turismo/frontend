@@ -15,10 +15,6 @@ type InterestPoint = {
   id: number;
 };
 
-interface FooterProps {
-  AppName: string;
-}
-
 const page = async () => {
   const promise = await fetch('http://localhost:8081/interestpoint');
   const data: InterestPoint[] = await promise.json();
