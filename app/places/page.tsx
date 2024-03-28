@@ -9,14 +9,19 @@ import {
   TableRow
 } from '@/components/ui/table';
 
-type User = {
+type InterestPoint = {
   name: string;
-  email: string;
+  interestPointType: string;
+  id: number;
 };
 
+interface FooterProps {
+  AppName: string;
+}
+
 const page = async () => {
-  const promise = await fetch('https://jsonplaceholder.typicode.com/users');
-  const data: User[] = await promise.json();
+  const promise = await fetch('http://localhost:8081/interestpoint');
+  const data: InterestPoint[] = await promise.json();
   return (
     <div className='p-6 max-w-4xl mx-auto'>
       <Table>
@@ -25,11 +30,11 @@ const page = async () => {
           <TableHead>Tipo</TableHead>
         </TableHeader>
         <TableBody>
-          {data.map((user, i) => {
+          {data.map(({ name, interestPointType, id }) => {
             return (
-              <TableRow key={i}>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
+              <TableRow key={id}>
+                <TableCell>{name}</TableCell>
+                <TableCell>{interestPointType}</TableCell>
               </TableRow>
             );
           })}
