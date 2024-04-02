@@ -1,0 +1,4 @@
+.NavbarContainer {
+  display: flex;
+  justify-content: space-between;
+}

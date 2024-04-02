@@ -19,6 +19,8 @@ const config = {
     },
     extend: {
       colors: {
+        'tl-purple': '#9400da',
+        'tl-red': '#f50437',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

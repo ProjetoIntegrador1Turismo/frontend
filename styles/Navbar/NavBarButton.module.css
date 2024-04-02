@@ -1,0 +1,39 @@
+.NavButtonContainer {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.ButtonUnderlineDecor {
+  width: 35px;
+  height: 2px;
+  background-color: #000000;
+}
+
+.NavButtonContainer p {
+  transition: background 0.3s;
+}
+
+.NavButtonContainer:hover p {
+  background: #f50437;
+  background: linear-gradient(to bottom, #f50437 0%, #9400da 100%);
+  background-clip: inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.NavButtonContainer:hover .ButtonUnderlineDecor {
+  background: rgb(245, 4, 55);
+  background: linear-gradient(180deg, rgba(245, 4, 55, 1) 0%, rgba(148, 0, 218, 1) 100%);
+}
+
+.NavButtonContainer a {
+  text-decoration: none;
+  font-size: 24px;
+  color: #000000;
+}
+
+.NavButtonContainer a:visited {
+  text-decoration: none;
+  color: inherit;
+}
