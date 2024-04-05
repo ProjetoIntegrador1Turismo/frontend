@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState, useTransition } from 'react';
 import CardWrapper from './card-wrapper';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -15,8 +15,15 @@ import {
 } from '@/components/ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { FormError } from '../form-error';
+import { FormSucess } from '../form-sucess';
+import { login } from '@/actions/login';
 
 const LoginForm = () => {
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -25,15 +32,31 @@ const LoginForm = () => {
     }
   });
 
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setError('');
+    setSuccess('');
+
+    startTransition(() => {
+      login(values).then((data) => {
+        setSuccess(data.success);
+        setError(data.error);
+      });
+    });
+  };
+
   return (
     <CardWrapper
       headerTitle='Login'
-      headerLabel='Bem vindo!'
-      backButtonLabel='Não tem uma conta?'
-      backButtonHref='/register'
+      headerLabel='Bem vindo de volta!'
+      backButtons={[
+        {
+          href: '/register',
+          label: 'Não tem uma conta?'
+        }
+      ]}
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(() => {})} className='space-y-6'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
             <FormField
               control={form.control}
@@ -42,7 +65,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='email@email.com' type='email' />
+                    <Input disabled={isPending} {...field} placeholder='Seu email' type='email' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -55,14 +78,20 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='******' type='password' />
+                    <Input disabled={isPending} {...field} placeholder='******' type='password' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <Button type='submit' className='w-full bg-gradient-to-r from-tl-red to-tl-purple'>
+          <FormError message={error} />
+          <FormSucess message={success} />
+          <Button
+            disabled={isPending}
+            type='submit'
+            className='w-full bg-gradient-to-r from-tl-red to-tl-purple'
+          >
             Login
           </Button>
         </form>
