@@ -5,29 +5,31 @@ import React from 'react';
 import Header from './header';
 import BackButton from './back-button';
 
+interface backButton {
+  href: string;
+  label: string;
+}
+
 interface CardWrapperProps {
   children: React.ReactNode;
   headerLabel: string;
-  backButtonLabel: string;
-  backButtonHref: string;
   headerTitle: string;
+  backButtons: backButton[];
 }
 
-const CardWrapper = ({
-  backButtonHref,
-  children,
-  headerLabel,
-  backButtonLabel,
-  headerTitle
-}: CardWrapperProps) => {
+const CardWrapper = ({ children, headerLabel, headerTitle, backButtons }: CardWrapperProps) => {
   return (
-    <Card className='w-[400px] shadow-lg shadow-gray-500'>
+    <Card className='w-[400px] shadow-lg shadow-gray-500 mb-24'>
       <CardHeader>
         <Header label={headerLabel} title={headerTitle} />
       </CardHeader>
       <CardContent>{children}</CardContent>
       <CardFooter>
-        <BackButton label={backButtonLabel} href={backButtonHref} />
+        <div className='m-auto'>
+          {backButtons.map(({ href, label }, i) => {
+            return <BackButton href={href} label={label} key={i} />;
+          })}
+        </div>
       </CardFooter>
     </Card>
   );
