@@ -18,8 +18,8 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { FormError } from '../form-error';
 import { FormSucess } from '../form-sucess';
-import { login } from '@/actions/login';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { registerGuide } from '@/actions/registerGuide';
 
 const RegisterGuideForm = () => {
   const [error, setError] = useState<string | undefined>('');
@@ -41,7 +41,7 @@ const RegisterGuideForm = () => {
     setSuccess('');
 
     startTransition(() => {
-      login(values).then((data) => {
+      registerGuide(values).then((data) => {
         setSuccess(data.success);
         setError(data.error);
       });
