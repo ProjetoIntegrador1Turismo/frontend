@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { LoginSchema } from './schemas';
+import { AdapterUser } from 'next-auth/adapters';
 
 export const {
   handlers: { GET, POST },
@@ -8,6 +9,20 @@ export const {
   signIn,
   signOut
 } = NextAuth({
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
+      // eslint-disable-next-line prettier/prettier
+      // not ideal, thanks next auth v5 :(
+      session.user = token as unknown as AdapterUser;
+      return session;
+    }
+  },
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -22,7 +37,7 @@ export const {
             body: JSON.stringify({
               username: email,
               password: password,
-              expiresInMins: 3
+              expiresInMins: 15
             })
           });
 
