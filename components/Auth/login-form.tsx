@@ -65,7 +65,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input disabled={isPending} {...field} placeholder='Seu email' type='email' />
+                    <Input disabled={isPending} {...field} placeholder='Seu email' type='text' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
