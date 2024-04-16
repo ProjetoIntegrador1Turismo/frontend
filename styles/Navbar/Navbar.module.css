@@ -2,3 +2,9 @@
   display: flex;
   justify-content: space-between;
 }
+
+.Divisor {
+  height: 1px;
+  background-color: #000000;
+  margin: 20px 0;
+}
