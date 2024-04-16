@@ -6,3 +6,8 @@ export interface NavBarButtonProps {
 export interface NavBarButtonsContainerProps {
   buttons: NavBarButtonProps[];
 }
+
+export interface SliderCardProps {
+  image: string;
+  title: string;
+}
