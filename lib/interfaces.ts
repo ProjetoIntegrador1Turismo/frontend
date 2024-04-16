@@ -11,3 +11,7 @@ export interface SliderCardProps {
   image: string;
   title: string;
 }
+
+export interface HomeSliderProps {
+  slides: SliderCardProps[];
+}
