@@ -1,18 +1,26 @@
-import { auth, signOut } from '@/auth';
+import PlaneDivisor from '@/components/home-page/PlaneDivisor';
+import MainCard from '@/components/home-page/MainCard';
+import HomeSlider from '@/components/home-page/HomeSlider';
+import { mockSlides, mockTour } from '@/lib/mocks';
 
-export default async function Home() {
-  const session = await auth();
+export default function Home() {
   return (
-    <div className='flex flex-col items-center justify-center h-screen'>
-      <h1 className='text-center text-xs'>{JSON.stringify(session?.user.username)}</h1>
-      <form
+    <div>
+      {/* <form
         action={async () => {
           'use server';
           await signOut({ redirectTo: '/login' });
         }}
       >
         <button type='submit'>Sign Out</button>
-      </form>
+      </form> */}
+      <div className='flex flex-col gap-4 xl:flex-row justify-around'>
+        <MainCard tour={mockTour} />
+        <MainCard tour={mockTour} />
+        <MainCard tour={mockTour} />
+      </div>
+      <PlaneDivisor />
+      <HomeSlider slides={mockSlides} />
     </div>
   );
 }
