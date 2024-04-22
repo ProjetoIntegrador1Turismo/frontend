@@ -1,4 +1,4 @@
-import { GuideCardInfo, SliderCardProps } from './interfaces';
+import { SliderCardProps } from './interfaces';
 
 export const mockSlides: SliderCardProps[] = [
   {
@@ -40,11 +40,4 @@ export const mockTour = {
   price: '1',
   image: 'https://i.imgur.com/wKCqVTl.png',
   imageAlt: 'Photo of Itaipu Binacional'
-};
-
-export const mockGuide: GuideCardInfo = {
-  img: '/avatar.jpg',
-  name: 'Luiza Oliveira',
-  rating: 3,
-  trips: 223
 };
