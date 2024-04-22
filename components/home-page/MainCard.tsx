@@ -1,6 +1,5 @@
 import BRLIcon from '@/components/icons/BRLIcon';
 import { ClockIcon } from '@radix-ui/react-icons';
-import { DollarSignIcon } from 'lucide-react';
 import styles from '@/styles/main-page/MainCard.module.css';
 
 interface Tour {
