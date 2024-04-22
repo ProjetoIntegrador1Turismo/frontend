@@ -1,7 +1,8 @@
 import PlaneDivisor from '@/components/home-page/PlaneDivisor';
 import MainCard from '@/components/home-page/MainCard';
-import HomeSlider from '@/components/home-page/HomeSlider';
 import { mockSlides, mockTour } from '@/lib/mocks';
+import SliderWithHeader from '@/components/home-page/SliderWithHeader';
+import BondeDivisor from '@/components/home-page/BondeDivisor';
 
 export default function Home() {
   return (
@@ -20,7 +21,9 @@ export default function Home() {
         <MainCard tour={mockTour} />
       </div>
       <PlaneDivisor />
-      <HomeSlider slides={mockSlides} />
+      <SliderWithHeader title='Restaurantes, Eventos e Passeios' slides={mockSlides} />
+      <SliderWithHeader title='Roteiros, Hóteis e Expêriencias' slides={mockSlides} />
+      <BondeDivisor />
     </div>
   );
 }
