@@ -51,3 +51,7 @@ export interface GuideCardInfo {
 export interface GuideCardProps {
   guide: GuideCardInfo;
 }
+
+export interface WeekGuidesProps {
+  guides: GuideCardInfo[];
+}

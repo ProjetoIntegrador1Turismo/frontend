@@ -48,3 +48,36 @@ export const mockGuide: GuideCardInfo = {
   rating: 3,
   trips: 223
 };
+
+export const mockGuides: GuideCardInfo[] = [
+  {
+    img: '/avatar.jpg',
+    name: 'Kleber Machado da Silva',
+    rating: 3,
+    trips: 10003
+  },
+  {
+    img: '/avatar.jpg',
+    name: 'Kleber Machado da Silva',
+    rating: 1,
+    trips: 882
+  },
+  {
+    img: '/avatar.jpg',
+    name: 'Kleber Machado da Silva',
+    rating: 4,
+    trips: 1027
+  },
+  {
+    img: '/avatar.jpg',
+    name: 'Kleber Machado da Silva',
+    rating: 5,
+    trips: 633
+  },
+  {
+    img: '/avatar.jpg',
+    name: 'Kleber Machado da Silva',
+    rating: 2,
+    trips: 34
+  }
+];
