@@ -72,10 +72,9 @@
   }
   body {
     @apply bg-background text-foreground;
+    margin: 0 120px;
+    overflow-x: hidden;
   }
 }
 
-body {
-  margin: 0 120px;
-  margin-top: 15px;
-}
+

@@ -1,0 +1,37 @@
+.CardContainer {
+  position: relative;
+  width: 233px;
+  height: 150px;
+}
+
+.CardImg {
+  object-fit: cover;
+  min-width: 233px;
+  min-height: 150px;
+  max-width: 233px;
+  max-height: 150px;
+  height: auto;
+  transition: filter 0.3s ease;
+  border-radius: 8px;
+}
+
+.CardContainer:hover .CardImg {
+  filter: blur(5px);
+}
+
+.CardContainer:hover .CardText {
+  color: #fff;
+}
+
+.CardText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: transparent;
+  transition: color 0.3s ease;
+  text-align: center;
+  width: 100%;
+  word-wrap: break-word;
+  padding: 2px;
+}

@@ -1,0 +1,48 @@
+.HomeCardContainer {
+  display: flex;
+  width: 385px;
+  height: 315px;
+  flex-direction: column;
+  color: #ffffff;
+  filter: drop-shadow(1px 1px 5px #2b2b2b);
+}
+
+.HomeCardContainer > img {
+  width: 385px;
+  height: 260px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.HomeCardContainer h1 {
+  font-size: 24px;
+}
+
+.DescriptionContainer {
+  display: flex;
+  background: rgb(245, 4, 55);
+  background: linear-gradient(90deg, rgba(245, 4, 55, 1) 0%, rgba(148, 0, 218, 1) 100%);
+  width: 385px;
+  height: 55px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.DurationContainer,
+.PriceContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.DurationContainer {
+  margin-bottom: -2px;
+}
+
+.BRLIcon,
+.ClockIcon {
+  width: fit-content;
+  height: fit-content;
+  align-self: center;
+}

@@ -21,6 +21,8 @@ const config = {
       colors: {
         'tl-purple': '#9400da',
         'tl-red': '#f50437',
+        'tl-red-2': '#bf0028',
+        'tl-purple-2': '#7d00b8',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

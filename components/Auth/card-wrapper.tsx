@@ -19,7 +19,7 @@ interface CardWrapperProps {
 
 const CardWrapper = ({ children, headerLabel, headerTitle, backButtons }: CardWrapperProps) => {
   return (
-    <Card className='w-[400px] shadow-lg shadow-gray-500 mb-24'>
+    <Card className='w-[400px] shadow-lg shadow-gray-500 h-fit m-auto'>
       <CardHeader>
         <Header label={headerLabel} title={headerTitle} />
       </CardHeader>

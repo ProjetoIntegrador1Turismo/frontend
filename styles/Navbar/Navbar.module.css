@@ -1,4 +1,11 @@
 .NavbarContainer {
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
+}
+
+.Divisor {
+  height: 1px;
+  background-color: #000000;
+  margin: 20px 0;
 }
