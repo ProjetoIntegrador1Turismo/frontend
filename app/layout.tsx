@@ -5,6 +5,7 @@ import { poppins } from '../lib/fonts';
 import Navbar from '@/components/Navbar/Navbar';
 import SessionProvider from '@/components/Auth/SessionProvider';
 import { auth } from '@/auth';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'TourLink',
@@ -23,6 +24,7 @@ export default async function RootLayout({
         <body>
           <Navbar />
           {children}
+          <Footer />
         </body>
       </SessionProvider>
     </html>
