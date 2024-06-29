@@ -1,4 +1,4 @@
-import { GuideCardInfo, SliderCardProps } from './interfaces';
+import { GuideCardInfo, SliderCardProps, TourTitleInfo } from './interfaces';
 
 export const mockSlides: SliderCardProps[] = [
   {
@@ -44,7 +44,7 @@ export const mockTour = {
 
 export const mockGuide: GuideCardInfo = {
   img: '/avatar.jpg',
-  name: 'Luiza Oliveira',
+  name: 'Lu',
   rating: 3,
   trips: 223
 };
@@ -58,26 +58,47 @@ export const mockGuides: GuideCardInfo[] = [
   },
   {
     img: '/avatar.jpg',
-    name: 'Kleber Machado da Silva',
+    name: 'Lua Santos',
     rating: 1,
     trips: 882
   },
   {
     img: '/avatar.jpg',
-    name: 'Kleber Machado da Silva',
+    name: 'Claudio Santos Faraday',
     rating: 4,
     trips: 1027
   },
   {
     img: '/avatar.jpg',
-    name: 'Kleber Machado da Silva',
+    name: 'Julia Souza santos Constante',
     rating: 5,
     trips: 633
   },
   {
     img: '/avatar.jpg',
-    name: 'Kleber Machado da Silva',
+    name: 'Lucas Souza Silva',
     rating: 2,
     trips: 34
   }
 ];
+
+export const tourTitleMock: TourTitleInfo = {
+  address: 'Av. Tancredo Neves, 6731 - Conj. C, Foz do Iguaçu - PR, 85867-318',
+  phone: '(45) 3520-6265',
+  price: 1,
+  rating: 3,
+  title: 'Itaipu Binacional',
+  description: `Sua cama, acima do chão e com vista para a cidade, é a peça central. Duas luminosas flores de cerâmica emolduram a cabeceira da cama, enquanto os grandes sofás de formas orgânicas criam um ambiente de sala de estar privada.
+
+  A decoração inclui a tocha olímpica de Paris 2024 (projetada por mim) exposta em sua alcova exclusiva, em frente a um saco de boxe para dar um toque esportivo pessoal. Assim, até você entra no ritmo de competição. Como o quarto mais bonito deve ter a varanda mais bonita, o grande terraço do Museu também será reservado para você. Paris é sua; que comece a cerimônia...
+
+  Prepare-se para ter uma noite mágica e histórica.
+
+  • Assista à Cerimônia de Abertura no terraço do museu com a vista incomparável do rio Sena.
+
+  • Tenha acesso privativo à coleção impressionista do museu e a uma experiência exclusiva em um espaço que não fica aberto ao público.
+
+  • Desfrute de um jantar gourmet que apresenta os melhores clássicos franceses. 
+
+  • Passe a noite no quarto do relógio projetado por mim em uma cama flutuante.`
+};
