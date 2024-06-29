@@ -55,3 +55,24 @@ export interface GuideCardProps {
 export interface WeekGuidesProps {
   guides: GuideCardInfo[];
 }
+
+export interface TourTitleInfo {
+  title: string;
+  phone: string;
+  address: string;
+  description: string;
+  price: 1 | 2 | 3;
+  rating: 1 | 2 | 3 | 4 | 5;
+}
+
+export interface TourTitleProps {
+  tour: TourTitleInfo;
+}
+
+export interface TourPriceProps {
+  price: 1 | 2 | 3;
+}
+
+export interface TourDescriptionProps {
+  description: string;
+}
