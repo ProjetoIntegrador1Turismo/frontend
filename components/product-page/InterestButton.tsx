@@ -1,0 +1,12 @@
+import { PlaneIcon } from 'lucide-react';
+import React from 'react';
+
+const InterestButton = () => {
+  return (
+    <button className='w-[250px] h-[70px] bg-gradient-to-t  from-tl-red items-center text-xl to-tl-purple rounded-full flex justify-center gap-2 text-white font-extrabold hover:from-tl-red-2 hover:to-tl-purple-2'>
+      Tenho interesse <PlaneIcon />
+    </button>
+  );
+};
+
+export default InterestButton;
