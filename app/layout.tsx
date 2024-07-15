@@ -5,7 +5,7 @@ import { poppins } from '../lib/fonts';
 import Navbar from '@/components/Navbar/Navbar';
 import SessionProvider from '@/components/Auth/SessionProvider';
 import { auth } from '@/auth';
-import Footer from '@/components/Footer';
+import Footer from '@/components/home-page/Footer';
 
 export const metadata: Metadata = {
   title: 'TourLink',

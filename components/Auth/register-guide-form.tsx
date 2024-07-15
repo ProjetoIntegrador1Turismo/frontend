@@ -16,8 +16,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { FormError } from '../form-error';
-import { FormSucess } from '../form-sucess';
+import { FormError } from './form-error';
+import { FormSucess } from './form-sucess';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { registerGuide } from '@/actions/registerGuide';
 

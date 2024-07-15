@@ -15,8 +15,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { FormError } from '../form-error';
-import { FormSucess } from '../form-sucess';
+import { FormError } from './form-error';
+import { FormSucess } from './form-sucess';
 import { login } from '@/actions/login';
 
 const LoginForm = () => {
