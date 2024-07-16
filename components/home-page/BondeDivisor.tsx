@@ -1,5 +1,5 @@
-import React from 'react';
 import { CableCar } from 'lucide-react';
+
 const BondeDivisor = () => {
   return (
     <div className='flex items-center my-3'>

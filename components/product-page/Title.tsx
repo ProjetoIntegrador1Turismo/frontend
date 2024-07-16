@@ -1,7 +1,6 @@
-import React from 'react';
 import { TourTitleProps } from '@/lib/interfaces';
-import Rating from '../home-page/Rating';
 import { MapPin } from 'lucide-react';
+import Rating from '../home-page/Rating';
 import TourPrice from './TourPrice';
 
 const Title = ({ tour }: TourTitleProps) => {

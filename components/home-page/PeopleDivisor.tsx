@@ -1,5 +1,5 @@
-import React from 'react';
 import { Users } from 'lucide-react';
+
 const PeopleDivisor = () => {
   return (
     <div className='flex items-center my-3'>

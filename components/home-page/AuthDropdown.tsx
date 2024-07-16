@@ -1,12 +1,5 @@
 'use client';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import {
   Menu,
   UserCircle,
   LogInIcon,
@@ -15,8 +8,15 @@ import {
   LogOutIcon,
   UserRound
 } from 'lucide-react';
-import { logout } from '@/actions/logout';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 import { useSession } from 'next-auth/react';
+import { logout } from '@/actions/logout';
 import Link from 'next/link';
 
 export function AuthDropdown() {

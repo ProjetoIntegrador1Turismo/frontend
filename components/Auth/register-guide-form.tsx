@@ -1,11 +1,5 @@
 /* eslint-disable prettier/prettier */
 'use client';
-import React, { useState, useTransition } from 'react';
-import CardWrapper from './card-wrapper';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { RegisterGuideSchema } from '@/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
@@ -14,12 +8,19 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { FormError } from './form-error';
-import { FormSucess } from './form-sucess';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { registerGuide } from '@/actions/registerGuide';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { RegisterGuideSchema } from '@/schemas';
+import { useState, useTransition } from 'react';
+import { FormSucess } from './form-sucess';
+import { useForm } from 'react-hook-form';
+import { FormError } from './form-error';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import CardWrapper from './card-wrapper';
+import * as z from 'zod';
+
 
 const RegisterGuideForm = () => {
   const [error, setError] = useState<string | undefined>('');
@@ -64,7 +65,7 @@ const RegisterGuideForm = () => {
       ]}
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <div className='space-y-4'>
             <FormField
               control={form.control}

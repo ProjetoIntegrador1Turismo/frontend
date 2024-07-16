@@ -1,5 +1,3 @@
-import { HomeSliderProps } from '@/lib/interfaces';
-import SliderCard from './SliderCard';
 import {
   Carousel,
   CarouselContent,
@@ -7,6 +5,8 @@ import {
   CarouselNext,
   CarouselPrevious
 } from '../ui/carousel';
+import { HomeSliderProps } from '@/lib/interfaces';
+import SliderCard from './SliderCard';
 
 const HomeSlider = ({ slides }: HomeSliderProps) => {
   return (

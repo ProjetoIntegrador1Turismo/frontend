@@ -1,5 +1,5 @@
-import styles from '@/styles/main-page/SliderCard.module.css';
 import { SliderCardProps } from '@/lib/interfaces';
+import styles from '@/styles/main-page/SliderCard.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 

@@ -1,5 +1,4 @@
 import { TourDescriptionProps } from '@/lib/interfaces';
-import React from 'react';
 import { DescriptionDialog } from './DescriptionDialog';
 
 const TourDescription = ({ description }: TourDescriptionProps) => {

@@ -1,5 +1,4 @@
 import { TourPriceProps } from '@/lib/interfaces';
-import React from 'react';
 
 const TourPrice = ({ price }: TourPriceProps) => {
   switch (price) {

@@ -1,5 +1,5 @@
-import BRLIcon from '@/components/icons/BRLIcon';
 import { ClockIcon } from '@radix-ui/react-icons';
+import BRLIcon from '@/components/icons/BRLIcon';
 import styles from '@/styles/main-page/MainCard.module.css';
 import Image from 'next/image';
 
