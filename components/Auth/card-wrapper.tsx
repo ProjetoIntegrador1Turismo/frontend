@@ -1,21 +1,10 @@
 'use client';
 
 import { Card, CardContent, CardFooter, CardHeader } from '../ui/card';
+import { CardWrapperProps } from '@/lib/interfaces';
 import React from 'react';
 import Header from './header';
 import BackButton from './back-button';
-
-interface backButton {
-  href: string;
-  label: string;
-}
-
-interface CardWrapperProps {
-  children: React.ReactNode;
-  headerLabel: string;
-  headerTitle: string;
-  backButtons: backButton[];
-}
 
 const CardWrapper = ({ children, headerLabel, headerTitle, backButtons }: CardWrapperProps) => {
   return (

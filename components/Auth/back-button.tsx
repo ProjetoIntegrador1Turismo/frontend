@@ -1,14 +1,7 @@
 'use client';
-
-import Link from 'next/link';
+import { BackButtonProps } from '@/lib/interfaces';
 import { Button } from '../ui/button';
-
-interface BackButtonProps {
-  href: string;
-  label: string;
-}
-
-import React from 'react';
+import Link from 'next/link';
 
 const BackButton = ({ label, href }: BackButtonProps) => {
   return (

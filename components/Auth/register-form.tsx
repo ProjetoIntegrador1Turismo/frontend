@@ -1,11 +1,5 @@
 /* eslint-disable prettier/prettier */
 'use client';
-import React, { useState, useTransition } from 'react';
-import CardWrapper from './card-wrapper';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { RegisterSchema } from '@/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
@@ -14,11 +8,17 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { FormError } from '../form-error';
-import { FormSucess } from '../form-sucess';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useTransition } from 'react';
 import { register } from '@/actions/register';
+import { FormSucess } from './form-sucess';
+import { RegisterSchema } from '@/schemas';
+import { useForm } from 'react-hook-form';
+import { FormError } from './form-error';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import CardWrapper from './card-wrapper';
+import * as z from 'zod';
 
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('');

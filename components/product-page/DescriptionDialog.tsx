@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,8 +8,8 @@ import {
   DialogClose
 } from '@/components/ui/dialog';
 import { TourDescriptionProps } from '@/lib/interfaces';
-
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
+import { Button } from '@/components/ui/button';
 
 export function DescriptionDialog({ description }: TourDescriptionProps) {
   return (

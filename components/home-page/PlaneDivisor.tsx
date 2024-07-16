@@ -1,5 +1,5 @@
-import React from 'react';
 import { PlaneIcon } from 'lucide-react';
+
 const PlaneDivisor = () => {
   return (
     <div className='flex items-center my-3'>

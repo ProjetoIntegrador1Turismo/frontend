@@ -1,6 +1,7 @@
-import BRLIcon from '@/components/icons/BRLIcon';
 import { ClockIcon } from '@radix-ui/react-icons';
+import BRLIcon from '@/components/icons/BRLIcon';
 import styles from '@/styles/main-page/MainCard.module.css';
+import Image from 'next/image';
 
 interface Tour {
   tourTitle: string;
@@ -17,10 +18,11 @@ interface MainCardProps {
 const MainCard = ({ tour }: MainCardProps) => {
   return (
     <div className={styles.HomeCardContainer}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         className={styles.HomeCardImage}
         src={tour.image}
+        width={385}
+        height={260}
         alt={tour.imageAlt ? tour.imageAlt : ''}
       />
       <div className={styles.DescriptionContainer}>
@@ -32,8 +34,7 @@ const MainCard = ({ tour }: MainCardProps) => {
           </div>
           <div className={styles.PriceContainer}>
             <BRLIcon className={styles.BRLIcon} />
-            <p>$ $ $</p>
-            {/* todo: implementar PriceCard */}
+            <p className='tracking-[6px]'>$ $ $</p>
           </div>
         </div>
       </div>

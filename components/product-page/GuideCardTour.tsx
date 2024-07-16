@@ -1,7 +1,7 @@
 import { GuideCardProps } from '@/lib/interfaces';
+import InterestButton from './InterestButton';
 import Rating from '../home-page/Rating';
 import Image from 'next/image';
-import InterestButton from './InterestButton';
 
 const GuideCardTour = ({ guide }: GuideCardProps) => {
   return (

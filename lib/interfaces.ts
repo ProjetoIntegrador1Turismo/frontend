@@ -1,4 +1,4 @@
-import { ReactNode, SetStateAction } from 'react';
+import { ReactNode } from 'react';
 
 export interface NavBarButtonProps {
   buttonText: string;
@@ -21,20 +21,6 @@ export interface HomeSliderProps {
 export interface SliderWithHeaderProps {
   title: string;
   slides: SliderCardProps[];
-}
-
-export interface DropDownMenuProps {
-  // eslint-disable-next-line no-unused-vars
-  trigger: (value: SetStateAction<boolean>) => void;
-}
-
-export interface DropDownMenuItemProps {
-  children: ReactNode;
-  login?: boolean;
-  profile?: boolean;
-  logout?: boolean;
-  register?: boolean;
-  about?: boolean;
 }
 
 export interface RatingProps {
@@ -75,4 +61,29 @@ export interface TourPriceProps {
 
 export interface TourDescriptionProps {
   description: string;
+}
+
+export interface HeaderProps {
+  label: string;
+  title: string;
+}
+
+export interface FormSucessProps {
+  message?: string;
+}
+
+export interface FormErrorProps {
+  message?: string;
+}
+
+export interface BackButtonProps {
+  href: string;
+  label: string;
+}
+
+export interface CardWrapperProps {
+  children: ReactNode;
+  headerLabel: string;
+  headerTitle: string;
+  backButtons: BackButtonProps[];
 }
