@@ -1,8 +1,12 @@
-import { auth } from '@/auth';
+import { Profile } from '@/components/profile-page/Profile';
 import React from 'react';
 
 const ProfilePage = async () => {
-  return <div className='break-words'>{JSON.stringify(await auth())}</div>;
+  return (
+    <div>
+      <Profile />
+    </div>
+  );
 };
 
 export default ProfilePage;
