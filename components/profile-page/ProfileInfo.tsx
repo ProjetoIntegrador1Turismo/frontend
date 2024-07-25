@@ -18,16 +18,24 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UpdateProfileSchema } from '@/schemas';
+import { useSession } from 'next-auth/react';
+import { updateProfile } from '@/actions/updateProfile';
+import { FormError } from '../Auth/form-error';
+import { FormSucess } from '../Auth/form-sucess';
+import { useRouter } from 'next/navigation';
 
 const ProfileInfo = () => {
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
   const [edit, setEdit] = useState<boolean>(false);
+  const router = useRouter();
+  const { data } = useSession();
 
   const form = useForm<z.infer<typeof UpdateProfileSchema>>({
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
-      name: 'Denise',
-      password: 'japoneise',
-      email: 'emailfoda@gmail.com'
+      name: data?.user.firstName, //+ ' ' + data?.user.lastName,
+      email: data?.user.email
     }
   });
 
@@ -35,8 +43,20 @@ const ProfileInfo = () => {
 
   const onSubmitUpdateProfile = (values: z.infer<typeof UpdateProfileSchema>) => {
     console.log(values);
+    setError('');
+    setSuccess('');
+
+    updateProfile(values).then(async (data) => {
+      setSuccess(data.success);
+      setError(data.error);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      if (data.success) {
+        router.push('/profile');
+      }
+    });
+
     setEdit((prevState) => {
-      return !prevState;
+      return !prevState;  
     });
   };
 
@@ -100,6 +120,7 @@ const ProfileInfo = () => {
                     <FormLabel>Senha</FormLabel>
                     <FormControl>
                       <Input
+                        placeholder='********'
                         disabled={!edit}
                         {...field}
                         type='password'
@@ -158,6 +179,8 @@ const ProfileInfo = () => {
             }}
           />
         </div>
+        <FormError message={error} />
+        <FormSucess message={success} />
       </CardFooter>
     </Card>
   );
