@@ -35,7 +35,7 @@ export function AuthDropdown() {
           <DropdownMenuGroup>
             <DropdownMenuItem>
               <p>
-                Olá <span className='font-semibold'>{data?.user?.username}</span>!
+                Olá <span className='font-semibold'>{data?.user?.firstName}</span>!
               </p>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
