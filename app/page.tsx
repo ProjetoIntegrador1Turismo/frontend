@@ -4,20 +4,25 @@ import { mockGuides, mockSlides, mockTour } from '@/lib/mocks';
 import SliderWithHeader from '@/components/home-page/SliderWithHeader';
 import BondeDivisor from '@/components/home-page/BondeDivisor';
 import WeekGuides from '@/components/home-page/WeekGuides';
+import { fetchHomepageData } from '@/api/service';
 
-export default function Home() {
+
+export default async function Home() {
+  const PageData = await fetchHomepageData()
+
+
   return (
     <div>
       <div className='flex flex-col gap-4 xl:flex-row justify-around'>
-        <MainCard tour={mockTour} />
-        <MainCard tour={mockTour} />
-        <MainCard tour={mockTour} />
+        {PageData.top3InterestPoints.map((tour) => (
+          <MainCard key={tour.id} tour={tour} />
+        ))}
       </div>
       <PlaneDivisor />
-      <SliderWithHeader title='Restaurantes, Eventos e Passeios' slides={mockSlides} />
-      <SliderWithHeader title='Roteiros, Hóteis e Expêriencias' slides={mockSlides} />
+      <SliderWithHeader title='Restaurantes, Eventos e Passeios' slides={PageData.firstSlider} />
+      <SliderWithHeader title='Roteiros, Hóteis e Expêriencias' slides={PageData.secondSlider} />
       <BondeDivisor />
-      <WeekGuides guides={mockGuides} />
+      <WeekGuides guides={PageData.topGuides  } />
       <div className='mb-14' />
     </div>
   );
