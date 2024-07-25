@@ -22,6 +22,9 @@ const nextConfig = {
       },
       {
         hostname: 'catuaipalladium.com.br'
+      },
+      {
+        hostname: 'localhost'
       }
     ]
   }
