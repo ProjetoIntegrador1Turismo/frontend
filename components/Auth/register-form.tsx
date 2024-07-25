@@ -19,11 +19,13 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import CardWrapper from './card-wrapper';
 import * as z from 'zod';
+import { useRouter } from 'next/navigation';
 
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -39,9 +41,13 @@ const RegisterForm = () => {
     setSuccess('');
 
     startTransition(() => {
-      register(values).then((data) => {
+      register(values).then(async (data) => {
         setSuccess(data.success);
         setError(data.error);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (data.success) {
+          router.push('/login');
+        }
       });
     });
   };
@@ -69,7 +75,7 @@ const RegisterForm = () => {
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome:</FormLabel>
+                  <FormLabel>Nome Completo:</FormLabel>
                   <FormControl>
                     <Input disabled={isPending} {...field} placeholder='Seu nome' type='text' />
                   </FormControl>
