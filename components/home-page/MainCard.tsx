@@ -2,17 +2,11 @@ import { ClockIcon } from '@radix-ui/react-icons';
 import BRLIcon from '@/components/icons/BRLIcon';
 import styles from '@/styles/main-page/MainCard.module.css';
 import Image from 'next/image';
+import { Top3InterestPoint } from '@/lib/interfaces';
 
-interface Tour {
-  tourTitle: string;
-  price: string;
-  duration: string;
-  image: string;
-  imageAlt?: string;
-}
 
 interface MainCardProps {
-  tour: Tour;
+  tour: Top3InterestPoint;
 }
 
 const MainCard = ({ tour }: MainCardProps) => {
@@ -20,13 +14,13 @@ const MainCard = ({ tour }: MainCardProps) => {
     <div className={styles.HomeCardContainer}>
       <Image
         className={styles.HomeCardImage}
-        src={tour.image}
+        src={tour.imageCoverUrl}
         width={385}
         height={260}
-        alt={tour.imageAlt ? tour.imageAlt : ''}
+        alt={tour.name}
       />
       <div className={styles.DescriptionContainer}>
-        <h1>{tour.tourTitle}</h1>
+        <h1>{tour.name}</h1>
         <div className={styles.InfoContainer}>
           <div className={styles.DurationContainer}>
             <ClockIcon className={styles.ClockIcon} />
