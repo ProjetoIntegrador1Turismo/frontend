@@ -10,7 +10,10 @@ export const RegisterSchema = z.object({
     message: 'Insira um e-mail válido!'
   }),
   password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }),
-  name: z.string().min(1, { message: 'Nome é obrigatório!' })
+  name: z.string().min(1, { message: 'Nome é obrigatório!' }).regex(
+    /^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/,
+    'Nome completo é obrigatório!'
+  )
 });
 
 export const RegisterGuideSchema = z.object({
@@ -25,12 +28,13 @@ export const RegisterGuideSchema = z.object({
 export const UpdateProfileSchema = z.object({
   avatar: z
     .any()
-    .refine((files) => files?.[0]?.size <= 1 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
     .refine(
       (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
       'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    ),
+    )
+    .refine((files) => files?.[0]?.size <= 2 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+    .optional(),
   name: z.string().min(4, { message: 'Nome é obrigatório!' }),
   email: z.string().email(),
-  password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' })
+  password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }).optional()
 });
