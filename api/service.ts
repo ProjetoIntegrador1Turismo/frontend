@@ -1,6 +1,4 @@
-import { HomePageData } from "@/lib/interfaces";
-import { redirect } from "next/navigation";
-
+import { HomePageData } from '@/lib/interfaces';
 
 interface UserRegisterData {
   name: string;
@@ -15,7 +13,7 @@ interface UserUpdateData {
   password?: string | undefined;
 }
 
-export async function RegisterUser ({ name, email, password }: UserRegisterData) {
+export async function RegisterUser({ name, email, password }: UserRegisterData) {
   const authResponse = await fetch('http://localhost:8081/user/create', {
     method: 'POST',
     headers: {
@@ -29,7 +27,7 @@ export async function RegisterUser ({ name, email, password }: UserRegisterData)
     })
   });
 
-  if (authResponse.status === 400){
+  if (authResponse.status === 400) {
     return false;
   }
 
@@ -37,13 +35,13 @@ export async function RegisterUser ({ name, email, password }: UserRegisterData)
 }
 
 export const fetchHomepageData = async () => {
-  const response = await fetch('http://localhost:8081/page-source/home', {cache: 'no-cache'});
+  const response = await fetch('http://localhost:8081/page-source/home', { cache: 'no-cache' });
 
-  return await response.json() as HomePageData
-}
+  return (await response.json()) as HomePageData;
+};
 
-export async function updateUser({name, password, email}: UserUpdateData) {
-  const updateResponse = await fetch('http://localhost:8081/user/update',  {
+export async function updateUser({ name, password, email }: UserUpdateData) {
+  const updateResponse = await fetch('http://localhost:8081/user/update', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -56,9 +54,9 @@ export async function updateUser({name, password, email}: UserUpdateData) {
     })
   });
 
-  if (updateResponse.status === 400){
+  if (updateResponse.status === 400) {
     return false;
   }
 
   return true;
-};
+}
