@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import InterestPointForm from './InterestPointForm';
 
 export async function AdminTabs() {
   return (
@@ -19,7 +20,7 @@ export async function AdminTabs() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value='interestpoint'>
-        <p>cadastro de lugar</p>
+        <InterestPointForm />
       </TabsContent>
       <TabsContent value='config'>
         <p>settings</p>
