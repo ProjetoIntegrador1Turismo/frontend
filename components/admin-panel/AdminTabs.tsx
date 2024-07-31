@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InterestPointForm from './InterestPointForm';
+import GuideApproval from './GuideApproval';
 
 export async function AdminTabs() {
   return (
@@ -26,7 +27,7 @@ export async function AdminTabs() {
         <p>settings</p>
       </TabsContent>
       <TabsContent value='guides'>
-        <p>aprovar guias</p>
+        <GuideApproval />
       </TabsContent>
     </Tabs>
   );

@@ -56,7 +56,7 @@ const ProfileInfo = () => {
     });
 
     setEdit((prevState) => {
-      return !prevState;  
+      return !prevState;
     });
   };
 
