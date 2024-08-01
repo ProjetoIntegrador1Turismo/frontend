@@ -1,13 +1,19 @@
 'use server';
 import * as z from 'zod';
 import { InterestPointFormSchema } from '@/schemas';
+import { interestPointCreate } from '@/api/service';
+import { error } from 'console';
 
 export const createInterestPoint = async (values: z.infer<typeof InterestPointFormSchema>) => {
   const validatedFields = InterestPointFormSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: 'Não foi possivel criar o ponto de interesse!' };
+    return { error: `${validatedFields.error}` };
   }
 
-  return { success: 'Sucesso! Seu ponto de interesse foi criado.' };
+  const status = await interestPointCreate(validatedFields.data);
+
+  
+
+  return { success: `${JSON.stringify(status)}` };
 };

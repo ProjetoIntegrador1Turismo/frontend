@@ -204,6 +204,9 @@ const InterestPointForm = () => {
         </Form>
       </CardContent>
       <CardFooter className='flex justify-between'>
+        <pre>
+          {JSON.stringify(form.watch(), null, 2)}
+        </pre>
         <FormError message={error} />
         <FormSucess message={success} />
       </CardFooter>

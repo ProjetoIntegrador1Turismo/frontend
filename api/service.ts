@@ -1,4 +1,12 @@
+import { auth } from '@/auth';
 import { HomePageData } from '@/lib/interfaces';
+import { InterestPointFormSchema } from '@/schemas';
+import * as z from 'zod';
+
+const getAuthToken = async () => {
+  const session = await auth();
+  return session?.user.authToken;
+}
 
 interface UserRegisterData {
   name: string;
@@ -13,7 +21,7 @@ interface UserUpdateData {
   password?: string | undefined;
 }
 
-export async function RegisterUser({ name, email, password }: UserRegisterData) {
+export async function RegisterUser ({ name, email, password }: UserRegisterData) {
   const authResponse = await fetch('http://localhost:8081/user/create', {
     method: 'POST',
     headers: {
@@ -27,7 +35,7 @@ export async function RegisterUser({ name, email, password }: UserRegisterData) 
     })
   });
 
-  if (authResponse.status === 400) {
+  if (authResponse.status === 400){
     return false;
   }
 
@@ -59,4 +67,39 @@ export async function updateUser({ name, password, email }: UserUpdateData) {
   }
 
   return true;
+}
+
+export async function interestPointCreate(values: z.infer<typeof InterestPointFormSchema>) {
+  switch (values.type) {
+    case 'EVENT':
+      const { averageValue, date, duration, longDescription, name, number, road, shortDescription, zipcode, type } = values;
+      const response = await fetch('http://localhost:8081/interestpoint', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await getAuthToken()}`
+        },
+        body: JSON.stringify({
+          averageValue: averageValue,
+          date: date,
+          duration: duration,
+          longDescription: longDescription,
+          name: name,
+          shortDescription: shortDescription,
+          interestPointType: type,
+          address: {
+            zipcode: zipcode,
+            road: road,
+            number: number
+          }
+        })
+      });
+      if (response.status !== 200) {
+        return await response.json();
+      }
+      return true;
+      default:
+        return false
+  }
+
 }

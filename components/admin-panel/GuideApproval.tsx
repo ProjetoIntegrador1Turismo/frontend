@@ -12,6 +12,13 @@ import {
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
 import { useQuery } from '@tanstack/react-query';
 
+interface Guide {
+  firstName: string;
+  cadasturCode: string;
+  averageRating: number;
+  
+}
+
 const GuideApproval = () => {
   const { data, error, isLoading } = useQuery<
     { name: string; cadastur: string; email: string },

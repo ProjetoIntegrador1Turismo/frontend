@@ -49,29 +49,7 @@ export const EventSchema = z.object({
     .refine((value) => value >= 1 && value <= 3, {
       message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
     }),
-  duration: z
-    .string()
-    .regex(/^(\d+)h(\d+)min$/)
-    .transform((value) => {
-      const [hours, minutes] =
-        value
-          .match(/^(\d+)h(\d+)min$/)
-          ?.slice(1)
-          .map(Number) || [];
-      return { hours, minutes };
-    })
-    .refine(
-      ({ hours, minutes }) => {
-        return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
-      },
-      {
-        message:
-          'Formato de hora inválido. Use XhYmin, onde X são horas (0-23) e Y são minutos (0-59)'
-      }
-    )
-    .transform((obj) => {
-      return `${obj.hours}h${obj.minutes}`;
-    }),
+  duration: z.string(),
   shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
   type: z.literal('EVENT'),
   road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
@@ -96,29 +74,7 @@ export const ExperienceSchema = z.object({
     .refine((value) => value >= 1 && value <= 3, {
       message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
     }),
-  duration: z
-    .string()
-    .regex(/^(\d+)h(\d+)min$/)
-    .transform((value) => {
-      const [hours, minutes] =
-        value
-          .match(/^(\d+)h(\d+)min$/)
-          ?.slice(1)
-          .map(Number) || [];
-      return { hours, minutes };
-    })
-    .refine(
-      ({ hours, minutes }) => {
-        return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
-      },
-      {
-        message:
-          'Formato de hora inválido. Use XhYmin, onde X são horas (0-23) e Y são minutos (0-59)'
-      }
-    )
-    .transform((obj) => {
-      return `${obj.hours}h${obj.minutes}`;
-    }),
+  duration: z.string(),
   shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
   type: z.literal('EXPERIENCE'),
   road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
@@ -145,29 +101,7 @@ export const HotelSchema = z.object({
     .refine((value) => value >= 1 && value <= 3, {
       message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
     }),
-  duration: z
-    .string()
-    .regex(/^(\d+)h(\d+)min$/)
-    .transform((value) => {
-      const [hours, minutes] =
-        value
-          .match(/^(\d+)h(\d+)min$/)
-          ?.slice(1)
-          .map(Number) || [];
-      return { hours, minutes };
-    })
-    .refine(
-      ({ hours, minutes }) => {
-        return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
-      },
-      {
-        message:
-          'Formato de hora inválido. Use XhYmin, onde X são horas (0-23) e Y são minutos (0-59)'
-      }
-    )
-    .transform((obj) => {
-      return `${obj.hours}h${obj.minutes}`;
-    }),
+  duration: z.string(),
   shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
   type: z.literal('HOTEL'),
   road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
@@ -197,29 +131,7 @@ export const RestaurantSchema = z.object({
     .refine((value) => value >= 1 && value <= 3, {
       message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
     }),
-  duration: z
-    .string()
-    .regex(/^(\d+)h(\d+)min$/)
-    .transform((value) => {
-      const [hours, minutes] =
-        value
-          .match(/^(\d+)h(\d+)min$/)
-          ?.slice(1)
-          .map(Number) || [];
-      return { hours, minutes };
-    })
-    .refine(
-      ({ hours, minutes }) => {
-        return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
-      },
-      {
-        message:
-          'Formato de hora inválido. Use XhYmin, onde X são horas (0-23) e Y são minutos (0-59)'
-      }
-    )
-    .transform((obj) => {
-      return `${obj.hours}h${obj.minutes}`;
-    }),
+  duration: z.string(),
   shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
   type: z.literal('RESTAURANT'),
   road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
@@ -241,29 +153,7 @@ export const TouristPointSchema = z.object({
     .refine((value) => value >= 1 && value <= 3, {
       message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
     }),
-  duration: z
-    .string()
-    .regex(/^(\d+)h(\d+)min$/)
-    .transform((value) => {
-      const [hours, minutes] =
-        value
-          .match(/^(\d+)h(\d+)min$/)
-          ?.slice(1)
-          .map(Number) || [];
-      return { hours, minutes };
-    })
-    .refine(
-      ({ hours, minutes }) => {
-        return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
-      },
-      {
-        message:
-          'Formato de hora inválido. Use XhYmin, onde X são horas (0-23) e Y são minutos (0-59)'
-      }
-    )
-    .transform((obj) => {
-      return `${obj.hours}h${obj.minutes}`;
-    }),
+  duration: z.string(),
   shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
   type: z.literal('TOURISTPOINT'),
   road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
