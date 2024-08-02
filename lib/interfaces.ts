@@ -121,3 +121,12 @@ export interface TopGuide {
   averageRating: number
 }
 
+export interface Guide {
+  id: number
+  firstName: string
+  cadasturCode: string
+  isApproved: boolean
+  itineraries: any[]
+  reviews: any
+  averageRating: any
+}
