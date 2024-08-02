@@ -27,7 +27,7 @@ const InterestPointTypes = ({ control }: InterestPointTypesProps) => {
               </SelectTrigger>
             </FormControl>
             <SelectContent className='border border-black w-full'>
-              <SelectItem value='TOURISTPOINT'>Ponto Turistico</SelectItem>
+              <SelectItem value='TOURIST_POINT'>Ponto Turistico</SelectItem>
               <SelectItem value='RESTAURANT'>Restaurante</SelectItem>
               <SelectItem value='HOTEL'>Hotel</SelectItem>
               <SelectItem value='EXPERIENCE'>Experiência</SelectItem>
