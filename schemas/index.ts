@@ -87,8 +87,7 @@ export const ExperienceSchema = z.object({
     .string()
     .max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' }),
   category: z.string().min(1, { message: 'Categoria é obrigatoria!' }),
-  requiredTime: z.string(),
-  requiredAge: z.number()
+  requiredAge: z.string().transform((value) => value as unknown as number)
 });
 
 export const HotelSchema = z.object({
@@ -110,13 +109,7 @@ export const HotelSchema = z.object({
     .string()
     .regex(/^\d{5}-?\d{3}$/)
     .transform((value) => value.replace('-', '')),
-  starsNumber: z
-    .number()
-    .min(1)
-    .max(5)
-    .refine((value) => value >= 1 && value <= 5, {
-      message: 'Numero de estrelas pode ser apenas de 1 a 5.'
-    }),
+  starsNumber: z.string().transform((value) => value as unknown as number),
   isResort: z.boolean().default(false),
   breakfastIncluded: z.boolean().default(false)
 });
@@ -155,7 +148,7 @@ export const TouristPointSchema = z.object({
     }),
   duration: z.string(),
   shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
-  type: z.literal('TOURISTPOINT'),
+  type: z.literal('TOURIST_POINT'),
   road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
   number: z.string().max(5),
   zipcode: z
