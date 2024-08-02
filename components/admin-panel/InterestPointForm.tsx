@@ -35,7 +35,7 @@ const InterestPointForm = () => {
 
   const renderOptionalFields = () => {
     switch (InterestPointType) {
-      case 'TOURISTPOINT':
+      case 'TOURIST_POINT':
         return (
           <ControlledTextArea
             control={form.control}
@@ -88,22 +88,13 @@ const InterestPointForm = () => {
                   className='w-full'
                 />
               </div>
-              <div className='flex-1'>
-                <ControlledInput
-                  control={form.control}
-                  label='Idade requirida'
-                  name='requiredAge'
-                  type='text'
-                  className='w-full'
-                />
-              </div>
             </div>
           </div>
         );
 
       case 'HOTEL':
         return (
-          <div className='flex'>
+          <div className='flex gap-3'>
             <div className='flex-1'>
               <ControlledInput
                 control={form.control}
@@ -140,7 +131,7 @@ const InterestPointForm = () => {
       setError(data.error);
       await new Promise((resolve) => setTimeout(resolve, 2000));
       if (data.success) {
-        router.push('/admin');
+        router.refresh();
       }
     });
   };
@@ -197,19 +188,17 @@ const InterestPointForm = () => {
               </div>
             </div>
             {renderOptionalFields()}
-            <Button className='bg-gradient-to-r from-tl-red to-tl-purple w-fit' type='submit'>
-              Cadastrar
-            </Button>
+            <div className='flex gap-3'>
+              <Button className='bg-gradient-to-r from-tl-red to-tl-purple w-fit' type='submit'>
+                Cadastrar
+              </Button>
+              <FormError message={error} />
+              <FormSucess message={success} />
+            </div>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className='flex justify-between'>
-        <pre>
-          {JSON.stringify(form.watch(), null, 2)}
-        </pre>
-        <FormError message={error} />
-        <FormSucess message={success} />
-      </CardFooter>
+      <CardFooter className='flex justify-between'></CardFooter>
     </Card>
   );
 };
