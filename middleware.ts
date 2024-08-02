@@ -9,12 +9,13 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isTourRoute = nextUrl.pathname.toLowerCase().includes('tour/');
   const isAdminRoute = nextUrl.pathname.toLowerCase().includes('admin');
+  let userType = '';
+
+  if (req.auth) {
+    userType = req.auth.user.userType;
+  }
 
   if (isPublicRoute) {
-    return;
-  }
-  // implementar proteção de admin!
-  if (isAdminRoute) {
     return;
   }
 
@@ -31,6 +32,10 @@ export default auth((req) => {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return;
+  }
+
+  if (isAdminRoute && userType !== 'Admin' ) {
+    return Response.redirect(new URL('/', nextUrl));
   }
 
   if (!isLoggedIn && !isPublicRoute) {
