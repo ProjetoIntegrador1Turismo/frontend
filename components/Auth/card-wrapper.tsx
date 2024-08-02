@@ -8,7 +8,7 @@ import BackButton from './back-button';
 
 const CardWrapper = ({ children, headerLabel, headerTitle, backButtons }: CardWrapperProps) => {
   return (
-    <Card className='w-[400px] shadow-lg shadow-gray-500 h-fit m-auto'>
+    <Card className='w-[400px] shadow-lg shadow-gray-500 h-fit -mt-8'>
       <CardHeader>
         <Header label={headerLabel} title={headerTitle} />
       </CardHeader>

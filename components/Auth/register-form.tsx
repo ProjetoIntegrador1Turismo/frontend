@@ -26,6 +26,16 @@ const RegisterForm = () => {
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const backButtons = [
+    {
+      href: '/login',
+      label: 'Já tem uma conta?'
+    },
+    {
+      href: '/register/guide',
+      label: 'É um guia de turismo? Cadastre-se aqui!'
+    }
+  ]
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -56,16 +66,7 @@ const RegisterForm = () => {
     <CardWrapper
       headerTitle='Criar uma conta'
       headerLabel='Bem vindo'
-      backButtons={[
-        {
-          href: '/login',
-          label: 'Já tem uma conta?'
-        },
-        {
-          href: '/register/guide',
-          label: 'É um guia de turismo? Cadastre-se aqui!'
-        }
-      ]}
+      backButtons={backButtons}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
@@ -123,7 +124,7 @@ const RegisterForm = () => {
             type='submit'
             className='w-full bg-gradient-to-r from-tl-red to-tl-purple'
           >
-            Login
+            Registrar
           </Button>
         </form>
       </Form>
