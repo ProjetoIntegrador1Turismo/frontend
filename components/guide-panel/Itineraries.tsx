@@ -12,6 +12,7 @@ interface Itinerary {
   title: string;
 }
 
+// Teste, ajustar depois a requisição
 const ItineraryDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const router = useRouter();

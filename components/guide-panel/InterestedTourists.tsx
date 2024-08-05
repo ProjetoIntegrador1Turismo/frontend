@@ -12,12 +12,11 @@ interface Tourist {
 const InterestedTourists: React.FC = () => {
   const [tourists, setTourists] = useState<Tourist[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 5; // Ajuste o número de itens por página conforme necessário
+  const itemsPerPage = 5;
 
+  // SOMENTE PRA VER COMO FICA REMOVER DEPOIS E FAZER IGUAL A FUNCAO DO PAINEL DO ADMIN
   useEffect(() => {
-    // Simulação de fetch de dados do backend
     const fetchTourists = async () => {
-      // Substitua por uma chamada de API real
       const data = [
         {
           id: 1,
