@@ -9,7 +9,7 @@ interface SearchBarProps {
         type="text"
         value={value}
         onChange={onChange}
-        placeholder="Search"
+        placeholder="Pesquisar"
         className="px-4 py-2 border rounded-md w-full md:w-64 shadow-sm"
       />
     );

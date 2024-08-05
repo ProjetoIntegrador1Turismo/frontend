@@ -15,7 +15,7 @@ const ItineraryCard: React.FC<ItineraryCardProps> = ({ imageUrl, title }) => {
         <CardTitle>{title}</CardTitle>
       </CardContent>
       <CardFooter>
-        <p>Roteiro</p>
+        {/* comentários extras , no footer*/}
       </CardFooter>
     </Card>
   );

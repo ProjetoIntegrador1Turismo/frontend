@@ -1,4 +1,4 @@
-'use server'
+'use server';
 import { auth } from '@/auth';
 import { Guide, HomePageData } from '@/lib/interfaces';
 import { InterestPointFormSchema } from '@/schemas';
@@ -12,7 +12,7 @@ const getAuthToken = async () => {
 
 const getAuthTokenClient = () => {
   return useSession().data?.user.authToken;
-}
+};
 
 interface UserRegisterData {
   name: string;
@@ -62,8 +62,7 @@ export const fetchHomepageData = async () => {
 };
 
 export const fetchInactiveGuides = async () => {
-  const response = await fetch('http://localhost:8081/admin/unapproved-guides', {
-  });
+  const response = await fetch('http://localhost:8081/admin/unapproved-guides', {});
 
   return await response.json();
 };
@@ -304,4 +303,23 @@ export async function RegisterGuide({ name, email, password, cadastur }: GuideRe
   }
 
   return true;
+}
+
+export async function fetchGuideItinerariesById() {
+  const response = await fetch(
+    'http://localhost:8081/page-source/guide-panel/itineraries?guideId=2',
+    {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
+    }
+  );
+
+  if (response.status !== 200) {
+    return [];
+  }
+
+  return response.json();
 }

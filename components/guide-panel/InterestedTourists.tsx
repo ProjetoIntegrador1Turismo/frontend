@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
@@ -20,14 +20,14 @@ const InterestedTourists: React.FC = () => {
       const data = [
         {
           id: 1,
-          name: 'John Doe',
-          contact: 'johndoe@example.com',
+          name: 'Chat chunguete',
+          contact: 'chungao@gmail.com',
           itineraryInterest: 'Foz do Iguaçu: 7 dias'
         },
         {
           id: 2,
-          name: 'Jane Smith',
-          contact: 'janesmith@example.com',
+          name: 'Calvo do karaio',
+          contact: 'calvoo@docs.com',
           itineraryInterest: 'Rio de Janeiro: 5 dias'
         }
         // Adicione mais dados conforme necessário

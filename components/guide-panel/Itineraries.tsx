@@ -5,12 +5,16 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ItineraryCard from './ItineraryCard';
 import SearchBar from './SearchBar';
+import { fetchGuideItinerariesById } from '@/api/service';
 
 interface Itinerary {
   id: number;
   imageUrl: string;
   title: string;
 }
+
+const itineraries: Itinerary[] = fetchGuideItinerariesById();
+
 
 // Teste, ajustar depois a requisição
 const ItineraryDashboard: React.FC = () => {
@@ -34,12 +38,12 @@ const ItineraryDashboard: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className='flex flex-col md:flex-row justify-between items-center mb-4'>
-            <Button
+            {/* <Button
               className='bg-gradient-to-r from-tl-red to-tl-purple w-fit'
               onClick={() => router.push('/novo-itinerario')}
             >
               Criar novo
-            </Button>
+            </Button> */}
             {/* comentário gui: não sei que parametro loco é esse da searchbar tive que pesquisar como faz uma no chat gpt */}
             <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
