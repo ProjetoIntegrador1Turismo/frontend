@@ -10,61 +10,125 @@ import {
 } from '../ui/table';
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import { Guide } from '@/lib/interfaces';
+import { Button } from '../ui/button';
+import { Check, CircleXIcon } from 'lucide-react';
+import { useToast } from '../ui/use-toast';
 
-interface Guide {
-  firstName: string;
-  cadasturCode: string;
-  averageRating: number;
-  
+interface QueryReturn {
+  data: Guide[];
 }
 
 const GuideApproval = () => {
-  const { data, error, isLoading } = useQuery<
-    { name: string; cadastur: string; email: string },
-    Error
-  >({
+  const { data: sessionData } = useSession();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  const { data, error, isLoading } = useQuery<QueryReturn, Error>({
     queryKey: ['pendingGuides'],
     queryFn: async () => {
-      await new Promise((resolve) => {
-        setTimeout(resolve, 5000);
+      return axios.get('http://localhost:8081/admin/unapproved-guides', {
+        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
-      return { name: 'burns', cadastur: '12345', email: 'burns@gmail.com' };
+    },
+    refetchOnWindowFocus: false
+  });
+
+  const {
+    mutate: approveGuide,
+    isPending: isPendingApproval  
+  } = useMutation({
+    mutationFn: async (id: number) => {
+      return axios.post(`http://localhost:8081/admin/approve-guide/${id}`, {
+        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+      });
+    },
+    onSuccess: async (response) => {
+      queryClient.invalidateQueries({ queryKey: ['pendingGuides'] });
+      toast({
+        title: 'Guia foi aprovado!',
+        description: `Guia de id ${response.data.id} foi aprovado com sucesso!`
+      });
+    },
+  });
+
+  const {
+    mutate: denyGuide,
+    isPending: isPendingDenial
+  } = useMutation({
+    mutationFn: async (id: number) => {
+      return axios.put(`http://localhost:8081/admin/disapprove-guide/${id}`, {
+        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+      });
+    },
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: ['pendingGuides'] });
+      toast({
+        title: 'Guia foi negado!',
+        description: `Guia de id ${response.data.id} foi negado com sucesso!`,
+        variant: 'destructive'
+      });
     }
   });
 
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading) return <p className='break-words max-w-[500px]'>loading...</p>;
+  if (error)
+    return (
+      <p className='break-words max-w-[500px]'>
+        error <pre>{JSON.stringify(error, null, 2)} </pre>
+      </p>
+    );
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Aprovar cadastro de guias de turismo</CardTitle>
         <CardDescription>Aprove os guias para liberar o acesso.</CardDescription>
+        <pre className='max-w-[500px]'>{JSON.stringify(sessionData, null, 2)} </pre>
       </CardHeader>
       <CardContent>
-        <Table className='border border-black rounded'>
+        <Table className='border border-black rounded-xl'>
           <TableHeader>
             <TableRow>
               <TableHead>Nome</TableHead>
-              <TableHead>Email</TableHead>
               <TableHead>Cadastur</TableHead>
-              <TableHead>Ação</TableHead>
+              <TableHead colSpan={2} className='text-center'>
+                Ação
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>{data?.name}</TableCell>
-              <TableCell>{data?.email}</TableCell>
-              <TableCell>{data?.cadastur}</TableCell>
-              <TableCell>
-                <a>aprovar</a>
-              </TableCell>
-            </TableRow>
+            {data.data.map((guide) => {
+              return (
+                <TableRow>
+                  <TableCell>{guide.firstName}</TableCell>
+                  <TableCell>{guide.cadasturCode}</TableCell>
+                  <TableCell className='flex justify-evenly'>
+                    <Button
+                      className='bg-green-500'
+                      disabled={isPendingApproval}
+                      onClick={() => approveGuide(guide.id)}
+                    >
+                      <Check />
+                    </Button>
+                    <Button
+                      variant='destructive'
+                      disabled={isPendingDenial}
+                      onClick={() => denyGuide(guide.id)}
+                    >
+                      <CircleXIcon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={3}>Total</TableCell>
-              <TableCell>$2,500.00</TableCell>
+              <TableCell>Total de guias: {data.data.length}</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
