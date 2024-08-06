@@ -42,7 +42,7 @@ const GuideApproval = () => {
     isPending: isPendingApproval  
   } = useMutation({
     mutationFn: async (id: number) => {
-      return axios.post(`http://localhost:8081/admin/approve-guide/${id}`, {
+      return axios.put(`http://localhost:8081/admin/approve-guide/${id}`, {}, {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
     },
@@ -60,7 +60,7 @@ const GuideApproval = () => {
     isPending: isPendingDenial
   } = useMutation({
     mutationFn: async (id: number) => {
-      return axios.put(`http://localhost:8081/admin/disapprove-guide/${id}`, {
+      return axios.put(`http://localhost:8081/admin/disapprove-guide/${id}`, {}, {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
     },
@@ -87,7 +87,6 @@ const GuideApproval = () => {
       <CardHeader>
         <CardTitle>Aprovar cadastro de guias de turismo</CardTitle>
         <CardDescription>Aprove os guias para liberar o acesso.</CardDescription>
-        <pre className='max-w-[500px]'>{JSON.stringify(sessionData, null, 2)} </pre>
       </CardHeader>
       <CardContent>
         <Table className='border border-black rounded-xl'>
@@ -95,7 +94,7 @@ const GuideApproval = () => {
             <TableRow>
               <TableHead>Nome</TableHead>
               <TableHead>Cadastur</TableHead>
-              <TableHead colSpan={2} className='text-center'>
+              <TableHead className='text-center'>
                 Ação
               </TableHead>
             </TableRow>
