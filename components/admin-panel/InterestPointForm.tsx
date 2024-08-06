@@ -34,9 +34,18 @@ const InterestPointForm = () => {
   const InterestPointType = form.watch('type');
 
   const renderOptionalFields = () => {
-    switch (InterestPointType) {
-      case 'TOURIST_POINT':
-        return (
+    const typeSpecificFields: Record<string, JSX.Element | null> = {
+      TOURIST_POINT: (
+        <ControlledTextArea
+          control={form.control}
+          label='Descrição Longa'
+          placeholder='Escreva uma descrição longa!'
+          name='longDescription'
+          className='resize-none shadow-md shadow-gray-400 border border-black'
+        />
+      ),
+      EVENT: (
+        <div className='space-y-2'>
           <ControlledTextArea
             control={form.control}
             label='Descrição Longa'
@@ -44,83 +53,61 @@ const InterestPointForm = () => {
             name='longDescription'
             className='resize-none shadow-md shadow-gray-400 border border-black'
           />
-        );
-      case 'EVENT':
-        return (
-          <div className='space-y-2'>
-            <ControlledTextArea
+          <ControlledDatePicker control={form.control} label='Data do evento' />
+        </div>
+      ),
+      RESTAURANT: (
+        <ControlledInput
+          control={form.control}
+          label='Tipo de comida'
+          name='foodType'
+          type='text'
+        />
+      ),
+      EXPERIENCE: (
+        <div className='space-y-2'>
+          <ControlledInput control={form.control} label='Categoria' name='category' type='text' />
+          <ControlledTextArea
+            control={form.control}
+            label='Descrição Longa'
+            placeholder='Escreva uma descrição longa!'
+            name='longDescription'
+            className='resize-none shadow-md shadow-gray-400 border border-black'
+          />
+          <div className='flex w-full gap-4'>
+            <ControlledInput
               control={form.control}
-              name='longDescription'
-              label='Descrição Longa'
-              placeholder='Escreva uma descrição longa!'
-              className='resize-none shadow-md shadow-gray-400 border border-black'
+              label='Idade requirida'
+              name='requiredAge'
+              type='text'
+              className='w-full'
             />
-            <ControlledDatePicker control={form.control} label='Data do evento' />
           </div>
-        );
-      case 'RESTAURANT':
-        return (
+        </div>
+      ),
+      HOTEL: (
+        <div className='flex gap-3 items-center'>
           <ControlledInput
             control={form.control}
-            label='Tipo de comida'
-            name='foodType'
-            type='text'
+            label='Número de estrelas'
+            name='starsNumber'
+            type='number'
+            min={1}
+            max={5}
+            className='flex-1'
           />
-        );
-      case 'EXPERIENCE':
-        return (
-          <div className='space-y-2'>
-            <ControlledInput control={form.control} label='Categoria' name='category' type='text' />
-            <ControlledTextArea
-              control={form.control}
-              label='Descrição Longa'
-              placeholder='Escreva uma descrição longa!'
-              name='longDescription'
-              className='resize-none shadow-md shadow-gray-400 border border-black'
-            />
-            <div className='flex w-full gap-4'>
-              <div className='flex-1'>
-                <ControlledInput
-                  control={form.control}
-                  label='Idade requirida'
-                  name='requiredAge'
-                  type='text'
-                  className='w-full'
-                />
-              </div>
-            </div>
-          </div>
-        );
+          <ControlledCheckBox control={form.control} label='É resort?' name='isResort' />
+          <ControlledCheckBox
+            control={form.control}
+            label='Café da manhã incluso?'
+            name='breakfastIncluded'
+          />
+        </div>
+      ),
+      default: null
+    };
 
-      case 'HOTEL':
-        return (
-          <div className='flex gap-3'>
-            <div className='flex-1'>
-              <ControlledInput
-                control={form.control}
-                label='Número de estrelas'
-                name='starsNumber'
-                type='number'
-                min={1}
-                max={5}
-              />
-            </div>
-            <div className='self-end'>
-              <ControlledCheckBox control={form.control} label='É resort?' name='isResort' />
-            </div>
-            <div className='self-end'>
-              <ControlledCheckBox
-                control={form.control}
-                label='Café da manhã incluso?'
-                name='breakfastIncluded'
-              />
-            </div>
-          </div>
-        );
-
-      default:
-        return null;
-    }
+    return typeSpecificFields[InterestPointType] || null;
   };
 
   const onSubmitCreateInterestPoint = (values: z.infer<typeof InterestPointFormSchema>) => {
