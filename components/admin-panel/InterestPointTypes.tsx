@@ -10,9 +10,10 @@ import {
 
 interface InterestPointTypesProps {
   control: any;
+  disabled?: boolean;
 }
 
-const InterestPointTypes = ({ control }: InterestPointTypesProps) => {
+const InterestPointTypes = ({ control, disabled }: InterestPointTypesProps) => {
   return (
     <FormField
       control={control}
@@ -20,7 +21,7 @@ const InterestPointTypes = ({ control }: InterestPointTypesProps) => {
       render={({ field }) => (
         <FormItem>
           <FormLabel>Tipo</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
             <FormControl>
               <SelectTrigger className='shadow-md shadow-gray-400 border border-black w-full'>
                 <SelectValue placeholder='Selecione um tipo de atração' />
