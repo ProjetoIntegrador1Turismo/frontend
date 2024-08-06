@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import InterestPointForm from './InterestPointForm';
 import GuideApproval from './GuideApproval';
+import InterestPoints from './InterestPoints';
 
 export async function AdminTabs() {
   return (
@@ -14,17 +15,17 @@ export async function AdminTabs() {
           Cadastrar Pontos
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='config'>
-          Config
+          Editar Pontos
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='guides'>
-          Histórico
+          Aprovar Guias
         </TabsTrigger>
       </TabsList>
       <TabsContent value='interestpoint'>
         <InterestPointForm />
       </TabsContent>
       <TabsContent value='config'>
-        <p>settings</p>
+        <InterestPoints />
       </TabsContent>
       <TabsContent value='guides'>
         <GuideApproval />
