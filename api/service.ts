@@ -1,7 +1,8 @@
-'use server'
+'use server';
 import { auth } from '@/auth';
 import { Guide, HomePageData } from '@/lib/interfaces';
 import { InterestPointFormSchema } from '@/schemas';
+import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import * as z from 'zod';
 
@@ -12,7 +13,7 @@ const getAuthToken = async () => {
 
 const getAuthTokenClient = () => {
   return useSession().data?.user.authToken;
-}
+};
 
 interface UserRegisterData {
   name: string;
@@ -62,8 +63,7 @@ export const fetchHomepageData = async () => {
 };
 
 export const fetchInactiveGuides = async () => {
-  const response = await fetch('http://localhost:8081/admin/unapproved-guides', {
-  });
+  const response = await fetch('http://localhost:8081/admin/unapproved-guides', {});
 
   return await response.json();
 };
@@ -282,6 +282,15 @@ export async function interestPointCreate(values: z.infer<typeof InterestPointFo
       }
       return true;
   }
+}
+
+export async function interestPointUpdate(
+  values: z.infer<typeof InterestPointFormSchema>,
+  id: string
+) {
+  axios.put(`http://localhost:8081/interestpoint/${id}`, values, {
+    headers: { Authorization: `Bearer ${await getAuthToken()}` }
+  });
 }
 
 export async function RegisterGuide({ name, email, password, cadastur }: GuideRegisterData) {
