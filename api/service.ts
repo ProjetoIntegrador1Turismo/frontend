@@ -323,3 +323,18 @@ export async function fetchGuideItinerariesById() {
 
   return response.json();
 }
+
+export async function fetchAllEvents() {
+  const response = await fetch('http://localhost:8081/interestpoint/type', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json'
+    }
+  });
+
+  if (response.status !== 200) {
+    return [];
+  }
+
+  return response.json();
+}
