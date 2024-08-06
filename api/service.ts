@@ -1,7 +1,12 @@
 'use server';
 import { auth } from '@/auth';
-import { Guide, HomePageData } from '@/lib/interfaces';
-import { InterestPointFormSchema } from '@/schemas';
+import { HomePageData } from '@/lib/interfaces';
+import {
+  InterestPointFormSchema,
+  RegisterGuideSchema,
+  RegisterSchema,
+  UpdateProfileSchema
+} from '@/schemas';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import * as z from 'zod';
@@ -15,45 +20,18 @@ const getAuthTokenClient = () => {
   return useSession().data?.user.authToken;
 };
 
-interface UserRegisterData {
-  name: string;
-  email: string;
-  password: string;
-}
+export async function RegisterUser({ name, email, password }: z.infer<typeof RegisterSchema>) {
+  const [firstName, ...rest] = name.split(' ');
+  const lastName = rest.join(' ');
 
-interface GuideRegisterData {
-  name: string;
-  email: string;
-  password: string;
-  cadastur: string;
-}
-
-interface UserUpdateData {
-  name: string;
-  email: string;
-  avatar?: any;
-  password?: string | undefined;
-}
-
-export async function RegisterUser({ name, email, password }: UserRegisterData) {
-  const authResponse = await fetch('http://localhost:8081/user/create', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      firstName: name.substring(0, name.indexOf(' ')),
-      lastName: name.substring(name.indexOf(' ') + 1),
-      email: email,
-      password: password
-    })
+  const response = await axios.post('http://localhost:8081/user/create', {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password
   });
 
-  if (authResponse.status === 400) {
-    return false;
-  }
-
-  return true;
+  return response.status === 200;
 }
 
 export const fetchHomepageData = async () => {
@@ -62,226 +40,80 @@ export const fetchHomepageData = async () => {
   return (await response.json()) as HomePageData;
 };
 
-export const fetchInactiveGuides = async () => {
-  const response = await fetch('http://localhost:8081/admin/unapproved-guides', {});
+export async function updateUser({ name, password, email }: z.infer<typeof UpdateProfileSchema>) {
+  const [firstName, ...rest] = name.split(' ');
+  const lastName = rest.join(' ');
 
-  return await response.json();
-};
-
-export async function updateUser({ name, password, email }: UserUpdateData) {
-  const updateResponse = await fetch('http://localhost:8081/user/update', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: email,
-      firstName: name.substring(0, name.indexOf(' ')),
-      lastName: name.substring(name.indexOf(' ') + 1),
-      newPassword: password ? password : null
-    })
+  const response = await axios.put('http://localhost:8081/user/update', {
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    newPassword: password || null
   });
 
-  if (updateResponse.status === 400) {
-    return false;
-  }
-
-  return true;
+  return response.status === 200;
 }
 
 export async function interestPointCreate(values: z.infer<typeof InterestPointFormSchema>) {
+  const baseData = {
+    averageValue: values.averageValue,
+    duration: values.duration,
+    name: values.name,
+    shortDescription: values.shortDescription,
+    interestPointType: values.type,
+    address: {
+      zipcode: values.zipcode,
+      road: values.road,
+      number: values.number
+    }
+  };
+
+  let extraData: Record<string, any> = {};
   switch (values.type) {
     case 'EVENT':
-      const {
-        averageValue: eventValue,
-        date: eventDate,
-        duration: eventDuration,
-        longDescription: eventLongDescription,
-        name: eventName,
-        number: eventNumber,
-        road: eventRoad,
-        shortDescription: eventShortDescription,
-        zipcode: eventZipCode,
-        type: eventType
-      } = values;
-      const eventResponse = await fetch('http://localhost:8081/interestpoint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${await getAuthToken()}`
-        },
-        body: JSON.stringify({
-          averageValue: eventValue,
-          date: eventDate,
-          duration: eventDuration,
-          longDescription: eventLongDescription,
-          name: eventName,
-          shortDescription: eventShortDescription,
-          interestPointType: eventType,
-          address: {
-            zipcode: eventZipCode,
-            road: eventRoad,
-            number: eventNumber
-          }
-        })
-      });
-      if (eventResponse.status !== 200) {
-        return false;
-      }
-      return true;
+      extraData = {
+        date: values.date,
+        longDescription: values.longDescription
+      };
+      break;
     case 'HOTEL':
-      const {
-        averageValue: hotelValue,
-        duration: hotelDuration,
-        name: hotelName,
-        number: hotelNumber,
-        road: hotelRoad,
-        shortDescription: hotelShortDescription,
-        zipcode: hotelZipCode,
-        type: hotelType,
-        breakfastIncluded: hotelBreakfastIncluded,
-        isResort: hotelIsResort,
-        starsNumber: hotelStarsNumber
-      } = values;
-      const response = await fetch('http://localhost:8081/interestpoint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${await getAuthToken()}`
-        },
-        body: JSON.stringify({
-          averageValue: hotelValue,
-          duration: hotelDuration,
-          name: hotelName,
-          shortDescription: hotelShortDescription,
-          interestPointType: hotelType,
-          address: {
-            zipcode: hotelZipCode,
-            road: hotelRoad,
-            number: hotelNumber
-          },
-          breakfastIncluded: hotelBreakfastIncluded,
-          isResort: hotelIsResort,
-          starsNumber: hotelStarsNumber
-        })
-      });
-      if (response.status !== 200) {
-        return false;
-      }
-      return true;
+      extraData = {
+        breakfastIncluded: values.breakfastIncluded,
+        isResort: values.isResort,
+        starsNumber: values.starsNumber
+      };
+      break;
     case 'EXPERIENCE':
-      const {
-        averageValue: experienceValue,
-        duration: experienceDuration,
-        name: experienceName,
-        number: experienceNumber,
-        road: experienceRoad,
-        shortDescription: experienceShortDescription,
-        zipcode: experienceZipCode,
-        type: experienceType,
-        requiredAge: experienceRequiredAge,
-        longDescription: experienceLongDescription,
-        category: experienceCategory
-      } = values;
-      const experienceResponse = await fetch('http://localhost:8081/interestpoint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${await getAuthToken()}`
-        },
-        body: JSON.stringify({
-          averageValue: experienceValue,
-          duration: experienceDuration,
-          name: experienceName,
-          shortDescription: experienceShortDescription,
-          interestPointType: experienceType,
-          address: {
-            zipcode: experienceZipCode,
-            road: experienceRoad,
-            number: experienceNumber
-          },
-          requiredAge: experienceRequiredAge,
-          longDescription: experienceLongDescription,
-          category: experienceCategory
-        })
-      });
-      if (experienceResponse.status !== 200) {
-        return false;
-      }
-      return true;
+      extraData = {
+        requiredAge: values.requiredAge,
+        longDescription: values.longDescription,
+        category: values.category
+      };
+      break;
     case 'RESTAURANT':
-      const {
-        averageValue: restaurantValue,
-        duration: restaurantDuration,
-        name: restaurantName,
-        number: restaurantNumber,
-        road: restaurantRoad,
-        shortDescription: restaurantShortDescription,
-        zipcode: restaurantZipCode,
-        type: restaurantType,
-        foodType: restaurantFoodType
-      } = values;
-      const restaurantResponse = await fetch('http://localhost:8081/interestpoint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${await getAuthToken()}`
-        },
-        body: JSON.stringify({
-          averageValue: restaurantValue,
-          duration: restaurantDuration,
-          name: restaurantName,
-          shortDescription: restaurantShortDescription,
-          interestPointType: restaurantType,
-          address: {
-            zipcode: restaurantZipCode,
-            road: restaurantRoad,
-            number: restaurantNumber
-          },
-          foodType: restaurantFoodType
-        })
-      });
-      if (restaurantResponse.status !== 200) {
-        return false;
-      }
-      return true;
+      extraData = {
+        foodType: values.foodType
+      };
+      break;
     case 'TOURIST_POINT':
-      const {
-        averageValue: touristPointValue,
-        duration: touristPointDuration,
-        name: touristPointName,
-        number: touristPointNumber,
-        road: touristPointRoad,
-        shortDescription: touristPointShortDescription,
-        zipcode: touristPointZipCode,
-        type: touristPointType,
-        longDescription: touristPointLongDescription
-      } = values;
-      const touristPointResponse = await fetch('http://localhost:8081/interestpoint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${await getAuthToken()}`
-        },
-        body: JSON.stringify({
-          averageValue: touristPointValue,
-          duration: touristPointDuration,
-          name: touristPointName,
-          shortDescription: touristPointShortDescription,
-          interestPointType: touristPointType,
-          address: {
-            zipcode: touristPointZipCode,
-            road: touristPointRoad,
-            number: touristPointNumber
-          },
-          longDescription: touristPointLongDescription
-        })
-      });
-      if (touristPointResponse.status !== 200) {
-        return false;
-      }
-      return true;
+      extraData = {
+        longDescription: values.longDescription
+      };
+      break;
+    default:
+      return false;
   }
+
+  const data = { ...baseData, ...extraData };
+
+  const response = await axios.post('http://localhost:8081/interestpoint', data, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${await getAuthToken()}`
+    }
+  });
+
+  return response.status === 200;
 }
 
 export async function interestPointUpdate(
@@ -293,7 +125,12 @@ export async function interestPointUpdate(
   });
 }
 
-export async function RegisterGuide({ name, email, password, cadastur }: GuideRegisterData) {
+export async function RegisterGuide({
+  name,
+  email,
+  password,
+  cadastur
+}: z.infer<typeof RegisterGuideSchema>) {
   const authResponse = await fetch('http://localhost:8081/user/create', {
     method: 'POST',
     headers: {
@@ -308,9 +145,5 @@ export async function RegisterGuide({ name, email, password, cadastur }: GuideRe
     })
   });
 
-  if (authResponse.status === 400) {
-    return false;
-  }
-
-  return true;
+  return authResponse.status === 200;
 }
