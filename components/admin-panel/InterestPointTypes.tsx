@@ -24,7 +24,7 @@ const InterestPointTypes = ({ control, disabled }: InterestPointTypesProps) => {
           <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
             <FormControl>
               <SelectTrigger className='shadow-md shadow-gray-400 border border-black w-full'>
-                <SelectValue placeholder='Selecione um tipo de atração' />
+                <SelectValue placeholder='Selecione um tipo' />
               </SelectTrigger>
             </FormControl>
             <SelectContent className='border border-black w-full'>
