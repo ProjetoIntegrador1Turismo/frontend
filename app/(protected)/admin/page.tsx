@@ -3,7 +3,7 @@ import React from 'react';
 
 const AdminPage = async () => {
   return (
-    <div>
+    <div className='h-[75vh]'>
       <AdminTabs />
     </div>
   );
