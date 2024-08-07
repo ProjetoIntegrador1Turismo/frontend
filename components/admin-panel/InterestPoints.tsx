@@ -6,12 +6,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 const InterestPoints = async () => {
   const session = await auth();
   const response = await fetch('http://localhost:8081/interestpoint', {
-    headers: { Authorization: `Bearer ${session?.user.authToken}` }
+    headers: { Authorization: `Bearer ${session?.user.authToken}` },
+    cache: 'no-cache'
   });
 
   const interestPointData = (await response.json()) as any[];
   return (
-    <Card>
+    <Card className='w-[667px]'>
       <CardHeader>
         <CardTitle>Edicao de pontos de interesse</CardTitle>
         <CardDescription>Selecione o ponto de interesse que deseja editar.</CardDescription>

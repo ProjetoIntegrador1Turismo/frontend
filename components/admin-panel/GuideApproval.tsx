@@ -83,7 +83,7 @@ const GuideApproval = () => {
     );
 
   return (
-    <Card>
+    <Card className='w-[667px]'>
       <CardHeader>
         <CardTitle>Aprovar cadastro de guias de turismo</CardTitle>
         <CardDescription>Aprove os guias para liberar o acesso.</CardDescription>
