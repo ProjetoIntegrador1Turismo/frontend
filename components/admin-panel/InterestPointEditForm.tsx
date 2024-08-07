@@ -6,7 +6,7 @@ import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InterestPointFormSchema } from '@/schemas';
+import { InterestPointEditFormSchema } from '@/schemas';
 import { FormError } from '../Auth/form-error';
 import { FormSucess } from '../Auth/form-sucess';
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,6 @@ import InterestPointTypes from './InterestPointTypes';
 import ControlledTextArea from './ControlledTextArea';
 import ControlledDatePicker from './ControlledDatePicker';
 import ControlledCheckBox from './ControlledCheckbox';
-import { createInterestPoint } from '@/actions/createInterestPoint';
 import { updateInterestPoint } from '@/actions/updateInterestPoint';
 
 export interface InterestPointData {
@@ -25,7 +24,7 @@ export interface InterestPointData {
   shortDescription?: string;
   imageCoverUrl?: string;
   duration?: string;
-  averageValue?: string;
+  averageValue?: number;
   address?: {
     zipCode: string;
     road: string;
@@ -45,12 +44,12 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
   const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof InterestPointFormSchema>>({
-    resolver: zodResolver(InterestPointFormSchema),
+  const form = useForm<z.infer<typeof InterestPointEditFormSchema>>({
+    resolver: zodResolver(InterestPointEditFormSchema),
     shouldUnregister: true,
     defaultValues: {
       name: InterestPoint.name,
-      averageValue: +!InterestPoint.averageValue,
+      averageValue: InterestPoint.averageValue,
       date: InterestPoint.date,
       duration: InterestPoint.duration,
       foodType: InterestPoint.foodType,
@@ -62,8 +61,8 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       starsNumber: InterestPoint.starsNumber,
       type: InterestPoint.interestPointType,
       zipcode: InterestPoint.address?.zipCode,
-      isResort: false,
-      breakfastIncluded: false
+      isResort: InterestPoint.isResort,
+      breakfastIncluded: InterestPoint.breakfastIncluded
     }
   });
 
@@ -104,7 +103,13 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       case 'EXPERIENCE':
         return (
           <div className='space-y-2'>
-            <ControlledInput control={form.control} label='Categoria' name='category' type='text' />
+            <ControlledInput
+              control={form.control}
+              label='Idade requirida'
+              name='requiredAge'
+              type='text'
+              className='w-full'
+            />
             <ControlledTextArea
               control={form.control}
               label='Descrição Longa'
@@ -112,17 +117,6 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
               name='longDescription'
               className='resize-none shadow-md shadow-gray-400 border border-black'
             />
-            <div className='flex w-full gap-4'>
-              <div className='flex-1'>
-                <ControlledInput
-                  control={form.control}
-                  label='Idade requirida'
-                  name='requiredAge'
-                  type='text'
-                  className='w-full'
-                />
-              </div>
-            </div>
           </div>
         );
 
@@ -157,7 +151,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
     }
   };
 
-  const onSubmitUpdateInterestPoint = (values: z.infer<typeof InterestPointFormSchema>) => {
+  const onSubmitUpdateInterestPoint = (values: z.infer<typeof InterestPointEditFormSchema>) => {
     setError('');
     setSuccess('');
     updateInterestPoint(values, InterestPoint.id).then(async (data) => {
@@ -165,7 +159,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       setError(data.error);
       await new Promise((resolve) => setTimeout(resolve, 2000));
       if (data.success) {
-        router.refresh();
+        router.push('/admin');
       }
     });
   };
@@ -193,12 +187,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
                   min={1}
                   max={3}
                 />
-                <ControlledInput
-                  control={form.control}
-                  label='Duração'
-                  name='duration'
-                  type='text'
-                />
+                <InterestPointTypes control={form.control} disabled />
               </div>
               <div className='space-y-2'>
                 <ControlledInput control={form.control} label='Rua' name='road' type='text' />
@@ -216,11 +205,13 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
                   label='Descrição Curta'
                   placeholder='Escreva uma descrição curta!'
                   name='shortDescription'
-                  className='resize-none shadow-md shadow-gray-400 border border-black h-[120px]'
+                  className='resize-none shadow-md shadow-gray-400 border border-black h-[200px]'
                 />
-                <InterestPointTypes control={form.control} disabled />
               </div>
             </div>
+            <div>
+              pica
+              </div>
             {renderOptionalFields()}
             <div className='flex gap-3'>
               <Button className='bg-gradient-to-r from-tl-red to-tl-purple w-fit' type='submit'>
