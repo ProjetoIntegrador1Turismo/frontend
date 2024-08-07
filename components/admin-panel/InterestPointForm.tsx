@@ -36,13 +36,22 @@ const InterestPointForm = () => {
   const renderOptionalFields = () => {
     const typeSpecificFields: Record<string, JSX.Element | null> = {
       TOURIST_POINT: (
-        <ControlledTextArea
-          control={form.control}
-          label='Descrição Longa'
-          placeholder='Escreva uma descrição longa!'
-          name='longDescription'
-          className='resize-none shadow-md shadow-gray-400 border border-black'
-        />
+        <div className='space-y-2'>
+          <ControlledTextArea
+            control={form.control}
+            label='Descrição Longa'
+            placeholder='Escreva uma descrição longa!'
+            name='longDescription'
+            className='resize-none shadow-md shadow-gray-400 border border-black'
+          />
+          <ControlledInput
+            control={form.control}
+            label='Duração'
+            name='duration'
+            type='text'
+            className='resize-none shadow-md shadow-gray-400 border border-black'
+          />
+        </div>
       ),
       EVENT: (
         <div className='space-y-2'>
@@ -53,7 +62,20 @@ const InterestPointForm = () => {
             name='longDescription'
             className='resize-none shadow-md shadow-gray-400 border border-black'
           />
-          <ControlledDatePicker control={form.control} label='Data do evento' />
+          <div className='flex gap-3'>
+            <div>
+              <ControlledDatePicker control={form.control} label='Data do evento' />
+            </div>
+            <div className='flex-1'>
+              <ControlledInput
+                control={form.control}
+                label='Duração'
+                name='duration'
+                type='text'
+                className='resize-none shadow-md shadow-gray-400 border border-black'
+              />
+            </div>
+          </div>
         </div>
       ),
       RESTAURANT: (
@@ -66,7 +88,26 @@ const InterestPointForm = () => {
       ),
       EXPERIENCE: (
         <div className='space-y-2'>
-          <ControlledInput control={form.control} label='Categoria' name='category' type='text' />
+          <div className='flex gap-3'>
+            <div className='flex-1'>
+              <ControlledInput
+                control={form.control}
+                label='Duração'
+                name='duration'
+                type='text'
+                className='resize-none shadow-md shadow-gray-400 border border-black'
+              />
+            </div>
+            <div className='flex-1'>
+              <ControlledInput
+                control={form.control}
+                label='Idade requirida'
+                name='requiredAge'
+                type='text'
+                className='flex-1'
+              />
+            </div>
+          </div>
           <ControlledTextArea
             control={form.control}
             label='Descrição Longa'
@@ -74,15 +115,6 @@ const InterestPointForm = () => {
             name='longDescription'
             className='resize-none shadow-md shadow-gray-400 border border-black'
           />
-          <div className='flex w-full gap-4'>
-            <ControlledInput
-              control={form.control}
-              label='Idade requirida'
-              name='requiredAge'
-              type='text'
-              className='w-full'
-            />
-          </div>
         </div>
       ),
       HOTEL: (
@@ -146,12 +178,7 @@ const InterestPointForm = () => {
                   min={1}
                   max={3}
                 />
-                <ControlledInput
-                  control={form.control}
-                  label='Duração'
-                  name='duration'
-                  type='text'
-                />
+                <InterestPointTypes control={form.control} />
               </div>
               <div className='space-y-2'>
                 <ControlledInput control={form.control} label='Rua' name='road' type='text' />
@@ -169,9 +196,8 @@ const InterestPointForm = () => {
                   label='Descrição Curta'
                   placeholder='Escreva uma descrição curta!'
                   name='shortDescription'
-                  className='resize-none shadow-md shadow-gray-400 border border-black h-[120px]'
+                  className='resize-none shadow-md shadow-gray-400 border border-black h-[200px]'
                 />
-                <InterestPointTypes control={form.control} />
               </div>
             </div>
             {renderOptionalFields()}
