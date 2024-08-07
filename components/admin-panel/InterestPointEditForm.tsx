@@ -16,6 +16,7 @@ import ControlledTextArea from './ControlledTextArea';
 import ControlledDatePicker from './ControlledDatePicker';
 import ControlledCheckBox from './ControlledCheckbox';
 import { updateInterestPoint } from '@/actions/updateInterestPoint';
+import ControlledFileInput from './ControlledFileInput';
 
 export interface InterestPointData {
   id: string;
@@ -62,14 +63,20 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       type: InterestPoint.interestPointType,
       zipcode: InterestPoint.address?.zipCode,
       isResort: InterestPoint.isResort,
-      breakfastIncluded: InterestPoint.breakfastIncluded
+      breakfastIncluded: InterestPoint.breakfastIncluded,
     }
   });
 
+  const image1ref = form.register('image1');
+  const image2ref = form.register('image2');
+  const image3ref = form.register('image3');
+  const image4ref = form.register('image4');
+  const image5ref = form.register('image5');
+
   const renderOptionalFields = () => {
-    switch (InterestPoint.interestPointType) {
-      case 'TOURIST_POINT':
-        return (
+    const typeSpecificFields: Record<string, JSX.Element | null> = {
+      TOURIST_POINT: (
+        <div className='space-y-2'>
           <ControlledTextArea
             control={form.control}
             label='Descrição Longa'
@@ -77,78 +84,102 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
             name='longDescription'
             className='resize-none shadow-md shadow-gray-400 border border-black'
           />
-        );
-      case 'EVENT':
-        return (
-          <div className='space-y-2'>
-            <ControlledTextArea
-              control={form.control}
-              name='longDescription'
-              label='Descrição Longa'
-              placeholder='Escreva uma descrição longa!'
-              className='resize-none shadow-md shadow-gray-400 border border-black'
-            />
-            <ControlledDatePicker control={form.control} label='Data do evento' />
-          </div>
-        );
-      case 'RESTAURANT':
-        return (
           <ControlledInput
             control={form.control}
-            label='Tipo de comida'
-            name='foodType'
+            label='Duração'
+            name='duration'
             type='text'
+            className='resize-none shadow-md shadow-gray-400 border border-black'
           />
-        );
-      case 'EXPERIENCE':
-        return (
-          <div className='space-y-2'>
-            <ControlledInput
-              control={form.control}
-              label='Idade requirida'
-              name='requiredAge'
-              type='text'
-              className='w-full'
-            />
-            <ControlledTextArea
-              control={form.control}
-              label='Descrição Longa'
-              placeholder='Escreva uma descrição longa!'
-              name='longDescription'
-              className='resize-none shadow-md shadow-gray-400 border border-black'
-            />
+        </div>
+      ),
+      EVENT: (
+        <div className='space-y-2'>
+          <ControlledTextArea
+            control={form.control}
+            label='Descrição Longa'
+            placeholder='Escreva uma descrição longa!'
+            name='longDescription'
+            className='resize-none shadow-md shadow-gray-400 border border-black'
+          />
+          <div className='flex gap-3'>
+            <div>
+              <ControlledDatePicker control={form.control} label='Data do evento' />
+            </div>
+            <div className='flex-1'>
+              <ControlledInput
+                control={form.control}
+                label='Duração'
+                name='duration'
+                type='text'
+                className='resize-none shadow-md shadow-gray-400 border border-black'
+              />
+            </div>
           </div>
-        );
-
-      case 'HOTEL':
-        return (
+        </div>
+      ),
+      RESTAURANT: (
+        <ControlledInput
+          control={form.control}
+          label='Tipo de comida'
+          name='foodType'
+          type='text'
+        />
+      ),
+      EXPERIENCE: (
+        <div className='space-y-2'>
           <div className='flex gap-3'>
             <div className='flex-1'>
               <ControlledInput
                 control={form.control}
-                label='Número de estrelas'
-                name='starsNumber'
-                type='number'
-                min={1}
-                max={5}
+                label='Duração'
+                name='duration'
+                type='text'
+                className='resize-none shadow-md shadow-gray-400 border border-black'
               />
             </div>
-            <div className='self-end'>
-              <ControlledCheckBox control={form.control} label='É resort?' name='isResort' />
-            </div>
-            <div className='self-end'>
-              <ControlledCheckBox
+            <div className='flex-1'>
+              <ControlledInput
                 control={form.control}
-                label='Café da manhã incluso?'
-                name='breakfastIncluded'
+                label='Idade requirida'
+                name='requiredAge'
+                type='text'
+                className='flex-1'
               />
             </div>
           </div>
-        );
+          <ControlledTextArea
+            control={form.control}
+            label='Descrição Longa'
+            placeholder='Escreva uma descrição longa!'
+            name='longDescription'
+            className='resize-none shadow-md shadow-gray-400 border border-black'
+          />
+        </div>
+      ),
+      HOTEL: (
+        <div className='flex gap-3 items-center'>
+          <ControlledInput
+            control={form.control}
+            label='Número de estrelas'
+            name='starsNumber'
+            type='number'
+            min={1}
+            max={5}
+            className='flex-1'
+          />
+          <ControlledCheckBox control={form.control} label='É resort?' name='isResort' />
+          <ControlledCheckBox
+            control={form.control}
+            label='Café da manhã incluso?'
+            name='breakfastIncluded'
+          />
+        </div>
+      ),
+      default: null
+    };
 
-      default:
-        return null;
-    }
+    return typeSpecificFields[InterestPoint.interestPointType] || null;
   };
 
   const onSubmitUpdateInterestPoint = (values: z.infer<typeof InterestPointEditFormSchema>) => {
@@ -165,7 +196,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
   };
 
   return (
-    <Card>
+    <Card className='mb-4'>
       <CardHeader>
         <CardTitle>Edicao do ponto de interesse</CardTitle>
         <CardDescription>Insira os dados e crie um ponto de interesse.</CardDescription>
@@ -209,9 +240,38 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
                 />
               </div>
             </div>
-            <div>
-              pica
-              </div>
+            <div className='space-y-2'>
+              <ControlledFileInput 
+                control={form.control}
+                label='Imagem 1'
+                name='image1'
+                ref={image1ref}
+              />
+              <ControlledFileInput 
+                control={form.control}
+                label='Imagem 2'
+                name='image2'
+                ref={image2ref}
+              />
+              <ControlledFileInput 
+                control={form.control}
+                label='Imagem 3'
+                name='image3'
+                ref={image3ref}
+              />
+              <ControlledFileInput 
+                control={form.control}
+                label='Imagem 4'
+                name='image4'
+                ref={image4ref}
+              />
+              <ControlledFileInput 
+                control={form.control}
+                label='Imagem 5'
+                name='image5'
+                ref={image5ref}
+              />
+            </div>
             {renderOptionalFields()}
             <div className='flex gap-3'>
               <Button className='bg-gradient-to-r from-tl-red to-tl-purple w-fit' type='submit'>
