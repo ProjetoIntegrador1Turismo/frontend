@@ -2,6 +2,7 @@
 import { auth } from '@/auth';
 import { HomePageData } from '@/lib/interfaces';
 import {
+  InterestPointEditFormSchema,
   InterestPointFormSchema,
   RegisterGuideSchema,
   RegisterSchema,
@@ -57,12 +58,11 @@ export async function updateUser({ name, password, email }: z.infer<typeof Updat
 export async function interestPointCreate(values: z.infer<typeof InterestPointFormSchema>) {
   const baseData = {
     averageValue: values.averageValue,
-    duration: values.duration,
     name: values.name,
     shortDescription: values.shortDescription,
     interestPointType: values.type,
     address: {
-      zipcode: values.zipcode,
+      zipCode: values.zipcode,
       road: values.road,
       number: values.number
     }
@@ -73,7 +73,8 @@ export async function interestPointCreate(values: z.infer<typeof InterestPointFo
     case 'EVENT':
       extraData = {
         date: values.date,
-        longDescription: values.longDescription
+        longDescription: values.longDescription,
+        duration: values.duration
       };
       break;
     case 'HOTEL':
@@ -87,7 +88,7 @@ export async function interestPointCreate(values: z.infer<typeof InterestPointFo
       extraData = {
         requiredAge: values.requiredAge,
         longDescription: values.longDescription,
-        category: values.category
+        duration: values.duration
       };
       break;
     case 'RESTAURANT':
@@ -97,7 +98,8 @@ export async function interestPointCreate(values: z.infer<typeof InterestPointFo
       break;
     case 'TOURIST_POINT':
       extraData = {
-        longDescription: values.longDescription
+        longDescription: values.longDescription,
+        duration: values.duration
       };
       break;
     default:
@@ -117,12 +119,13 @@ export async function interestPointCreate(values: z.infer<typeof InterestPointFo
 }
 
 export async function interestPointUpdate(
-  values: z.infer<typeof InterestPointFormSchema>,
+  values: z.infer<typeof InterestPointEditFormSchema>,
   id: string
 ) {
-  axios.put(`http://localhost:8081/interestpoint/${id}`, values, {
+  const response = await axios.put(`http://localhost:8081/interestpoint/${id}`, values, {
     headers: { Authorization: `Bearer ${await getAuthToken()}` }
   });
+  return response.status === 200;
 }
 
 export async function RegisterGuide({
@@ -131,19 +134,16 @@ export async function RegisterGuide({
   password,
   cadastur
 }: z.infer<typeof RegisterGuideSchema>) {
-  const authResponse = await fetch('http://localhost:8081/user/create', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      firstName: name.substring(0, name.indexOf(' ')),
-      lastName: name.substring(name.indexOf(' ') + 1),
-      email: email,
-      cadasturCode: cadastur,
-      password: password
-    })
+  const [firstName, ...rest] = name.split(' ');
+  const lastName = rest.join(' ');
+
+  const response = await axios.post('http://localhost:8081/user/create', {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    cadasturCode: cadastur,
+    password: password
   });
 
-  return authResponse.status === 200;
+  return response.status === 200;
 }
