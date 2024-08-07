@@ -86,7 +86,6 @@ export const ExperienceSchema = z.object({
   longDescription: z
     .string()
     .max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' }),
-  category: z.string().min(1, { message: 'Categoria é obrigatoria!' }),
   requiredAge: z.string().transform((value) => value as unknown as number)
 });
 
@@ -100,7 +99,6 @@ export const HotelSchema = z.object({
     .refine((value) => value >= 1 && value <= 3, {
       message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
     }),
-  duration: z.string(),
   shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
   type: z.literal('HOTEL'),
   road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
@@ -124,7 +122,6 @@ export const RestaurantSchema = z.object({
     .refine((value) => value >= 1 && value <= 3, {
       message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
     }),
-  duration: z.string(),
   shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
   type: z.literal('RESTAURANT'),
   road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
@@ -163,5 +160,129 @@ export const InterestPointFormSchema = z.discriminatedUnion('type', [
   ExperienceSchema,
   HotelSchema,
   RestaurantSchema,
+  TouristPointSchema
+]);
+
+export const EventEditSchema = z.object({
+  name: z.string().min(1, { message: 'Nome é obrigatório!' }),
+  averageValue: z
+    .string()
+    .transform((value) => {
+      return value as unknown as number;
+    })
+    .refine((value) => value >= 1 && value <= 3, {
+      message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
+    }),
+  duration: z.string(),
+  shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
+  type: z.literal('EVENT'),
+  road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
+  number: z.string().max(5),
+  zipcode: z
+    .string()
+    .regex(/^\d{5}-?\d{3}$/)
+    .transform((value) => value.replace('-', '')),
+  longDescription: z
+    .string()
+    .max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' }),
+  date: z.date()
+});
+
+export const ExperienceEditSchema = z.object({
+  name: z.string().min(1, { message: 'Nome é obrigatório!' }),
+  averageValue: z
+    .string()
+    .transform((value) => {
+      return value as unknown as number;
+    })
+    .refine((value) => value >= 1 && value <= 3, {
+      message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
+    }),
+  duration: z.string(),
+  shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
+  type: z.literal('EXPERIENCE'),
+  road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
+  number: z.string().max(5),
+  zipcode: z
+    .string()
+    .regex(/^\d{5}-?\d{3}$/)
+    .transform((value) => value.replace('-', '')),
+  longDescription: z
+    .string()
+    .max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' }),
+  requiredAge: z.string().transform((value) => value as unknown as number)
+});
+
+export const HotelEditSchema = z.object({
+  name: z.string().min(1, { message: 'Nome é obrigatório!' }),
+  averageValue: z
+    .string()
+    .transform((value) => {
+      return value as unknown as number;
+    })
+    .refine((value) => value >= 1 && value <= 3, {
+      message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
+    }),
+  shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
+  type: z.literal('HOTEL'),
+  road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
+  number: z.string().max(5),
+  zipcode: z
+    .string()
+    .regex(/^\d{5}-?\d{3}$/)
+    .transform((value) => value.replace('-', '')),
+  starsNumber: z.string().transform((value) => value as unknown as number),
+  isResort: z.boolean().default(false),
+  breakfastIncluded: z.boolean().default(false)
+});
+
+export const RestaurantEditSchema = z.object({
+  name: z.string().min(1, { message: 'Nome é obrigatório!' }),
+  averageValue: z
+    .string()
+    .transform((value) => {
+      return value as unknown as number;
+    })
+    .refine((value) => value >= 1 && value <= 3, {
+      message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
+    }),
+  shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
+  type: z.literal('RESTAURANT'),
+  road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
+  number: z.string().max(5),
+  zipcode: z
+    .string()
+    .regex(/^\d{5}-?\d{3}$/)
+    .transform((value) => value.replace('-', '')),
+  foodType: z.string().max(40, { message: 'Tipo de comida é limitado a 40 caracteres.' })
+});
+
+export const TouristPointEditSchema = z.object({
+  name: z.string().min(1, { message: 'Nome é obrigatório!' }),
+  averageValue: z
+    .string()
+    .transform((value) => {
+      return value as unknown as number;
+    })
+    .refine((value) => value >= 1 && value <= 3, {
+      message: 'Uso: 1 = Barato, 2 = Médio, 3 = Caro'
+    }),
+  duration: z.string(),
+  shortDescription: z.string().max(590, { message: 'Descrição curta é limitada a 500 caracteres' }),
+  type: z.literal('TOURIST_POINT'),
+  road: z.string().max(50, { message: 'O endereço é limitado a 50 caracteres.' }),
+  number: z.string().max(5),
+  zipcode: z
+    .string()
+    .regex(/^\d{5}-?\d{3}$/)
+    .transform((value) => value.replace('-', '')),
+  longDescription: z.string().max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' })
+});
+
+export const InterestPointEditFormSchema = z.discriminatedUnion('type', [
+  EventEditSchema,
+  ExperienceEditSchema,
+  HotelEditSchema,
+  RestaurantEditSchema,
   TouristPointSchema
 ]);
