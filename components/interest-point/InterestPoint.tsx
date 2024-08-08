@@ -1,45 +1,72 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '../ui/card';
 import SearchBar from '../guide-panel/SearchBar';
 import InterestPointCard from './InterestPointCard';
-
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
 interface InterestPoint {
   id: number;
-  imageUrl: string;
   name: string;
-  type: string;
+  address: {
+    road: string;
+    number: string;
+    zipCode: string | null;
+  } | null;
+  averageValue: number | null;
+  shortDescription: string | null;
+  longDescription: string | null;
+  starsNumber: number | null;
+  isResort: boolean | null;
+  breakfastIncluded: boolean | null;
+  foodType: string | null;
+  date: string | null;
+  duration: string | null;
+  requiredAge: number | null;
+  imageCoverUrl: string;
 }
 
 const InterestPoints: React.FC = () => {
-  const [interestPoints, setInterestPoints] = useState<InterestPoint[]>([]);
   const [filteredInterestPoints, setFilteredInterestPoints] = useState<InterestPoint[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 12;
+  const { data: sessionData } = useSession();
+
+  const { data, error, isLoading } = useQuery<InterestPoint[], Error>({
+    queryKey: ['interestPoints'],
+    queryFn: async () => {
+      const response = await axios.get('http://localhost:8081/interestpoint/type?type=EVENT', {
+        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+      });
+      return response.data;
+    },
+    refetchOnWindowFocus: false
+  });
 
   useEffect(() => {
-    const fetchInterestPoints = async () => {
-      const data = [
-        { id: 1, imageUrl: 'path-to-image1.jpg', name: 'InterestPoint1', type: 'Passeios' },
-        { id: 2, imageUrl: 'path-to-image2.jpg', name: 'InterestPoint2', type: 'Passeios' },
-        // Adicione mais dados conforme necessário
-      ];
-      setInterestPoints(data);
-    };
+    if (data) {
+      console.log('Data from API:', data);
+      setFilteredInterestPoints(
+        data.filter((point) => point.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      );
+    }
+  }, [searchTerm, data]);
 
-    fetchInterestPoints();
-  }, []);
-
-  useEffect(() => {
-    // Filtra os pontos de interesse com base no termo de pesquisa
-    setFilteredInterestPoints(
-      interestPoints.filter((point) =>
-        point.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+  if (isLoading) return <p>loading...</p>;
+  if (error)
+    return (
+      <p>
+        error <pre>{JSON.stringify(error, null, 2)}</pre>
+      </p>
     );
-  }, [searchTerm, interestPoints]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -53,18 +80,18 @@ const InterestPoints: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-3xl font-bold text-center">Passeios</CardTitle>
+        <CardTitle className='text-3xl font-bold text-center'>Eventos</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="mb-4">
+        <div className='mb-4'>
           <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
           {currentItems.map((point) => (
             <InterestPointCard key={point.id} {...point} />
           ))}
         </div>
-        <div className="flex justify-center mt-4">
+        <div className='flex justify-center mt-4'>
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i + 1}
