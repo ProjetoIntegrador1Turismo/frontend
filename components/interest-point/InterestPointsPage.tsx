@@ -1,10 +1,5 @@
 'use client';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import SearchBar from '../guide-panel/SearchBar';
 import InterestPointCard from './InterestPointCard';
 import axios from 'axios';
@@ -33,7 +28,12 @@ interface InterestPoint {
   imageCoverUrl: string;
 }
 
-const InterestPoints: React.FC = () => {
+interface InterestPointsPageProps {
+  type: string;
+  title: string;
+}
+
+const InterestPointsPage: React.FC<InterestPointsPageProps> = ({ type, title }) => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState<InterestPoint[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -41,9 +41,9 @@ const InterestPoints: React.FC = () => {
   const { data: sessionData } = useSession();
 
   const { data, error, isLoading } = useQuery<InterestPoint[], Error>({
-    queryKey: ['interestPoints'],
+    queryKey: ['interestPoints', type],
     queryFn: async () => {
-      const response = await axios.get('http://localhost:8081/interestpoint/type?type=EVENT', {
+      const response = await axios.get(`http://localhost:8081/interestpoint/type?type=${type}`, {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
       return response.data;
@@ -60,7 +60,7 @@ const InterestPoints: React.FC = () => {
     }
   }, [searchTerm, data]);
 
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading) return <p>Buscando...</p>;
   if (error)
     return (
       <p>
@@ -80,7 +80,7 @@ const InterestPoints: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className='text-3xl font-bold text-center'>Eventos</CardTitle>
+        <CardTitle className='text-3xl font-bold text-center'>{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className='mb-4'>
@@ -107,4 +107,4 @@ const InterestPoints: React.FC = () => {
   );
 };
 
-export default InterestPoints;
+export default InterestPointsPage;

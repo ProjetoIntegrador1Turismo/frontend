@@ -1,12 +1,12 @@
 import React from 'react';
 import InterestPointsPage from '@/components/interest-point/InterestPointsPage';
 
-const EventosPage = () => {
+const PasseiosPage = () => {
   return (
     <div>
-      <InterestPointsPage type="EVENT" title="Eventos" />
+      <InterestPointsPage type="TOURIST_POINT" title="Passeios" />
     </div>
   );
 };
 
-export default EventosPage;
+export default PasseiosPage;
