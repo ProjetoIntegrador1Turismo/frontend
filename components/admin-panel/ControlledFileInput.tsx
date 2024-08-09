@@ -5,18 +5,12 @@ import { cn } from '@/lib/utils';
 
 interface ControlledFileInputProps {
   control: any;
-  name: 'images';
+  name: 'images' | 'imgCover';
   label: string;
-  ref: any;
   className?: string;
 }
 
-const ControlledFileInput = ({
-  control,
-  name,
-  label,
-  ref
-}: ControlledFileInputProps) => {
+const ControlledFileInput = ({ control, name, label }: ControlledFileInputProps) => {
   return (
     <FormField
       control={control}
@@ -25,11 +19,9 @@ const ControlledFileInput = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-          <Input
-              type="file"
-              {...ref}
-              id="files"
-              accept="image/*"
+            <Input
+              type='file'
+              accept='image/*'
               multiple
               onChange={(e) => {
                 const files = Array.from(e.target.files || []);
