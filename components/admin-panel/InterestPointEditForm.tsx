@@ -18,6 +18,8 @@ import ControlledCheckBox from './ControlledCheckbox';
 import { updateInterestPoint } from '@/actions/updateInterestPoint';
 import ControlledFileInput from './ControlledFileInput';
 import { parseISO } from 'date-fns';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 export interface InterestPointData {
   id: number;
@@ -45,6 +47,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();
+  const { data: SessionData } = useSession();
 
   const form = useForm<z.infer<typeof InterestPointEditFormSchema>>({
     resolver: zodResolver(InterestPointEditFormSchema),
@@ -180,9 +183,27 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
   const onSubmitUpdateEditInterestPoint = (values: z.infer<typeof InterestPointEditFormSchema>) => {
     setError('');
     setSuccess('');
-    updateInterestPoint(values, InterestPoint.id).then(async (data) => {
+    const { images, imgCover, ...updateValues } = values;
+    const imgFormData = new FormData();
+
+    imgFormData.append('id', `${InterestPoint.id}`);
+    imgFormData.append('imgCover', imgCover);
+    images?.forEach((img) => {
+      imgFormData.append('files', img);
+    });
+
+    updateInterestPoint(updateValues, InterestPoint.id).then(async (data) => {
       setSuccess(data.success);
       setError(data.error);
+
+      const imageResponse = await axios.post('http://localhost:8081/file/upload/interest-point/multiples', imgFormData, {
+        headers: { Authorization: `Bearer ${SessionData?.user.authToken}` }
+      })
+
+      if (imageResponse.status !== 200) {
+        setError('Erro com as imagens')
+      }
+
       await new Promise((resolve) => setTimeout(resolve, 2000));
       if (data.success) {
         router.push('/admin');
@@ -195,7 +216,6 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       <CardHeader>
         <CardTitle>Editar um ponto de interesse</CardTitle>
         <CardDescription>Edite os dados de {InterestPoint.name}</CardDescription>
-        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -237,7 +257,16 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
               </div>
             </div>
             <div className='space-y-2'>
-              <ControlledFileInput ref={form.register('images')} control={form.control} label='Imagem 1' name='images' />
+              <ControlledFileInput
+                control={form.control}
+                label='Imagens'
+                name='images'
+              />
+              <ControlledFileInput
+                control={form.control}
+                label='Imagem de Capa'
+                name='imgCover'
+              />
             </div>
             {renderOptionalFields()}
             <div className='flex gap-3'>
