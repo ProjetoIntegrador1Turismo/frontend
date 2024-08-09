@@ -17,15 +17,16 @@ import ControlledDatePicker from './ControlledDatePicker';
 import ControlledCheckBox from './ControlledCheckbox';
 import { updateInterestPoint } from '@/actions/updateInterestPoint';
 import ControlledFileInput from './ControlledFileInput';
+import { parseISO } from 'date-fns';
 
 export interface InterestPointData {
-  id: string;
+  id: number;
   name: string;
   interestPointType: string;
   shortDescription?: string;
   imageCoverUrl?: string;
   duration?: string;
-  averageValue?: number;
+  averageValue?: string;
   address?: {
     zipCode: string;
     road: string;
@@ -33,7 +34,7 @@ export interface InterestPointData {
   };
   longDescription?: string;
   requiredAge?: string;
-  date?: Date;
+  date?: string;
   starsNumber?: number | null;
   isResort?: boolean | null;
   breakfastIncluded?: boolean | null;
@@ -50,8 +51,8 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
     shouldUnregister: true,
     defaultValues: {
       name: InterestPoint.name,
-      averageValue: InterestPoint.averageValue,
-      date: InterestPoint.date,
+      averageValue: `${InterestPoint.averageValue}`,
+      date: InterestPoint.date ? parseISO(InterestPoint.date) : '',
       duration: InterestPoint.duration,
       foodType: InterestPoint.foodType,
       longDescription: InterestPoint.longDescription,
@@ -63,15 +64,9 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       type: InterestPoint.interestPointType,
       zipcode: InterestPoint.address?.zipCode,
       isResort: InterestPoint.isResort,
-      breakfastIncluded: InterestPoint.breakfastIncluded,
+      breakfastIncluded: InterestPoint.breakfastIncluded
     }
   });
-
-  const image1ref = form.register('image1');
-  const image2ref = form.register('image2');
-  const image3ref = form.register('image3');
-  const image4ref = form.register('image4');
-  const image5ref = form.register('image5');
 
   const renderOptionalFields = () => {
     const typeSpecificFields: Record<string, JSX.Element | null> = {
@@ -182,7 +177,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
     return typeSpecificFields[InterestPoint.interestPointType] || null;
   };
 
-  const onSubmitUpdateInterestPoint = (values: z.infer<typeof InterestPointEditFormSchema>) => {
+  const onSubmitUpdateEditInterestPoint = (values: z.infer<typeof InterestPointEditFormSchema>) => {
     setError('');
     setSuccess('');
     updateInterestPoint(values, InterestPoint.id).then(async (data) => {
@@ -198,13 +193,14 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
   return (
     <Card className='mb-4'>
       <CardHeader>
-        <CardTitle>Edicao do ponto de interesse</CardTitle>
-        <CardDescription>Insira os dados e crie um ponto de interesse.</CardDescription>
+        <CardTitle>Editar um ponto de interesse</CardTitle>
+        <CardDescription>Edite os dados de {InterestPoint.name}</CardDescription>
+        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmitUpdateInterestPoint)}
+            onSubmit={form.handleSubmit(onSubmitUpdateEditInterestPoint)}
             className='flex flex-col gap-4'
           >
             <div className='flex gap-4'>
@@ -241,36 +237,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
               </div>
             </div>
             <div className='space-y-2'>
-              <ControlledFileInput 
-                control={form.control}
-                label='Imagem 1'
-                name='image1'
-                ref={image1ref}
-              />
-              <ControlledFileInput 
-                control={form.control}
-                label='Imagem 2'
-                name='image2'
-                ref={image2ref}
-              />
-              <ControlledFileInput 
-                control={form.control}
-                label='Imagem 3'
-                name='image3'
-                ref={image3ref}
-              />
-              <ControlledFileInput 
-                control={form.control}
-                label='Imagem 4'
-                name='image4'
-                ref={image4ref}
-              />
-              <ControlledFileInput 
-                control={form.control}
-                label='Imagem 5'
-                name='image5'
-                ref={image5ref}
-              />
+              <ControlledFileInput ref={form.register('images')} control={form.control} label='Imagem 1' name='images' />
             </div>
             {renderOptionalFields()}
             <div className='flex gap-3'>
@@ -283,7 +250,6 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
           </form>
         </Form>
       </CardContent>
-      <CardFooter className='flex justify-between'></CardFooter>
     </Card>
   );
 };
