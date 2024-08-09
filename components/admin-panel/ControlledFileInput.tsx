@@ -5,9 +5,9 @@ import { cn } from '@/lib/utils';
 
 interface ControlledFileInputProps {
   control: any;
-  name: 'image1' | 'image2' | 'image3' | 'image4' | 'image5';
-  ref: any
+  name: 'images';
   label: string;
+  ref: any;
   className?: string;
 }
 
@@ -15,8 +15,7 @@ const ControlledFileInput = ({
   control,
   name,
   label,
-  ref,
-  className
+  ref
 }: ControlledFileInputProps) => {
   return (
     <FormField
@@ -26,14 +25,16 @@ const ControlledFileInput = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input
-              type='file'
-              accept='image/*'
+          <Input
+              type="file"
               {...ref}
-              onChange={(event) => {
-                field.onChange(event.target?.files?.[0] ?? undefined);
+              id="files"
+              accept="image/*"
+              multiple
+              onChange={(e) => {
+                const files = Array.from(e.target.files || []);
+                field.onChange(files);
               }}
-              className={cn('shadow-md shadow-gray-400 border border-black', className)}
             />
           </FormControl>
           <FormMessage />
