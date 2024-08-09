@@ -120,11 +120,62 @@ export async function interestPointCreate(values: z.infer<typeof InterestPointFo
 
 export async function interestPointUpdate(
   values: z.infer<typeof InterestPointEditFormSchema>,
-  id: string
+  id: number
 ) {
-  const response = await axios.put(`http://localhost:8081/interestpoint/${id}`, values, {
+  const baseData = {
+    averageValue: values.averageValue,
+    name: values.name,
+    shortDescription: values.shortDescription,
+    interestPointType: values.type,
+    zipCode: values.zipcode,
+    road: values.road,
+    number: values.number
+  };
+
+  let extraData: Record<string, any> = {};
+  switch (values.type) {
+    case 'EVENT':
+      extraData = {
+        date: values.date,
+        longDescription: values.longDescription,
+        duration: values.duration
+      };
+      break;
+    case 'HOTEL':
+      extraData = {
+        breakfastIncluded: values.breakfastIncluded,
+        isResort: values.isResort,
+        starsNumber: values.starsNumber
+      };
+      break;
+    case 'EXPERIENCE':
+      extraData = {
+        requiredAge: values.requiredAge,
+        longDescription: values.longDescription,
+        duration: values.duration
+      };
+      break;
+    case 'RESTAURANT':
+      extraData = {
+        foodType: values.foodType
+      };
+      break;
+    case 'TOURIST_POINT':
+      extraData = {
+        longDescription: values.longDescription,
+        duration: values.duration
+      };
+      break;
+    default:
+      return false;
+  }
+
+  const data = { ...baseData, ...extraData };
+
+  const response = await axios.put(`http://localhost:8081/interestpoint/${id}`, data, {
     headers: { Authorization: `Bearer ${await getAuthToken()}` }
   });
+
   return response.status === 200;
 }
 
