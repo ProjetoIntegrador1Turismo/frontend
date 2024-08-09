@@ -1,7 +1,7 @@
 'use client';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -46,8 +46,9 @@ export interface InterestPointData {
 const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPointData }) => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
-  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const { data: SessionData } = useSession();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof InterestPointEditFormSchema>>({
     resolver: zodResolver(InterestPointEditFormSchema),
@@ -77,6 +78,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
         <div className='space-y-2'>
           <ControlledTextArea
             control={form.control}
+            disabled={isPending}
             label='Descrição Longa'
             placeholder='Escreva uma descrição longa!'
             name='longDescription'
@@ -84,6 +86,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
           />
           <ControlledInput
             control={form.control}
+            disabled={isPending}
             label='Duração'
             name='duration'
             type='text'
@@ -95,6 +98,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
         <div className='space-y-2'>
           <ControlledTextArea
             control={form.control}
+            disabled={isPending}
             label='Descrição Longa'
             placeholder='Escreva uma descrição longa!'
             name='longDescription'
@@ -102,11 +106,16 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
           />
           <div className='flex gap-3'>
             <div>
-              <ControlledDatePicker control={form.control} label='Data do evento' />
+              <ControlledDatePicker
+                control={form.control}
+                disabled={isPending}
+                label='Data do evento'
+              />
             </div>
             <div className='flex-1'>
               <ControlledInput
                 control={form.control}
+                disabled={isPending}
                 label='Duração'
                 name='duration'
                 type='text'
@@ -119,6 +128,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       RESTAURANT: (
         <ControlledInput
           control={form.control}
+          disabled={isPending}
           label='Tipo de comida'
           name='foodType'
           type='text'
@@ -130,6 +140,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
             <div className='flex-1'>
               <ControlledInput
                 control={form.control}
+                disabled={isPending}
                 label='Duração'
                 name='duration'
                 type='text'
@@ -139,6 +150,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
             <div className='flex-1'>
               <ControlledInput
                 control={form.control}
+                disabled={isPending}
                 label='Idade requirida'
                 name='requiredAge'
                 type='text'
@@ -148,6 +160,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
           </div>
           <ControlledTextArea
             control={form.control}
+            disabled={isPending}
             label='Descrição Longa'
             placeholder='Escreva uma descrição longa!'
             name='longDescription'
@@ -159,6 +172,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
         <div className='flex gap-3 items-center'>
           <ControlledInput
             control={form.control}
+            disabled={isPending}
             label='Número de estrelas'
             name='starsNumber'
             type='number'
@@ -166,9 +180,15 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
             max={5}
             className='flex-1'
           />
-          <ControlledCheckBox control={form.control} label='É resort?' name='isResort' />
           <ControlledCheckBox
             control={form.control}
+            disabled={isPending}
+            label='É resort?'
+            name='isResort'
+          />
+          <ControlledCheckBox
+            control={form.control}
+            disabled={isPending}
             label='Café da manhã incluso?'
             name='breakfastIncluded'
           />
@@ -185,29 +205,42 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
     setSuccess('');
     const { images, imgCover, ...updateValues } = values;
     const imgFormData = new FormData();
-
     imgFormData.append('id', `${InterestPoint.id}`);
-    imgFormData.append('imgCover', imgCover);
-    images?.forEach((img) => {
-      imgFormData.append('files', img);
-    });
 
-    updateInterestPoint(updateValues, InterestPoint.id).then(async (data) => {
-      setSuccess(data.success);
-      setError(data.error);
+    if (images) {
+      images.forEach((img) => {
+        imgFormData.append('files', img);
+      });
+    }
 
-      const imageResponse = await axios.post('http://localhost:8081/file/upload/interest-point/multiples', imgFormData, {
-        headers: { Authorization: `Bearer ${SessionData?.user.authToken}` }
-      })
+    if (imgCover) {
+      // imgFormData.append('imgCover', imgCover);
+    }
 
-      if (imageResponse.status !== 200) {
-        setError('Erro com as imagens')
-      }
+    startTransition(() => {
+      updateInterestPoint(updateValues, InterestPoint.id).then(async (data) => {
+        setSuccess(data.success);
+        setError(data.error);
+        let imageResponse;
+        if (images || imgCover) {
+          imageResponse = await axios.post(
+            'http://localhost:8081/file/upload/interest-point/multiples',
+            imgFormData,
+            {
+              headers: { Authorization: `Bearer ${SessionData?.user.authToken}` }
+            }
+          );
+        }
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      if (data.success) {
-        router.push('/admin');
-      }
+        if (imageResponse && imageResponse.status !== 200) {
+          setError('Erro com as imagens');
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (data.success) {
+          router.push('/admin');
+        }
+      });
     });
   };
 
@@ -225,9 +258,16 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
           >
             <div className='flex gap-4'>
               <div className='space-y-2'>
-                <ControlledInput control={form.control} label='Nome' name='name' type='text' />
                 <ControlledInput
                   control={form.control}
+                  label='Nome'
+                  name='name'
+                  type='text'
+                  disabled={isPending}
+                />
+                <ControlledInput
+                  control={form.control}
+                  disabled={isPending}
                   label='Preço'
                   name='averageValue'
                   type='number'
@@ -237,18 +277,32 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
                 <InterestPointTypes control={form.control} disabled />
               </div>
               <div className='space-y-2'>
-                <ControlledInput control={form.control} label='Rua' name='road' type='text' />
                 <ControlledInput
                   control={form.control}
+                  disabled={isPending}
+                  label='Rua'
+                  name='road'
+                  type='text'
+                />
+                <ControlledInput
+                  control={form.control}
+                  disabled={isPending}
                   label='Número'
                   name='number'
                   type='number'
                 />
-                <ControlledInput control={form.control} label='CEP' name='zipcode' type='text' />
+                <ControlledInput
+                  control={form.control}
+                  disabled={isPending}
+                  label='CEP'
+                  name='zipcode'
+                  type='text'
+                />
               </div>
               <div className='space-y-2'>
                 <ControlledTextArea
                   control={form.control}
+                  disabled={isPending}
                   label='Descrição Curta'
                   placeholder='Escreva uma descrição curta!'
                   name='shortDescription'
@@ -259,18 +313,24 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
             <div className='space-y-2'>
               <ControlledFileInput
                 control={form.control}
+                disabled={isPending}
                 label='Imagens'
                 name='images'
               />
               <ControlledFileInput
                 control={form.control}
+                disabled={isPending}
                 label='Imagem de Capa'
                 name='imgCover'
               />
             </div>
             {renderOptionalFields()}
             <div className='flex gap-3'>
-              <Button className='bg-gradient-to-r from-tl-red to-tl-purple w-fit' type='submit'>
+              <Button
+                className='bg-gradient-to-r from-tl-red to-tl-purple w-fit'
+                type='submit'
+                disabled={isPending}
+              >
                 Cadastrar
               </Button>
               <FormError message={error} />

@@ -1,7 +1,7 @@
 'use client';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -18,6 +18,7 @@ import ControlledCheckBox from './ControlledCheckbox';
 import { createInterestPoint } from '@/actions/createInterestPoint';
 
 const InterestPointForm = () => {
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();
@@ -39,6 +40,7 @@ const InterestPointForm = () => {
         <div className='space-y-2'>
           <ControlledTextArea
             control={form.control}
+            disabled={isPending}
             label='Descrição Longa'
             placeholder='Escreva uma descrição longa!'
             name='longDescription'
@@ -46,6 +48,7 @@ const InterestPointForm = () => {
           />
           <ControlledInput
             control={form.control}
+            disabled={isPending}
             label='Duração'
             name='duration'
             type='text'
@@ -57,6 +60,7 @@ const InterestPointForm = () => {
         <div className='space-y-2'>
           <ControlledTextArea
             control={form.control}
+            disabled={isPending}
             label='Descrição Longa'
             placeholder='Escreva uma descrição longa!'
             name='longDescription'
@@ -69,6 +73,7 @@ const InterestPointForm = () => {
             <div className='flex-1'>
               <ControlledInput
                 control={form.control}
+                disabled={isPending}
                 label='Duração'
                 name='duration'
                 type='text'
@@ -81,6 +86,7 @@ const InterestPointForm = () => {
       RESTAURANT: (
         <ControlledInput
           control={form.control}
+          disabled={isPending}
           label='Tipo de comida'
           name='foodType'
           type='text'
@@ -92,6 +98,7 @@ const InterestPointForm = () => {
             <div className='flex-1'>
               <ControlledInput
                 control={form.control}
+                disabled={isPending}
                 label='Duração'
                 name='duration'
                 type='text'
@@ -101,6 +108,7 @@ const InterestPointForm = () => {
             <div className='flex-1'>
               <ControlledInput
                 control={form.control}
+                disabled={isPending}
                 label='Idade requirida'
                 name='requiredAge'
                 type='text'
@@ -110,6 +118,7 @@ const InterestPointForm = () => {
           </div>
           <ControlledTextArea
             control={form.control}
+            disabled={isPending}
             label='Descrição Longa'
             placeholder='Escreva uma descrição longa!'
             name='longDescription'
@@ -121,6 +130,7 @@ const InterestPointForm = () => {
         <div className='flex gap-3 items-center'>
           <ControlledInput
             control={form.control}
+            disabled={isPending}
             label='Número de estrelas'
             name='starsNumber'
             type='number'
@@ -128,9 +138,15 @@ const InterestPointForm = () => {
             max={5}
             className='flex-1'
           />
-          <ControlledCheckBox control={form.control} label='É resort?' name='isResort' />
           <ControlledCheckBox
             control={form.control}
+            disabled={isPending}
+            label='É resort?'
+            name='isResort'
+          />
+          <ControlledCheckBox
+            control={form.control}
+            disabled={isPending}
             label='Café da manhã incluso?'
             name='breakfastIncluded'
           />
@@ -145,13 +161,15 @@ const InterestPointForm = () => {
   const onSubmitCreateInterestPoint = (values: z.infer<typeof InterestPointFormSchema>) => {
     setError('');
     setSuccess('');
-    createInterestPoint(values).then(async (data) => {
-      setSuccess(data.success);
-      setError(data.error);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      if (data.success) {
-        router.refresh()
-      }
+    startTransition(() => {
+      createInterestPoint(values).then(async (data) => {
+        setSuccess(data.success);
+        setError(data.error);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (data.success) {
+          router.refresh();
+        }
+      });
     });
   };
 
@@ -169,7 +187,13 @@ const InterestPointForm = () => {
           >
             <div className='flex gap-4'>
               <div className='space-y-2'>
-                <ControlledInput control={form.control} label='Nome' name='name' type='text' />
+                <ControlledInput
+                  control={form.control}
+                  disabled={isPending}
+                  label='Nome'
+                  name='name'
+                  type='text'
+                />
                 <ControlledInput
                   control={form.control}
                   label='Preço'
@@ -181,18 +205,31 @@ const InterestPointForm = () => {
                 <InterestPointTypes control={form.control} />
               </div>
               <div className='space-y-2'>
-                <ControlledInput control={form.control} label='Rua' name='road' type='text' />
+                <ControlledInput
+                  control={form.control}
+                  disabled={isPending}
+                  label='Rua'
+                  name='road'
+                  type='text'
+                />
                 <ControlledInput
                   control={form.control}
                   label='Número'
                   name='number'
                   type='number'
                 />
-                <ControlledInput control={form.control} label='CEP' name='zipcode' type='text' />
+                <ControlledInput
+                  control={form.control}
+                  disabled={isPending}
+                  label='CEP'
+                  name='zipcode'
+                  type='text'
+                />
               </div>
               <div className='space-y-2'>
                 <ControlledTextArea
                   control={form.control}
+                  disabled={isPending}
                   label='Descrição Curta'
                   placeholder='Escreva uma descrição curta!'
                   name='shortDescription'
@@ -202,7 +239,11 @@ const InterestPointForm = () => {
             </div>
             {renderOptionalFields()}
             <div className='flex gap-3'>
-              <Button className='bg-gradient-to-r from-tl-red to-tl-purple w-fit' type='submit'>
+              <Button
+                disabled={isPending}
+                className='bg-gradient-to-r from-tl-red to-tl-purple w-fit'
+                type='submit'
+              >
                 Cadastrar
               </Button>
               <FormError message={error} />
@@ -211,7 +252,6 @@ const InterestPointForm = () => {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className='flex justify-between'></CardFooter>
     </Card>
   );
 };
