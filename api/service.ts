@@ -1,4 +1,5 @@
 'use server';
+'use server';
 import { auth } from '@/auth';
 import { HomePageData } from '@/lib/interfaces';
 import {
