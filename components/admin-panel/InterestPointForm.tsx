@@ -150,7 +150,7 @@ const InterestPointForm = () => {
       setError(data.error);
       await new Promise((resolve) => setTimeout(resolve, 2000));
       if (data.success) {
-        router.refresh();
+        form.reset();
       }
     });
   };
