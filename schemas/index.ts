@@ -59,14 +59,18 @@ const InterestPointSchema = z.object({
 export const EventSchema = InterestPointSchema.extend({
   type: z.literal('EVENT'),
   duration: z.string(),
-  longDescription: z.string().max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' }),
+  longDescription: z
+    .string()
+    .max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' }),
   date: z.date()
 });
 
 export const ExperienceSchema = InterestPointSchema.extend({
   type: z.literal('EXPERIENCE'),
   duration: z.string(),
-  longDescription: z.string().max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' }),
+  longDescription: z
+    .string()
+    .max(2500, { message: 'Descrição longa é limitada a 2500 caracteres' }),
   requiredAge: z.string().transform((value) => value as unknown as number)
 });
 
@@ -97,219 +101,39 @@ export const InterestPointFormSchema = z.discriminatedUnion('type', [
 ]);
 
 export const EventEditSchema = EventSchema.extend({
-  image1: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image2: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image3: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image4: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image5: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+  images: z
+    .array(z.any())
+    .min(5, 'É preciso no minimo 5 imagens.')
     .optional()
 });
 
 export const ExperienceEditSchema = ExperienceSchema.extend({
-  image1: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image2: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image3: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image4: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image5: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+  images: z
+    .array(z.any())
+    .min(5, 'É preciso no minimo 5 imagens.')
     .optional()
 });
 
 export const HotelEditSchema = HotelSchema.extend({
-  image1: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image2: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image3: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image4: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image5: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+  images: z
+    .array(z.any())
+    .min(5, 'É preciso no minimo 5 imagens.')
     .optional()
-})
+});
 
 export const RestaurantEditSchema = RestaurantSchema.extend({
-  image1: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image2: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image3: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image4: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image5: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+  images: z
+    .array(z.any())
+    .min(5, 'É preciso no minimo 5 imagens')
     .optional()
-})
+});
 
 export const TouristPointEditSchema = TouristPointSchema.extend({
-  image1: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image2: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image3: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image4: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
-    .optional(),
-  image5: z
-    .any()
-    .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
-    )
-    .refine((files) => files?.[0]?.size <= 3 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+  images: z
+    .array(z.any())
+    .min(5, 'É preciso no minimo 5 imagens')
     .optional()
-})
+});
 
 export const InterestPointEditFormSchema = z.discriminatedUnion('type', [
   EventEditSchema,
