@@ -1,10 +1,10 @@
-import Footer from '@/components/Footer';
+import { auth } from '@/auth';
 import React from 'react';
 
-const ComponenetTestingPage = () => {
+const ComponenetTestingPage = async () => {
   return (
     <div>
-      <Footer />
+      {JSON.stringify(await auth())}
     </div>
   );
 };

@@ -29,7 +29,7 @@ export const {
         const validatedFields = LoginSchema.safeParse(credentials);
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
-          const authResponse = await fetch('https://dummyjson.com/auth/login', {
+          const authResponse = await fetch('http://localhost:8081/auth', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -37,7 +37,6 @@ export const {
             body: JSON.stringify({
               username: email,
               password: password,
-              expiresInMins: 15
             })
           });
 

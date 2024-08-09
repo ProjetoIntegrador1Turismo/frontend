@@ -1,9 +1,12 @@
-import { auth } from '@/auth';
+import { AdminTabs } from '@/components/admin-panel/AdminTabs';
 import React from 'react';
 
 const AdminPage = async () => {
-  const session = await auth();
-  return <div>{JSON.stringify(session)}</div>;
+  return (
+    <div className='mb-3'>
+      <AdminTabs />
+    </div>
+  );
 };
 
 export default AdminPage;

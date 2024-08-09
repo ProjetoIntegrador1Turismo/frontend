@@ -20,11 +20,11 @@ export interface HomeSliderProps {
 
 export interface SliderWithHeaderProps {
   title: string;
-  slides: SliderCardProps[];
+  slides: FirstSlider[];
 }
 
 export interface RatingProps {
-  rating: 1 | 2 | 3 | 4 | 5;
+  rating: number;
 }
 
 export interface GuideCardInfo {
@@ -35,11 +35,11 @@ export interface GuideCardInfo {
 }
 
 export interface GuideCardProps {
-  guide: GuideCardInfo;
+  guide: TopGuide;
 }
 
 export interface WeekGuidesProps {
-  guides: GuideCardInfo[];
+  guides: TopGuide[];
 }
 
 export interface TourTitleInfo {
@@ -86,4 +86,47 @@ export interface CardWrapperProps {
   headerLabel: string;
   headerTitle: string;
   backButtons: BackButtonProps[];
+}
+
+export interface HomePageData {
+  top3InterestPoints: Top3InterestPoint[]
+  firstSlider: FirstSlider[]
+  secondSlider: SecondSlider[]
+  topGuides: TopGuide[]
+}
+
+export interface Top3InterestPoint {
+  id: number
+  name: string
+  averageValue: string
+  duration: any
+  imageCoverUrl: string
+}
+
+export interface FirstSlider {
+  id: number
+  name: string
+  imageCoverUrl: string
+}
+
+export interface SecondSlider {
+  id: number
+  name: string
+  imageCoverUrl: string
+}
+
+export interface TopGuide {
+  id: number
+  firstName: string
+  averageRating: number
+}
+
+export interface Guide {
+  id: number
+  firstName: string
+  cadasturCode: string
+  isApproved: boolean
+  itineraries: any[]
+  reviews: any
+  averageRating: any
 }

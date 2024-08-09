@@ -20,12 +20,14 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import CardWrapper from './card-wrapper';
 import * as z from 'zod';
+import { useRouter } from 'next/navigation';
 
 
 const RegisterGuideForm = () => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof RegisterGuideSchema>>({
     resolver: zodResolver(RegisterGuideSchema),
@@ -42,9 +44,13 @@ const RegisterGuideForm = () => {
     setSuccess('');
 
     startTransition(() => {
-      registerGuide(values).then((data) => {
+      registerGuide(values).then(async (data) => {
         setSuccess(data.success);
         setError(data.error);
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (data.success) {
+          router.push('/login');
+        }
       });
     });
   };
@@ -131,7 +137,7 @@ const RegisterGuideForm = () => {
             type='submit'
             className='w-full bg-gradient-to-r from-tl-red to-tl-purple'
           >
-            Login
+            Registrar
           </Button>
         </form>
       </Form>

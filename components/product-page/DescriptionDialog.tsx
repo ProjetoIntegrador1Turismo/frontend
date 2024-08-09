@@ -15,7 +15,7 @@ export function DescriptionDialog({ description }: TourDescriptionProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className='mt-1 ml-[1450px]'>
+        <button>
           <DotsHorizontalIcon width={36} height={36} />
         </button>
       </DialogTrigger>
