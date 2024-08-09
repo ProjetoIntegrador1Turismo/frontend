@@ -25,6 +25,7 @@ interface ControlledInputProps {
     | 'foodType';
   label: string;
   type: string;
+  disabled?: boolean;
   min?: number;
   max?: number;
   className?: string;
@@ -37,6 +38,7 @@ const ControlledInput = ({
   type,
   min,
   max,
+  disabled,
   className
 }: ControlledInputProps) => {
   return (
@@ -49,6 +51,7 @@ const ControlledInput = ({
           <FormControl>
             <Input
               {...field}
+              disabled={disabled}
               type={type}
               className={cn('shadow-md shadow-gray-400 border border-black', className)}
               min={min ? min : ''}

@@ -7,10 +7,11 @@ interface ControlledFileInputProps {
   control: any;
   name: 'images' | 'imgCover';
   label: string;
+  disabled?: boolean;
   className?: string;
 }
 
-const ControlledFileInput = ({ control, name, label }: ControlledFileInputProps) => {
+const ControlledFileInput = ({ control, name, label, disabled }: ControlledFileInputProps) => {
   return (
     <FormField
       control={control}
@@ -21,6 +22,7 @@ const ControlledFileInput = ({ control, name, label }: ControlledFileInputProps)
           <FormControl>
             <Input
               type='file'
+              disabled={disabled}
               accept='image/*'
               multiple
               onChange={(e) => {

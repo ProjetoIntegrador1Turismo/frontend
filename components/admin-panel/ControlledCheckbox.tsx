@@ -6,10 +6,11 @@ interface ControlledCheckboxProps {
   control: any;
   name: 'isResort' | 'breakfastIncluded';
   label: string;
+  disabled?: boolean;
   className?: string;
 }
 
-const ControlledCheckBox = ({ control, name, label }: ControlledCheckboxProps) => {
+const ControlledCheckBox = ({ control, name, label, disabled }: ControlledCheckboxProps) => {
   return (
     <FormField
       control={control}
@@ -17,7 +18,7 @@ const ControlledCheckBox = ({ control, name, label }: ControlledCheckboxProps) =
       render={({ field }) => (
         <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
           <FormControl>
-            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+            <Checkbox checked={field.value} onCheckedChange={field.onChange} disabled={disabled} />
           </FormControl>
           <div className='space-y-1 leading-none'>
             <FormLabel>{label}</FormLabel>

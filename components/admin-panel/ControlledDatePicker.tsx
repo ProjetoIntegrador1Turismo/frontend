@@ -9,10 +9,11 @@ import { Calendar } from '../ui/calendar';
 
 interface ControlledDatePickerProps {
   control: any;
+  disabled?: boolean;
   label: string;
 }
 
-const ControlledDatePicker = ({ control, label }: ControlledDatePickerProps) => {
+const ControlledDatePicker = ({ control, label, disabled }: ControlledDatePickerProps) => {
   return (
     <FormField
       control={control}
@@ -25,6 +26,7 @@ const ControlledDatePicker = ({ control, label }: ControlledDatePickerProps) => 
               <FormControl>
                 <Button
                   variant={'outline'}
+                  disabled={disabled}
                   className={cn(
                     'w-[240px] pl-3 text-left font-normal shadow-md shadow-gray-400 border border-black',
                     !field.value && 'text-muted-foreground'
