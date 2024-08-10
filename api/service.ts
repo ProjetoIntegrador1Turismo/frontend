@@ -1,5 +1,4 @@
 'use server';
-'use server';
 import { auth } from '@/auth';
 import { HomePageData } from '@/lib/interfaces';
 import {
@@ -13,7 +12,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import * as z from 'zod';
 
-const getAuthToken = async () => {
+export const getAuthToken = async () => {
   const session = await auth();
   return session?.user.authToken;
 };
