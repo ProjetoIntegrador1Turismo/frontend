@@ -25,6 +25,14 @@ export const RegisterGuideSchema = z.object({
   cadastur: z.string().min(1, { message: 'Cadastur é obrigatório para o cadastro de guia!' })
 });
 
+export const CategoriesParams = z.union([
+  z.literal('event'),
+  z.literal('experience'),
+  z.literal('touristpoint'),
+  z.literal('hotel'),
+  z.literal('restaurant')
+]);
+
 export const UpdateProfileSchema = z.object({
   avatar: z
     .any()
