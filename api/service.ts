@@ -56,66 +56,70 @@ export async function updateUser({ name, password, email }: z.infer<typeof Updat
 }
 
 export async function interestPointCreate(values: z.infer<typeof InterestPointFormSchema>) {
-  const baseData = {
-    averageValue: values.averageValue,
-    name: values.name,
-    shortDescription: values.shortDescription,
-    interestPointType: values.type,
-    address: {
-      zipCode: values.zipcode,
-      road: values.road,
-      number: values.number
-    }
-  };
+  try {
+    const baseData = {
+      averageValue: values.averageValue,
+      name: values.name,
+      shortDescription: values.shortDescription,
+      interestPointType: values.type,
+      address: {
+        zipCode: values.zipcode,
+        road: values.road,
+        number: values.number
+      }
+    };
 
-  let extraData: Record<string, any> = {};
-  switch (values.type) {
-    case 'EVENT':
-      extraData = {
-        date: values.date,
-        longDescription: values.longDescription,
-        duration: values.duration
-      };
-      break;
-    case 'HOTEL':
-      extraData = {
-        breakfastIncluded: values.breakfastIncluded,
-        isResort: values.isResort,
-        starsNumber: values.starsNumber
-      };
-      break;
-    case 'EXPERIENCE':
-      extraData = {
-        requiredAge: values.requiredAge,
-        longDescription: values.longDescription,
-        duration: values.duration
-      };
-      break;
-    case 'RESTAURANT':
-      extraData = {
-        foodType: values.foodType
-      };
-      break;
-    case 'TOURIST_POINT':
-      extraData = {
-        longDescription: values.longDescription,
-        duration: values.duration
-      };
-      break;
-    default:
-      return false;
+    let extraData: Record<string, any> = {};
+    switch (values.type) {
+      case 'EVENT':
+        extraData = {
+          date: values.date,
+          longDescription: values.longDescription,
+          duration: values.duration
+        };
+        break;
+      case 'HOTEL':
+        extraData = {
+          breakfastIncluded: values.breakfastIncluded,
+          isResort: values.isResort,
+          starsNumber: values.starsNumber
+        };
+        break;
+      case 'EXPERIENCE':
+        extraData = {
+          requiredAge: values.requiredAge,
+          longDescription: values.longDescription,
+          duration: values.duration
+        };
+        break;
+      case 'RESTAURANT':
+        extraData = {
+          foodType: values.foodType
+        };
+        break;
+      case 'TOURIST_POINT':
+        extraData = {
+          longDescription: values.longDescription,
+          duration: values.duration
+        };
+        break;
+      default:
+        return false;
+    }
+
+    const data = { ...baseData, ...extraData };
+
+    const response = await axios.post('http://localhost:8081/interestpoint', data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
+    });
+
+    return response.status === 200;
+  } catch (error) {
+    return false
   }
-
-  const data = { ...baseData, ...extraData };
-
-  const response = await axios.post('http://localhost:8081/interestpoint', data, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${await getAuthToken()}`
-    }
-  });
-
-  return response.status === 200;
 }
 
 export async function interestPointUpdate(

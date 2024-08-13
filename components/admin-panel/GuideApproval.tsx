@@ -37,14 +37,15 @@ const GuideApproval = () => {
     refetchOnWindowFocus: false
   });
 
-  const {
-    mutate: approveGuide,
-    isPending: isPendingApproval  
-  } = useMutation({
+  const { mutate: approveGuide, isPending: isPendingApproval } = useMutation({
     mutationFn: async (id: number) => {
-      return axios.put(`http://localhost:8081/admin/approve-guide/${id}`, {}, {
-        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
-      });
+      return axios.put(
+        `http://localhost:8081/admin/approve-guide/${id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+        }
+      );
     },
     onSuccess: async (response) => {
       queryClient.invalidateQueries({ queryKey: ['pendingGuides'] });
@@ -52,17 +53,18 @@ const GuideApproval = () => {
         title: 'Guia foi aprovado!',
         description: `Guia de id ${response.data.id} foi aprovado com sucesso!`
       });
-    },
+    }
   });
 
-  const {
-    mutate: denyGuide,
-    isPending: isPendingDenial
-  } = useMutation({
+  const { mutate: denyGuide, isPending: isPendingDenial } = useMutation({
     mutationFn: async (id: number) => {
-      return axios.put(`http://localhost:8081/admin/disapprove-guide/${id}`, {}, {
-        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
-      });
+      return axios.put(
+        `http://localhost:8081/admin/disapprove-guide/${id}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+        }
+      );
     },
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['pendingGuides'] });
@@ -83,57 +85,57 @@ const GuideApproval = () => {
     );
 
   return (
-    <Card className='w-[667px]'>
-      <CardHeader>
-        <CardTitle>Aprovar cadastro de guias de turismo</CardTitle>
-        <CardDescription>Aprove os guias para liberar o acesso.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Table className='border border-black rounded-xl'>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>Cadastur</TableHead>
-              <TableHead className='text-center'>
-                Ação
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.data.map((guide) => {
-              return (
-                <TableRow>
-                  <TableCell>{guide.firstName}</TableCell>
-                  <TableCell>{guide.cadasturCode}</TableCell>
-                  <TableCell className='flex justify-evenly'>
-                    <Button
-                      className='bg-green-500'
-                      disabled={isPendingApproval}
-                      onClick={() => approveGuide(guide.id)}
-                    >
-                      <Check />
-                    </Button>
-                    <Button
-                      variant='destructive'
-                      disabled={isPendingDenial}
-                      onClick={() => denyGuide(guide.id)}
-                    >
-                      <CircleXIcon />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell>Total de guias: {data.data.length}</TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </CardContent>
-      <CardFooter></CardFooter>
-    </Card>
+    <div className='h-[75vh]'>
+      <Card className='w-[667px]'>
+        <CardHeader>
+          <CardTitle>Aprovar cadastro de guias de turismo</CardTitle>
+          <CardDescription>Aprove os guias para liberar o acesso.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table className='border border-black rounded-xl'>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Nome</TableHead>
+                <TableHead>Cadastur</TableHead>
+                <TableHead className='text-center'>Ação</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.data.map((guide) => {
+                return (
+                  <TableRow>
+                    <TableCell>{guide.firstName}</TableCell>
+                    <TableCell>{guide.cadasturCode}</TableCell>
+                    <TableCell className='flex justify-evenly'>
+                      <Button
+                        className='bg-green-500'
+                        disabled={isPendingApproval}
+                        onClick={() => approveGuide(guide.id)}
+                      >
+                        <Check />
+                      </Button>
+                      <Button
+                        variant='destructive'
+                        disabled={isPendingDenial}
+                        onClick={() => denyGuide(guide.id)}
+                      >
+                        <CircleXIcon />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell>Total de guias: {data.data.length}</TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </CardContent>
+        <CardFooter></CardFooter>
+      </Card>
+    </div>
   );
 };
 
