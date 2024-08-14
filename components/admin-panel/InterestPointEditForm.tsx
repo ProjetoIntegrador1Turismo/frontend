@@ -64,7 +64,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       requiredAge: InterestPoint.requiredAge,
       road: InterestPoint.address?.road,
       shortDescription: InterestPoint.shortDescription,
-      starsNumber: InterestPoint.starsNumber,
+      starsNumber: String(InterestPoint.starsNumber),
       type: InterestPoint.interestPointType,
       zipcode: InterestPoint.address?.zipCode,
       isResort: InterestPoint.isResort,
@@ -214,7 +214,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
     }
 
     if (imgCover) {
-      // imgFormData.append('imgCover', imgCover);
+      imgFormData.append('imgCover', imgCover);
     }
 
     startTransition(() => {
