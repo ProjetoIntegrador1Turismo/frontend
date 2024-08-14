@@ -46,17 +46,18 @@ const ProfileInfo = () => {
     setError('');
     setSuccess('');
 
-    updateProfile(values).then(async (data) => {
+    const { avatar, ...updateValues} = values;
+
+    updateProfile(updateValues).then(async (data) => {
       setSuccess(data.success);
       setError(data.error);
+      setEdit((prevState) => {
+        return !prevState;
+      });
       await new Promise((resolve) => setTimeout(resolve, 2000));
       if (data.success) {
-        router.push('/profile');
+        router.refresh()
       }
-    });
-
-    setEdit((prevState) => {
-      return !prevState;
     });
   };
 
@@ -144,6 +145,7 @@ const ProfileInfo = () => {
                         accept='image/*'
                         {...fileRef}
                         onChange={(event) => {
+                          form.clearErrors();
                           field.onChange(event.target?.files?.[0] ?? undefined);
                         }}
                         className='shadow-md shadow-gray-400 border border-black'
