@@ -22,7 +22,13 @@ interface ControlledInputProps {
     | 'starsNumber'
     | 'isResort'
     | 'breakfastIncluded'
-    | 'foodType';
+    | 'foodType'
+    | 'title'
+    | 'averageCost'
+    | 'days'
+    | 'description'
+    | 'imgCover'
+    | 'interestPointIds';
   label: string;
   type: string;
   disabled?: boolean;
