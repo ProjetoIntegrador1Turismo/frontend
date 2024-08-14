@@ -47,6 +47,25 @@ export const UpdateProfileSchema = z.object({
   password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }).optional()
 });
 
+export const NewItineraryFormSchema = z.object({
+  title: z.string({ required_error: 'Título é obrigatório! ' }).min(1, 'Título é obrigatório!'),
+  averageCost: z.string({ required_error: 'Custo médio é obrigatório! ' }),
+  days: z.string({ required_error: 'Dias é obrigatório!' }),
+  description: z.string({ required_error: 'Descrição é obrigatória!' }),
+  imgCover: z
+    .any()
+    .refine(
+      (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.'
+    )
+    .refine((file) => file?.size <= 3 * 1024 * 1024, `Tamanho máximo da imagem é 3mb`),
+  interestPointIds: z
+    .array(z.number(), {
+      required_error: 'Seu roteiro deve possuir pelo menos 1 ponto de interesse!'
+    })
+    .min(1, 'Seu roteiro deve possuir pelo menos 1 ponto de interesse!')
+});
+
 const InterestPointSchema = z.object({
   name: z.string().min(1, { message: 'Nome é obrigatório!' }),
   averageValue: z
@@ -157,7 +176,7 @@ export const RestaurantEditSchema = RestaurantSchema.extend({
 });
 
 export const TouristPointEditSchema = TouristPointSchema.extend({
-  images: z.array(z.any()).min(1, 'É preciso no minimo 5 imagens').optional(),
+  images: z.array(z.any()).min(5, 'É preciso no minimo 5 imagens').optional(),
   imgCover: z
     .any()
     .refine(
