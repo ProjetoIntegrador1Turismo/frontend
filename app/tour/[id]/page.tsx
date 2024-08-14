@@ -4,47 +4,43 @@ import GuideCardTour from '@/components/product-page/GuideCardTour';
 import ProductButton from '@/components/product-page/ProductButton';
 import Title from '@/components/product-page/Title';
 import TourDescription from '@/components/product-page/TourDescription';
-import { mockGuide, mockGuides, tourTitleMock } from '@/lib/mocks';
+import { fetchTourData } from '@/api/service';
+import { Guide } from '@/lib/interfaces';
+
+interface Tour {
+  interestPoint: {
+    name: string;
+    longDescription: string;
+  };
+  guidesWhoOfferThisTour: Guide[];
+}
 
 const TourPage = async ({ params }: { params: { id: string } }) => {
-  // const fetchTour = async () => {
-  //  data fetch would look something like this:
-  //  const res = await fetch(`https://localhost:8001/tour/${id}`);
-  //  return await res.json();
-  // };
-  // const tour = await fetchTour();
-  // then tour.something for data
-  // DTO for Tour page
-  // interface Guide {
-  //   id: number;
-  //   rating: 1 | 2 | 3 | 4 | 5;
-  //   trips: number;
-  //   name: string;
-  //   avatar: string;
-  // }
-  // interface TourDTO {
-  //   title: string;
-  //   phone: string;
-  //   address: string;
-  //   description: string;
-  //   price: 1 | 2 | 3;
-  //   rating: 1 | 2 | 3 | 4 | 5;
-  //   guides: Guide[];
-  // }
+  const tour: Tour | null = await fetchTourData(params.id);
+
+  if (!tour) {
+    return <div>Tour não encontrado</div>;
+  }
 
   return (
     <div className='h-fit flex gap-8 flex-col mb-12'>
       <div className='flex justify-between items-center'>
-        <Title tour={tourTitleMock} />
+        <Title tour={{ title: tour.interestPoint.name }} />
         <ProductButton />
       </div>
       <TourGallery />
-      <TourDescription description={tourTitleMock.description} />
+      <TourDescription description={tour.interestPoint.longDescription} />
       <div className='flex justify-center items-center flex-col gap-4' id='guides'>
         <h1 className='text-4xl font-semibold'>Guias que ofertam esse passeio</h1>
-        {mockGuides.map((value, index) => {
-          return <GuideCardTour guide={value} key={index} />;
-        })}
+        {tour.guidesWhoOfferThisTour.map((guide: Guide, index: number) => (
+          <GuideCardTour
+            key={index}
+            img=''
+            name={guide.firstName}
+            rating={guide.averageRating as 1 | 2 | 3 | 4 | 5}
+            trips={0}
+          />
+        ))}
       </div>
     </div>
   );

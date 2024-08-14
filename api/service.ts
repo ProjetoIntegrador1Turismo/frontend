@@ -198,3 +198,18 @@ export async function RegisterGuide({
 
   return response.status === 200;
 }
+
+export const fetchTourData = async (id: string) => {
+  try {
+    const response = await axios.get(`http://localhost:8081/page-source/tour/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar os dados do tour:', error);
+    return null;
+  }
+};

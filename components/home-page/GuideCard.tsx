@@ -23,10 +23,10 @@ const GuideCard = ({ guide }: GuideCardProps) => {
         <p className='font-light text-sm mb-[5px] select-none'>Avaliação</p>
         <Rating rating={guide.averageRating} />
       </div>
-      <div className='flex flex-col'>
+      {/* <div className='flex flex-col'>
         <p className='font-light text-sm select-none'>Viagens realizadas</p>
         <h1 className='font-semibold text-2xl'>{guide.trips}</h1>
-      </div>
+      </div> */}
       <div className='flex justify-end items-center'>
         <a>
           <DotsHorizontalIcon width={30} height={30} />
