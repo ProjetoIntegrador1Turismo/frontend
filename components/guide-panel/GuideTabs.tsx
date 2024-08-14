@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Itineraries from './Itineraries';
-import NewItinerary from './NewItinerary';
+import NewItineraryForm from './NewItineraryForm';
 import InterestedTourists from './InterestedTourists';
 
 export async function GuideTabs() {
@@ -21,20 +21,16 @@ export async function GuideTabs() {
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='tourists'>
           Turistas interessados
         </TabsTrigger>
-        {/* <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='guides'>
-          Histórico
-        </TabsTrigger> */}
       </TabsList>
       <TabsContent value='itineraries'>
         <Itineraries />
       </TabsContent>
       <TabsContent value='newItinerary'>
-        <NewItinerary />
+        <NewItineraryForm />
       </TabsContent>
       <TabsContent value='tourists'>
         <InterestedTourists />
       </TabsContent>
-      <TabsContent value='guides'>{/* <GuideApproval /> */}</TabsContent>
     </Tabs>
   );
 }
