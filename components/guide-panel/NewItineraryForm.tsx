@@ -25,12 +25,20 @@ import ControlledInput from '../admin-panel/ControlledInput';
 import ControlledTextArea from '../admin-panel/ControlledTextArea';
 import ControlledSingleFileInput from '../admin-panel/ControlledSingleFileInput';
 import InterestPointPaginated from './InterestPointPaginated';
+import SelectedInterestPointCard from './SelectedInterestPointCard';
+import { useToast } from '../ui/use-toast';
+import { createItinerary } from '@/actions/createItinerary';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 const NewItineraryForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();
+  const { data: sessionData } = useSession();
+
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof NewItineraryFormSchema>>({
     resolver: zodResolver(NewItineraryFormSchema),
@@ -42,11 +50,55 @@ const NewItineraryForm = () => {
 
   const imgCoverRef = form.register('imgCover');
 
-  const onSubmitCreateItinerary = (values: z.infer<typeof NewItineraryFormSchema>) => {
-    console.log(values);
+  const addInterestPoint = (id: number) => {
+    form.getValues().interestPointIds.includes(id)
+      ? toast({
+          title: 'Não foi possivel adicionar esse ponto de interesse',
+          description: 'Esse ponto de interesse já está no seu roteiro!',
+          variant: 'destructive'
+        })
+      : form.setValue('interestPointIds', [...form.getValues().interestPointIds, id]);
   };
+
+  const onSubmitCreateItinerary = (values: z.infer<typeof NewItineraryFormSchema>) => {
+    const { imgCover, ...ItineraryValues } = values;
+    setSuccess('');
+    setError('');
+    const imgFormData = new FormData();
+    if (imgCover) {
+      imgFormData.append('file', imgCover);
+    }
+
+    startTransition(() => {
+      createItinerary(ItineraryValues).then(async (data) => {
+        setSuccess(data.success);
+        setError(data.error);
+        let imageResponse;
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (data.success && imgCover) {
+          imgFormData.append('id', data.id);
+          imageResponse = await axios.post(
+            'http://localhost:8081/file/upload/itinerary',
+            imgFormData,
+            {
+              headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+            }
+          );
+        }
+
+        if (imageResponse && imageResponse.status !== 200) {
+          setError('Erro com a imagem');
+        }
+
+        if (data.success) {
+          router.refresh();
+        }
+      });
+    });
+  };
+
   return (
-    <div className='h-[75vh]'>
+    <div className={`${form.getValues().interestPointIds.length > 0 ? 'h-fit' : 'h-[80vh]'}`}>
       <Card>
         <CardHeader>
           <pre>{JSON.stringify(form.watch(), null, 2)}</pre>
@@ -62,6 +114,7 @@ const NewItineraryForm = () => {
               <div className='flex gap-4'>
                 <ControlledInput
                   control={form.control}
+                  disabled={isPending}
                   name='title'
                   label='Título do Roteiro'
                   type='text'
@@ -69,6 +122,7 @@ const NewItineraryForm = () => {
                 />
                 <ControlledInput
                   control={form.control}
+                  disabled={isPending}
                   name='averageCost'
                   label='Custo médio'
                   type='text'
@@ -76,6 +130,7 @@ const NewItineraryForm = () => {
                 />
                 <ControlledInput
                   control={form.control}
+                  disabled={isPending}
                   name='days'
                   label='Dias'
                   type='number'
@@ -87,32 +142,41 @@ const NewItineraryForm = () => {
 
               <ControlledTextArea
                 control={form.control}
+                disabled={isPending}
                 label='Descrição do roteiro'
                 name='description'
                 placeholder='Escreva a descrição do roteiro...'
-                className='shadow-md shadow-gray-400 border border-black resize-none'
+                className='shadow-md shadow-gray-400 border border-black resize-none max-w-[500px]'
               />
 
               <ControlledSingleFileInput
                 control={form.control}
+                disabled={isPending}
+                ref={imgCoverRef}
                 name='imgCover'
                 label='Imagem de Capa'
-                ref={imgCoverRef}
               />
 
               <Dialog>
                 <div className='flex gap-3 items-center'>
-                  <h1>Pontos de Interesse</h1>
+                  <div>
+                    <CardTitle>Pontos de interesse</CardTitle>
+                    <CardDescription>Insira os locais do seu roteiro.</CardDescription>
+                  </div>
+
                   <DialogTrigger asChild className='bg-gradient-to-r from-tl-red to-tl-purple'>
-                    <Button size='sm'>Inserir</Button>
+                    <Button size='sm' disabled={isPending}>
+                      Inserir
+                    </Button>
                   </DialogTrigger>
                 </div>
-                <div>
+                <div className='flex flex-col gap-3'>
                   {form.getValues().interestPointIds.map((number) => {
                     return (
-                      <div className='flex justify-between w-[300px]'>
-                        <p>Interest point id {number}</p>
+                      <div className='flex gap-3 w-fit items-center'>
+                        <SelectedInterestPointCard id={number} />
                         <Button
+                          className='shadow-md shadow-gray-400'
                           onClick={() => {
                             form.setValue(
                               'interestPointIds',
@@ -120,6 +184,7 @@ const NewItineraryForm = () => {
                             );
                           }}
                           variant='destructive'
+                          disabled={isPending}
                         >
                           remover
                         </Button>
@@ -136,18 +201,6 @@ const NewItineraryForm = () => {
                       <span className='select-none'>Pontos de Interesse</span>
                     </DialogTitle>
                   </DialogHeader>
-                  {/* <DialogClose asChild>
-                      <Button
-                        onClick={() => {
-                          form.setValue('interestPointIds', [
-                            ...form.getValues().interestPointIds,
-                            1
-                          ]);
-                        }}
-                      >
-                        id 1
-                      </Button>
-                    </DialogClose> */}
                   <Tabs defaultValue='account'>
                     <TabsList className='gap-2 w-fit'>
                       <TabsTrigger value='touristpoint' className='shadow-md shadow-gray-400'>
@@ -169,57 +222,26 @@ const NewItineraryForm = () => {
                     <TabsContent value='touristpoint'>
                       <InterestPointPaginated
                         type='touristpoint'
-                        addInterestPoint={(id: number) => {
-                          form.setValue('interestPointIds', [
-                            ...form.getValues().interestPointIds,
-                            id
-                          ]);
-                        }}
+                        addInterestPoint={addInterestPoint}
                       />
                     </TabsContent>
                     <TabsContent value='experience'>
                       <InterestPointPaginated
                         type='experience'
-                        addInterestPoint={(id: number) => {
-                          form.setValue('interestPointIds', [
-                            ...form.getValues().interestPointIds,
-                            id
-                          ]);
-                        }}
+                        addInterestPoint={addInterestPoint}
                       />
                     </TabsContent>
                     <TabsContent value='hotel'>
-                      <InterestPointPaginated
-                        type='hotel'
-                        addInterestPoint={(id: number) => {
-                          form.setValue('interestPointIds', [
-                            ...form.getValues().interestPointIds,
-                            id
-                          ]);
-                        }}
-                      />
+                      <InterestPointPaginated type='hotel' addInterestPoint={addInterestPoint} />
                     </TabsContent>
                     <TabsContent value='restaurant'>
                       <InterestPointPaginated
                         type='restaurant'
-                        addInterestPoint={(id: number) => {
-                          form.setValue('interestPointIds', [
-                            ...form.getValues().interestPointIds,
-                            id
-                          ]);
-                        }}
+                        addInterestPoint={addInterestPoint}
                       />
                     </TabsContent>
                     <TabsContent value='event'>
-                      <InterestPointPaginated
-                        type='event'
-                        addInterestPoint={(id: number) => {
-                          form.setValue('interestPointIds', [
-                            ...form.getValues().interestPointIds,
-                            id
-                          ]);
-                        }}
-                      />
+                      <InterestPointPaginated type='event' addInterestPoint={addInterestPoint} />
                     </TabsContent>
                   </Tabs>
                   <DialogFooter>
