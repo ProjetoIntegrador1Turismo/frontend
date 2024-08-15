@@ -5,41 +5,35 @@ import ProductButton from '@/components/product-page/ProductButton';
 import Title from '@/components/product-page/Title';
 import TourDescription from '@/components/product-page/TourDescription';
 import { mockGuide, mockGuides, tourTitleMock } from '@/lib/mocks';
+import axios from 'axios';
+import { redirect } from 'next/navigation';
 
 const TourPage = async ({ params }: { params: { id: string } }) => {
-  // const fetchTour = async () => {
-  //  data fetch would look something like this:
-  //  const res = await fetch(`https://localhost:8001/tour/${id}`);
-  //  return await res.json();
-  // };
-  // const tour = await fetchTour();
-  // then tour.something for data
-  // DTO for Tour page
-  // interface Guide {
-  //   id: number;
-  //   rating: 1 | 2 | 3 | 4 | 5;
-  //   trips: number;
-  //   name: string;
-  //   avatar: string;
-  // }
-  // interface TourDTO {
-  //   title: string;
-  //   phone: string;
-  //   address: string;
-  //   description: string;
-  //   price: 1 | 2 | 3;
-  //   rating: 1 | 2 | 3 | 4 | 5;
-  //   guides: Guide[];
-  // }
+  try {
+    Number(params.id);
+  } catch (error) {
+    redirect('/');
+  }
+  let tourData;
+  try {
+    const request = await axios.get(`http://localhost:8081/page-source/tour/${params.id}`);
+    tourData = request.data.interestPoint;
+  } catch (error) {
+    redirect('/');
+  }
 
   return (
     <div className='h-fit flex gap-8 flex-col mb-12'>
       <div className='flex justify-between items-center'>
-        <Title tour={tourTitleMock} />
+        <Title
+          name={tourData.name}
+          price={tourData.averageValue}
+          address={`${tourData.address.road}, ${tourData.address.number} - ${tourData.address.zipCode.slice(0, 5)}-${tourData.address.zipCode.slice(5)}`}
+        />
         <ProductButton />
       </div>
-      <TourGallery />
-      <TourDescription description={tourTitleMock.description} />
+      <TourGallery images={tourData.images} imgCover={tourData.imageCoverUrl} />
+      <TourDescription longDescription={tourData.longDescription} shortDescription={tourData.shortDescription} />
       <div className='flex justify-center items-center flex-col gap-4' id='guides'>
         <h1 className='text-4xl font-semibold'>Guias que ofertam esse passeio</h1>
         {mockGuides.map((value, index) => {

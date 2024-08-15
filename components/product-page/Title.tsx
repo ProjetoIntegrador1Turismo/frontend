@@ -3,11 +3,11 @@ import { MapPin } from 'lucide-react';
 import Rating from '../home-page/Rating';
 import TourPrice from './TourPrice';
 
-const Title = ({ tour }: TourTitleProps) => {
+const Title = ({ name, price, address }: {name: string, price: number, address: string}) => {
   return (
     <div className='flex border-black'>
       <div className='flex flex-col gap-2 w-fit'>
-        <h1 className='text-5xl font-semibold tracking-wider'>{tour.title.toUpperCase()}</h1>
+        <h1 className='text-5xl font-semibold tracking-wider'>{name.toUpperCase()}</h1>
         <div className='flex items-center justify-between'>
           <div className='select-none'>
             <p>Avaliação</p>
@@ -16,16 +16,16 @@ const Title = ({ tour }: TourTitleProps) => {
           <div className='h-[35px] w-[1px] bg-black select-none'></div>
           <div className=''>
             <p className='select-none'>Telefone</p>
-            <p>{tour.phone}</p>
+            <p>{`(45) 3520-6265`}</p>
           </div>
           <div className='h-[35px] w-[1px] bg-black select-none'></div>
           <div className='select-none'>
-            <TourPrice price={tour.price} />
+            <TourPrice price={price} />
           </div>
         </div>
         <div className='flex gap-2 items-center'>
           <MapPin />
-          <h3 className='text-xs tracking-wide'>{tour.address}</h3>
+          <h3 className='text-xs tracking-wide'>{address}</h3>
         </div>
       </div>
     </div>

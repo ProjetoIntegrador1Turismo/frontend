@@ -7,7 +7,7 @@ import Image from 'next/image';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/counter.css';
 
-const TourGallery = () => {
+const TourGallery = ({ imgCover, images }: { imgCover: string; images: string[] }) => {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <>
@@ -19,40 +19,24 @@ const TourGallery = () => {
         <div className='flex gap-5 select-none'>
           <Image
             alt='sexo'
-            src='https://i.imgur.com/wKCqVTl.png'
-            className='rounded-3xl transition-opacity hover:opacity-80 shadow-lg shadow-gray-500'
+            src={imgCover}
+            className='rounded-3xl transition-opacity hover:opacity-80 shadow-lg shadow-gray-500 w-[800px] h-[500px] object-cover'
             width={800}
             height={500}
           />
           <div className='grid grid-cols-2 gap-5'>
-            <Image
-              alt='sexo'
-              src='https://i.imgur.com/wKCqVTl.png'
-              className='rounded-3xl h-[240px] transition-opacity hover:opacity-80 shadow-lg shadow-gray-500'
-              width={370}
-              height={240}
-            />
-            <Image
-              alt='sexo'
-              src='https://i.imgur.com/wKCqVTl.png'
-              className='rounded-3xl h-[240px] transition-opacity hover:opacity-80 shadow-lg shadow-gray-500'
-              width={370}
-              height={240}
-            />
-            <Image
-              alt='sexo'
-              src='https://i.imgur.com/wKCqVTl.png'
-              className='rounded-3xl h-[240px] transition-opacity hover:opacity-80 shadow-lg shadow-gray-500'
-              width={370}
-              height={240}
-            />
-            <Image
-              alt='sexo'
-              src='https://i.imgur.com/wKCqVTl.png'
-              className='rounded-3xl h-[240px] transition-opacity hover:opacity-80 shadow-lg shadow-gray-500'
-              width={370}
-              height={240}
-            />
+            {images.slice(0, 4).map((image, index) => {
+              return (
+                <Image
+                  alt='sexo'
+                  src={image}
+                  className='rounded-3xl h-[240px] w-[370px] transition-opacity hover:opacity-80 shadow-lg shadow-gray-500 object-cover'
+                  width={370}
+                  height={240}
+                  key={index}
+                />
+              );
+            })}
           </div>
         </div>
       </a>
@@ -64,9 +48,10 @@ const TourGallery = () => {
         plugins={[Counter]}
         counter={{ container: { style: { top: 'unset', bottom: 0 } } }}
         slides={[
-          { src: 'https://i.imgur.com/wKCqVTl.png', width: 1400 },
-          { src: 'https://i.imgur.com/wKCqVTl.png', width: 1400 },
-          { src: 'https://i.imgur.com/wKCqVTl.png', width: 1400 }
+          { src: imgCover, width: 1400},
+          ...images.map((image) => {
+            return { src: image, width: 1400 };
+          })
         ]}
       />
     </>
