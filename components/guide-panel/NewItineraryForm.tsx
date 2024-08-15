@@ -24,6 +24,7 @@ import { createInterestPoint } from '@/actions/createInterestPoint';
 import ControlledInput from '../admin-panel/ControlledInput';
 import ControlledTextArea from '../admin-panel/ControlledTextArea';
 import ControlledSingleFileInput from '../admin-panel/ControlledSingleFileInput';
+import InterestPointPaginated from './InterestPointPaginated';
 
 const NewItineraryForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -148,18 +149,78 @@ const NewItineraryForm = () => {
                       </Button>
                     </DialogClose> */}
                   <Tabs defaultValue='account'>
-                    <TabsList className='gap-1'>
-                      <TabsTrigger value='touristpoint' className='shadow-md shadow-gray-400'>Pontos Turísticos</TabsTrigger>
-                      <TabsTrigger value='experience' className='shadow-md shadow-gray-400'>Experiências</TabsTrigger>
-                      <TabsTrigger value='hotel' className='shadow-md shadow-gray-400'>Hóteis</TabsTrigger>
-                      <TabsTrigger value='restaurant' className='shadow-md shadow-gray-400'>Restaurantes</TabsTrigger>
-                      <TabsTrigger value='event' className='shadow-md shadow-gray-400'>Eventos</TabsTrigger>
+                    <TabsList className='gap-2 w-fit'>
+                      <TabsTrigger value='touristpoint' className='shadow-md shadow-gray-400'>
+                        Pontos Turísticos
+                      </TabsTrigger>
+                      <TabsTrigger value='experience' className='shadow-md shadow-gray-400'>
+                        Experiências
+                      </TabsTrigger>
+                      <TabsTrigger value='hotel' className='shadow-md shadow-gray-400'>
+                        Hóteis
+                      </TabsTrigger>
+                      <TabsTrigger value='restaurant' className='shadow-md shadow-gray-400'>
+                        Restaurantes
+                      </TabsTrigger>
+                      <TabsTrigger value='event' className='shadow-md shadow-gray-400'>
+                        Eventos
+                      </TabsTrigger>
                     </TabsList>
-                    <TabsContent value='touristpoint'>tourist point</TabsContent>
-                    <TabsContent value='experience'>experience.</TabsContent>
-                    <TabsContent value='hotel'>hotel</TabsContent>
-                    <TabsContent value='restaurant'>restaurant.</TabsContent>
-                    <TabsContent value='event'>event.</TabsContent>
+                    <TabsContent value='touristpoint'>
+                      <InterestPointPaginated
+                        type='touristpoint'
+                        addInterestPoint={(id: number) => {
+                          form.setValue('interestPointIds', [
+                            ...form.getValues().interestPointIds,
+                            id
+                          ]);
+                        }}
+                      />
+                    </TabsContent>
+                    <TabsContent value='experience'>
+                      <InterestPointPaginated
+                        type='experience'
+                        addInterestPoint={(id: number) => {
+                          form.setValue('interestPointIds', [
+                            ...form.getValues().interestPointIds,
+                            id
+                          ]);
+                        }}
+                      />
+                    </TabsContent>
+                    <TabsContent value='hotel'>
+                      <InterestPointPaginated
+                        type='hotel'
+                        addInterestPoint={(id: number) => {
+                          form.setValue('interestPointIds', [
+                            ...form.getValues().interestPointIds,
+                            id
+                          ]);
+                        }}
+                      />
+                    </TabsContent>
+                    <TabsContent value='restaurant'>
+                      <InterestPointPaginated
+                        type='restaurant'
+                        addInterestPoint={(id: number) => {
+                          form.setValue('interestPointIds', [
+                            ...form.getValues().interestPointIds,
+                            id
+                          ]);
+                        }}
+                      />
+                    </TabsContent>
+                    <TabsContent value='event'>
+                      <InterestPointPaginated
+                        type='event'
+                        addInterestPoint={(id: number) => {
+                          form.setValue('interestPointIds', [
+                            ...form.getValues().interestPointIds,
+                            id
+                          ]);
+                        }}
+                      />
+                    </TabsContent>
                   </Tabs>
                   <DialogFooter>
                     <DialogClose asChild>
