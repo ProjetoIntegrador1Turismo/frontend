@@ -21,7 +21,7 @@ export const RegisterGuideSchema = z.object({
     message: 'Insira um e-mail válido!'
   }),
   password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }),
-  name: z.string().min(1, { message: 'Nome é obrigatório!' }),
+  name: z.string().min(1, { message: 'Nome é obrigatório!' }).regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
   cadastur: z.string().min(1, { message: 'Cadastur é obrigatório para o cadastro de guia!' })
 });
 
