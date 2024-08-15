@@ -128,50 +128,50 @@ export const InterestPointFormSchema = z.discriminatedUnion('type', [
 ]);
 
 export const EventEditSchema = EventSchema.extend({
-  images: z.array(z.any()).min(1, 'É preciso no minimo 5 imagens.').optional(),
+  images: z.array(z.any()).min(5, 'É preciso no minimo 5 imagens.').optional(),
   imgCover: z
     .any()
     .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
+      (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.'
     )
-    .refine((files) => files?.[0]?.size <= 2 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+    .refine((file) => file?.size <= 3 * 1024 * 1024, `Tamanho máximo da imagem é 3mb`)
     .optional()
 });
 
 export const ExperienceEditSchema = ExperienceSchema.extend({
-  images: z.array(z.any()).min(1, 'É preciso no minimo 5 imagens.').optional(),
+  images: z.array(z.any()).min(5, 'É preciso no minimo 5 imagens.').optional(),
   imgCover: z
     .any()
     .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
+      (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.'
     )
-    .refine((files) => files?.[0]?.size <= 2 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+    .refine((file) => file?.size <= 3 * 1024 * 1024, `Tamanho máximo da imagem é 3mb`)
     .optional()
 });
 
 export const HotelEditSchema = HotelSchema.extend({
-  images: z.array(z.any()).min(1, 'É preciso no minimo 5 imagens.').optional(),
+  images: z.array(z.any()).min(5, 'É preciso no minimo 5 imagens.').optional(),
   imgCover: z
     .any()
     .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
+      (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.'
     )
-    .refine((files) => files?.[0]?.size <= 2 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+    .refine((file) => file?.size <= 3 * 1024 * 1024, `Tamanho máximo da imagem é 3mb`)
     .optional()
 });
 
 export const RestaurantEditSchema = RestaurantSchema.extend({
-  images: z.array(z.any()).min(1, 'É preciso no minimo 5 imagens').optional(),
+  images: z.array(z.any()).min(5, 'É preciso no minimo 5 imagens').optional(),
   imgCover: z
     .any()
     .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
+      (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.'
     )
-    .refine((files) => files?.[0]?.size <= 2 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+    .refine((file) => file?.size <= 3 * 1024 * 1024, `Tamanho máximo da imagem é 3mb`)
     .optional()
 });
 
@@ -180,10 +180,10 @@ export const TouristPointEditSchema = TouristPointSchema.extend({
   imgCover: z
     .any()
     .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
+      (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.'
     )
-    .refine((files) => files?.[0]?.size <= 2 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+    .refine((file) => file?.size <= 3 * 1024 * 1024, `Tamanho máximo da imagem é 3mb`)
     .optional()
 });
 

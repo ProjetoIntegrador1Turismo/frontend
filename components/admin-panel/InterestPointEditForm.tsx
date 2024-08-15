@@ -20,6 +20,7 @@ import ControlledFileInput from './ControlledFileInput';
 import { parseISO } from 'date-fns';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
+import ControlledSingleFileInput from './ControlledSingleFileInput';
 
 export interface InterestPointData {
   id: number;
@@ -217,6 +218,8 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       imgFormData.append('imgCover', imgCover);
     }
 
+    console.log(values)
+
     startTransition(() => {
       updateInterestPoint(updateValues, InterestPoint.id).then(async (data) => {
         setSuccess(data.success);
@@ -317,7 +320,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
                 label='Imagens'
                 name='images'
               />
-              <ControlledFileInput
+              <ControlledSingleFileInput
                 control={form.control}
                 disabled={isPending}
                 label='Imagem de Capa'
