@@ -4,6 +4,7 @@ import { HomePageData } from '@/lib/interfaces';
 import {
   InterestPointEditFormSchema,
   InterestPointFormSchema,
+  NewItineraryFormSchema,
   RegisterGuideSchema,
   RegisterSchema,
   UpdateProfileSchema
@@ -201,4 +202,18 @@ export async function RegisterGuide({
   });
 
   return response.status === 200;
+}
+
+export const ItineraryCreate = async (values: z.infer<typeof NewItineraryFormSchema>) => {
+  const { interestPointIds, ...rest} = values
+  const response = await axios.post('http://localhost:8081/itinerary', {
+    interestPointsId: interestPointIds,
+    ...rest
+  }, {
+    headers: {
+      Authorization: `Bearer ${await getAuthToken()}`
+    }
+  })
+
+  return {ok: response.status === 200, id: response.data.id};
 }
