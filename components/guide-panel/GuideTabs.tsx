@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Itineraries from './Itineraries';
+import Itineraries from './ItinerariesPaginated';
 import NewItineraryForm from './NewItineraryForm';
 import InterestedTourists from './InterestedTourists';
 
@@ -23,7 +23,6 @@ export async function GuideTabs() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value='itineraries'>
-        <Itineraries />
       </TabsContent>
       <TabsContent value='newItinerary'>
         <NewItineraryForm />
