@@ -26,7 +26,7 @@ const InterestedTourists: React.FC = () => {
         },
         {
           id: 2,
-          name: 'Calvo do karaio',
+          name: 'Calvo de cria',
           contact: 'calvoo@docs.com',
           itineraryInterest: 'Rio de Janeiro: 5 dias'
         }
@@ -48,42 +48,44 @@ const InterestedTourists: React.FC = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className='text-3xl font-bold'>Turistas interessados</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <table className='w-full border-collapse'>
-          <thead>
-            <tr className='bg-gray-100'>
-              <th className='border p-2'>Nome</th>
-              <th className='border p-2'>Contato</th>
-              <th className='border p-2'>Roteiro de Interesse</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((tourist) => (
-              <tr key={tourist.id} className='even:bg-gray-50'>
-                <td className='border p-2'>{tourist.name}</td>
-                <td className='border p-2'>{tourist.contact}</td>
-                <td className='border p-2'>{tourist.itineraryInterest}</td>
+    <div className='h-[75vh]'>
+      <Card>
+        <CardHeader>
+          <CardTitle className='text-3xl font-bold'>Turistas interessados</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <table className='w-full border-collapse'>
+            <thead>
+              <tr className='bg-gray-100'>
+                <th className='border p-2'>Nome</th>
+                <th className='border p-2'>Contato</th>
+                <th className='border p-2'>Roteiro de Interesse</th>
               </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((tourist) => (
+                <tr key={tourist.id} className='even:bg-gray-50'>
+                  <td className='border p-2'>{tourist.name}</td>
+                  <td className='border p-2'>{tourist.contact}</td>
+                  <td className='border p-2'>{tourist.itineraryInterest}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className='flex justify-center mt-4'>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`px-3 py-1 mx-1 rounded-full ${currentPage === i + 1 ? 'bg-gray-400' : 'bg-gray-200'}`}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </button>
             ))}
-          </tbody>
-        </table>
-        <div className='flex justify-center mt-4'>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              className={`px-3 py-1 mx-1 rounded-full ${currentPage === i + 1 ? 'bg-gray-400' : 'bg-gray-200'}`}
-              onClick={() => handlePageChange(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
