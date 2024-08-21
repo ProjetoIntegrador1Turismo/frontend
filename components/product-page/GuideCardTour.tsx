@@ -3,7 +3,7 @@ import InterestButton from './InterestButton';
 import Rating from '../home-page/Rating';
 import Image from 'next/image';
 
-const GuideCardTour = ({ guide }: GuideCardProps) => {
+const GuideCardTour = ({ guide }: { guide: any}) => {
   return (
     <div className='grid grid-cols-[70px_1fr_1fr_1fr_270px] gap-4 items-center border-black border p-2 rounded-full min-w-[950px] max-w-[950px] max-h-[85px] shadow-lg shadow-gray-400'>
       <Image

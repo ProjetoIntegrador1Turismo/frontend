@@ -2,8 +2,8 @@ import { NavBarButtonProps } from './interfaces';
 
 export const NavBarButtons: NavBarButtonProps[] = [
   {
-    buttonText: 'Passeios',
-    href: '#'
+    buttonText: 'Pontos Turísticos',
+    href: '/categories/touristpoint'
   },
   {
     buttonText: 'Roteiros',
@@ -11,18 +11,18 @@ export const NavBarButtons: NavBarButtonProps[] = [
   },
   {
     buttonText: 'Hotéis',
-    href: '#'
+    href: '/categories/hotel'
   },
   {
     buttonText: 'Experiências',
-    href: '#'
+    href: '/categories/experience'
   },
   {
     buttonText: 'Restaurantes',
-    href: '#'
+    href: '/categories/restaurant'
   },
   {
     buttonText: 'Eventos',
-    href: '#'
+    href: '/categories/event'
   }
 ];

@@ -59,7 +59,7 @@ export const mockGuides: GuideCardInfo[] = [
   {
     img: '/avatar.jpg',
     name: 'Lua Santos',
-    rating: 1,
+    rating: 2,
     trips: 882
   },
   {

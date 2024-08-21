@@ -4,6 +4,7 @@ import { HomePageData } from '@/lib/interfaces';
 import {
   InterestPointEditFormSchema,
   InterestPointFormSchema,
+  NewItineraryFormSchema,
   RegisterGuideSchema,
   RegisterSchema,
   UpdateProfileSchema
@@ -12,7 +13,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import * as z from 'zod';
 
-const getAuthToken = async () => {
+export const getAuthToken = async () => {
   const session = await auth();
   return session?.user.authToken;
 };
@@ -56,66 +57,70 @@ export async function updateUser({ name, password, email }: z.infer<typeof Updat
 }
 
 export async function interestPointCreate(values: z.infer<typeof InterestPointFormSchema>) {
-  const baseData = {
-    averageValue: values.averageValue,
-    name: values.name,
-    shortDescription: values.shortDescription,
-    interestPointType: values.type,
-    address: {
-      zipCode: values.zipcode,
-      road: values.road,
-      number: values.number
-    }
-  };
+  try {
+    const baseData = {
+      averageValue: values.averageValue,
+      name: values.name,
+      shortDescription: values.shortDescription,
+      interestPointType: values.type,
+      address: {
+        zipCode: values.zipcode,
+        road: values.road,
+        number: values.number
+      }
+    };
 
-  let extraData: Record<string, any> = {};
-  switch (values.type) {
-    case 'EVENT':
-      extraData = {
-        date: values.date,
-        longDescription: values.longDescription,
-        duration: values.duration
-      };
-      break;
-    case 'HOTEL':
-      extraData = {
-        breakfastIncluded: values.breakfastIncluded,
-        isResort: values.isResort,
-        starsNumber: values.starsNumber
-      };
-      break;
-    case 'EXPERIENCE':
-      extraData = {
-        requiredAge: values.requiredAge,
-        longDescription: values.longDescription,
-        duration: values.duration
-      };
-      break;
-    case 'RESTAURANT':
-      extraData = {
-        foodType: values.foodType
-      };
-      break;
-    case 'TOURIST_POINT':
-      extraData = {
-        longDescription: values.longDescription,
-        duration: values.duration
-      };
-      break;
-    default:
-      return false;
+    let extraData: Record<string, any> = {};
+    switch (values.type) {
+      case 'EVENT':
+        extraData = {
+          date: values.date,
+          longDescription: values.longDescription,
+          duration: values.duration
+        };
+        break;
+      case 'HOTEL':
+        extraData = {
+          breakfastIncluded: values.breakfastIncluded,
+          isResort: values.isResort,
+          starsNumber: values.starsNumber
+        };
+        break;
+      case 'EXPERIENCE':
+        extraData = {
+          requiredAge: values.requiredAge,
+          longDescription: values.longDescription,
+          duration: values.duration
+        };
+        break;
+      case 'RESTAURANT':
+        extraData = {
+          foodType: values.foodType
+        };
+        break;
+      case 'TOURIST_POINT':
+        extraData = {
+          longDescription: values.longDescription,
+          duration: values.duration
+        };
+        break;
+      default:
+        return false;
+    }
+
+    const data = { ...baseData, ...extraData };
+
+    const response = await axios.post('http://localhost:8081/interestpoint', data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
+    });
+
+    return response.status === 200;
+  } catch (error) {
+    return false
   }
-
-  const data = { ...baseData, ...extraData };
-
-  const response = await axios.post('http://localhost:8081/interestpoint', data, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${await getAuthToken()}`
-    }
-  });
-
-  return response.status === 200;
 }
 
 export async function interestPointUpdate(
@@ -197,4 +202,18 @@ export async function RegisterGuide({
   });
 
   return response.status === 200;
+}
+
+export const ItineraryCreate = async (values: z.infer<typeof NewItineraryFormSchema>) => {
+  const { interestPointIds, ...rest} = values
+  const response = await axios.post('http://localhost:8081/itinerary', {
+    interestPointsId: interestPointIds,
+    ...rest
+  }, {
+    headers: {
+      Authorization: `Bearer ${await getAuthToken()}`
+    }
+  })
+
+  return {ok: response.status === 200, id: response.data.id};
 }

@@ -11,7 +11,7 @@ import { TourDescriptionProps } from '@/lib/interfaces';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 
-export function DescriptionDialog({ description }: TourDescriptionProps) {
+export function DescriptionDialog({ longDescription }: { longDescription: string}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -26,7 +26,7 @@ export function DescriptionDialog({ description }: TourDescriptionProps) {
           </DialogTitle>
         </DialogHeader>
         <div>
-          <p className='text-xl font-light whitespace-pre-wrap'>{description}</p>
+          <p className='text-xl font-light whitespace-pre-wrap'>{longDescription}</p>
         </div>
         <DialogFooter>
           <DialogClose asChild>

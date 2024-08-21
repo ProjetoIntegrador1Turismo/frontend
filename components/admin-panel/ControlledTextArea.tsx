@@ -3,8 +3,8 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/
 import { Textarea } from '../ui/textarea';
 
 interface ControlledTextAreaProps {
-  control: any;
-  name: 'shortDescription' | 'longDescription';
+  control: any; 
+  name: 'shortDescription' | 'longDescription' | 'description';
   label: string;
   placeholder: string;
   disabled?: boolean;

@@ -12,6 +12,7 @@ export interface NavBarButtonsContainerProps {
 export interface SliderCardProps {
   image: string;
   title: string;
+  id: number;
 }
 
 export interface HomeSliderProps {
@@ -56,11 +57,12 @@ export interface TourTitleProps {
 }
 
 export interface TourPriceProps {
-  price: 1 | 2 | 3;
+  price: number;
 }
 
 export interface TourDescriptionProps {
-  description: string;
+  longDescription: string;
+  shortDescription: string;
 }
 
 export interface HeaderProps {

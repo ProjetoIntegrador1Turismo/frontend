@@ -17,7 +17,7 @@ const TourPrice = ({ price }: TourPriceProps) => {
     case 3:
       return <p className='tracking-[10px] text-xl select-none'>$ $ $</p>;
     default:
-      break;
+      return null;
   }
 };
 

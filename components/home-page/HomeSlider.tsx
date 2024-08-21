@@ -20,7 +20,7 @@ const HomeSlider = ({ slides }: {slides: FirstSlider[]}) => {
       <CarouselContent>
         {slides.map((tour, index) => (
           <CarouselItem key={index} className='md:basis-1/3 lg:basis-1/6 sm:basis-1/2'>
-            <SliderCard image={tour.imageCoverUrl} title={tour.name} />
+            <SliderCard image={tour.imageCoverUrl} title={tour.name} id={tour.id} />
           </CarouselItem>
         ))}
       </CarouselContent>

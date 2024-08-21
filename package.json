@@ -35,8 +35,10 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "react-hook-form": "^7.51.2",
+    "react-spinners": "^0.14.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
+    "use-debounce": "^10.0.2",
     "yet-another-react-lightbox": "^3.20.0",
     "zod": "^3.22.4"
   },

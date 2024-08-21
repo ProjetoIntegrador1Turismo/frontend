@@ -174,85 +174,87 @@ const InterestPointForm = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Criação de Pontos de interesse</CardTitle>
-        <CardDescription>Insira os dados e crie um ponto de interesse.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmitCreateInterestPoint)}
-            className='flex flex-col gap-4'
-          >
-            <div className='flex gap-4'>
-              <div className='space-y-2'>
-                <ControlledInput
-                  control={form.control}
-                  disabled={isPending}
-                  label='Nome'
-                  name='name'
-                  type='text'
-                />
-                <ControlledInput
-                  control={form.control}
-                  label='Preço'
-                  name='averageValue'
-                  type='number'
-                  min={1}
-                  max={3}
-                />
-                <InterestPointTypes control={form.control} />
+    <div className='h-[75vh]'>
+      <Card>
+        <CardHeader>
+          <CardTitle>Criação de Pontos de interesse</CardTitle>
+          <CardDescription>Insira os dados e crie um ponto de interesse.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmitCreateInterestPoint)}
+              className='flex flex-col gap-4'
+            >
+              <div className='flex gap-4'>
+                <div className='space-y-2'>
+                  <ControlledInput
+                    control={form.control}
+                    disabled={isPending}
+                    label='Nome'
+                    name='name'
+                    type='text'
+                  />
+                  <ControlledInput
+                    control={form.control}
+                    label='Preço'
+                    name='averageValue'
+                    type='number'
+                    min={1}
+                    max={3}
+                  />
+                  <InterestPointTypes control={form.control} />
+                </div>
+                <div className='space-y-2'>
+                  <ControlledInput
+                    control={form.control}
+                    disabled={isPending}
+                    label='Rua'
+                    name='road'
+                    type='text'
+                  />
+                  <ControlledInput
+                    control={form.control}
+                    label='Número'
+                    name='number'
+                    type='number'
+                  />
+                  <ControlledInput
+                    control={form.control}
+                    disabled={isPending}
+                    label='CEP'
+                    name='zipcode'
+                    type='text'
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <ControlledTextArea
+                    control={form.control}
+                    disabled={isPending}
+                    label='Descrição Curta'
+                    placeholder='Escreva uma descrição curta!'
+                    name='shortDescription'
+                    className='resize-none shadow-md shadow-gray-400 border border-black h-[200px]'
+                  />
+                </div>
               </div>
-              <div className='space-y-2'>
-                <ControlledInput
-                  control={form.control}
+              {renderOptionalFields()}
+              <div className='flex gap-3'>
+                <Button
                   disabled={isPending}
-                  label='Rua'
-                  name='road'
-                  type='text'
-                />
-                <ControlledInput
-                  control={form.control}
-                  label='Número'
-                  name='number'
-                  type='number'
-                />
-                <ControlledInput
-                  control={form.control}
-                  disabled={isPending}
-                  label='CEP'
-                  name='zipcode'
-                  type='text'
-                />
+                  className='bg-gradient-to-r from-tl-red to-tl-purple w-fit'
+                  type='submit'
+                >
+                  Cadastrar
+                </Button>
+                <FormError message={error} />
+                <FormSucess message={success} />
               </div>
-              <div className='space-y-2'>
-                <ControlledTextArea
-                  control={form.control}
-                  disabled={isPending}
-                  label='Descrição Curta'
-                  placeholder='Escreva uma descrição curta!'
-                  name='shortDescription'
-                  className='resize-none shadow-md shadow-gray-400 border border-black h-[200px]'
-                />
-              </div>
-            </div>
-            {renderOptionalFields()}
-            <div className='flex gap-3'>
-              <Button
-                disabled={isPending}
-                className='bg-gradient-to-r from-tl-red to-tl-purple w-fit'
-                type='submit'
-              >
-                Cadastrar
-              </Button>
-              <FormError message={error} />
-              <FormSucess message={success} />
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
