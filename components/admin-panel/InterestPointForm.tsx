@@ -174,7 +174,7 @@ const InterestPointForm = () => {
   };
 
   return (
-    <div className='h-[75vh]'>
+    <div className='min-h-[75vh] h-fit'>
       <Card>
         <CardHeader>
           <CardTitle>Criação de Pontos de interesse</CardTitle>
