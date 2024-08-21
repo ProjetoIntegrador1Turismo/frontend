@@ -34,7 +34,7 @@ const ProfileInfo = () => {
   const form = useForm<z.infer<typeof UpdateProfileSchema>>({
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
-      name: data?.user.firstName, //+ ' ' + data?.user.lastName,
+      name: data?.user.firstName + ' ' + data?.user.lastName,
       email: data?.user.email
     }
   });
