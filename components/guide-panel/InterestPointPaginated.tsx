@@ -65,7 +65,6 @@ const InterestPointPaginated: React.FC<InterestPointsPageProps> = ({ type, title
 
   useEffect(() => {
     if (data) {
-      console.log('Data from API:', data);
       setFilteredInterestPoints(
         data.filter((point) => point.name.toLowerCase().includes(searchTerm.toLowerCase()))
       );
@@ -96,7 +95,7 @@ const InterestPointPaginated: React.FC<InterestPointsPageProps> = ({ type, title
       </CardHeader>
       <CardContent>
         <div className='mb-4'>
-          <SearchBar value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+          <SearchBar value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1)}} />
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
           {currentItems.map((point) => (

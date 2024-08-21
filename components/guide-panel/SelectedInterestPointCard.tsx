@@ -24,7 +24,7 @@ const SelectedInterestPointCard = ({
 
   if (isLoading){
     <div className='h-[150px] w-[300px] flex justify-center items-center'>
-      <ClipLoader />
+      <ClipLoader color='black' />
     </div>
   }
 

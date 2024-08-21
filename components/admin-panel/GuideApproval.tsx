@@ -17,6 +17,7 @@ import { Guide } from '@/lib/interfaces';
 import { Button } from '../ui/button';
 import { Check, CircleXIcon } from 'lucide-react';
 import { useToast } from '../ui/use-toast';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 interface QueryReturn {
   data: Guide[];
@@ -76,7 +77,12 @@ const GuideApproval = () => {
     }
   });
 
-  if (isLoading) return <p className='break-words max-w-[500px]'>loading...</p>;
+  if (isLoading)
+    return (
+      <div className='min-h-[75vh] h-fit mb-3 w-[667px] flex items-center justify-center'>
+        <ClipLoader color='black' />
+      </div>
+    );
   if (error)
     return (
       <p className='break-words max-w-[500px]'>
@@ -85,7 +91,7 @@ const GuideApproval = () => {
     );
 
   return (
-    <div className='h-[75vh]'>
+    <div className='min-h-[75vh] h-fit mb-3'>
       <Card className='w-[667px]'>
         <CardHeader>
           <CardTitle>Aprovar cadastro de guias de turismo</CardTitle>

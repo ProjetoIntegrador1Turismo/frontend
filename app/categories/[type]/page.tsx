@@ -13,7 +13,8 @@ const apiTypeMap: Record<string, string> = {
   experience: 'experiences',
   touristpoint: 'tourist-points',
   hotel: 'hotels',
-  restaurant: 'restaurants'
+  restaurant: 'restaurants',
+  itinerary: 'itineraries'
 };
 
 const headerTypeMap: Record<string, string> = {
@@ -21,7 +22,8 @@ const headerTypeMap: Record<string, string> = {
   experience: 'Experiências',
   touristpoint: 'Pontos Turísticos',
   hotel: 'Hóteis',
-  restaurant: 'Restaurantes'
+  restaurant: 'Restaurantes',
+  itinerary: 'Roteiros'
 };
 
 export default async function CategoryPage({
@@ -43,7 +45,7 @@ export default async function CategoryPage({
       ? Number(searchParams['page']) + 1
       : Number(searchParams['page']) - 1
     : 0;
-  const size = 10; // Size is fixed at 5
+  const size = 10;
 
   const { data: InterestPointData } = await axios.get(
     `http://localhost:8081/paginated/${apiTypeMap[validatedParam.data]}?page=${page}&size=${size}&query=${query}`,
@@ -68,29 +70,17 @@ export default async function CategoryPage({
         </div>
         <SearchBar route={validatedParam.data} />
       </div>
-      <div className='flex-grow flex flex-col gap-4 items-center'>
-        <div className='flex gap-4'>
-          {content.slice(0, size / 2).map((item: any) => (
+      <div className='grid grid-cols-5 grid-rows-2 gap-4'>
+          {content.map((item: any) => (
             <InterestPointCard
+              type={validatedParam.data === 'itinerary' ? 'itinerary' : 'tour'}
               id={item.id}
               key={item.id}
-              name={item.name}
+              name={validatedParam.data === 'itinerary' ? item.title : item.name}
               imageCoverUrl={item.imageCoverUrl}
               shortDescription={item.shortDescription}
             />
           ))}
-        </div>
-        <div className='flex gap-4'>
-          {content.slice(size / 2, content.length).map((item: any) => (
-            <InterestPointCard
-              id={item.id}
-              key={item.id}
-              name={item.name}
-              imageCoverUrl={item.imageCoverUrl}
-              shortDescription={item.shortDescription}
-            />
-          ))}
-        </div>
       </div>
       <div className='self-end'>
         <PaginationControls

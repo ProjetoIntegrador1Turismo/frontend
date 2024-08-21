@@ -96,9 +96,15 @@ const NewItineraryForm = () => {
       });
     });
   };
+  // por alguma razao se tira essa linha nao funciona?
+  form.watch();
+  // que codigo lixo...
+  // bom, funciona!
+  // nao consigo entender pq funciona
+  // n vou mais perder tempo nesse lixo
 
   return (
-    <div className={`${form.getValues().interestPointIds.length > 0 ? 'h-fit' : 'h-[80vh]'}`}>
+    <div className='min-h-[80vh] h-fit mb-3'>
       <Card>
         <CardHeader>
           <CardTitle>Criação de Roteiros</CardTitle>
@@ -184,6 +190,7 @@ const NewItineraryForm = () => {
                           }}
                           variant='destructive'
                           disabled={isPending}
+                          type='button'
                         >
                           remover
                         </Button>
@@ -245,9 +252,7 @@ const NewItineraryForm = () => {
                   </Tabs>
                   <DialogFooter>
                     <DialogClose asChild>
-                      <Button type='submit' variant='destructive'>
-                        Fechar
-                      </Button>
+                      <Button variant='destructive'>Fechar</Button>
                     </DialogClose>
                   </DialogFooter>
                 </DialogContent>

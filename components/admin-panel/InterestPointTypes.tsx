@@ -21,7 +21,7 @@ const InterestPointTypes = ({ control, disabled }: InterestPointTypesProps) => {
       render={({ field }) => (
         <FormItem>
           <FormLabel>Tipo</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
+          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled} required>
             <FormControl>
               <SelectTrigger className='shadow-md shadow-gray-400 border border-black w-full'>
                 <SelectValue placeholder='Selecione um tipo' />

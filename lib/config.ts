@@ -7,7 +7,7 @@ export const NavBarButtons: NavBarButtonProps[] = [
   },
   {
     buttonText: 'Roteiros',
-    href: '#'
+    href: '/categories/itinerary'
   },
   {
     buttonText: 'Hotéis',

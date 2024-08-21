@@ -30,7 +30,8 @@ export const CategoriesParams = z.union([
   z.literal('experience'),
   z.literal('touristpoint'),
   z.literal('hotel'),
-  z.literal('restaurant')
+  z.literal('restaurant'),
+  z.literal('itinerary')
 ]);
 
 export const UpdateProfileSchema = z.object({
