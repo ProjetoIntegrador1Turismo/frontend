@@ -91,7 +91,7 @@ const NewItineraryForm = () => {
         }
 
         if (data.success) {
-          router.refresh();
+          router.push('/guide');
         }
       });
     });
@@ -101,7 +101,6 @@ const NewItineraryForm = () => {
     <div className={`${form.getValues().interestPointIds.length > 0 ? 'h-fit' : 'h-[80vh]'}`}>
       <Card>
         <CardHeader>
-          <pre>{JSON.stringify(form.watch(), null, 2)}</pre>
           <CardTitle>Criação de Roteiros</CardTitle>
           <CardDescription>Insira os dados e crie um novo roteiro.</CardDescription>
         </CardHeader>
