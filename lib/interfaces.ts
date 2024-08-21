@@ -12,6 +12,7 @@ export interface NavBarButtonsContainerProps {
 export interface SliderCardProps {
   image: string;
   title: string;
+  id: number;
 }
 
 export interface HomeSliderProps {
