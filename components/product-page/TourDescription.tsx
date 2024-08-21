@@ -13,3 +13,5 @@ const TourDescription = ({ description }: { description: string | null }) => {
     </div>
   );
 };
+
+export default TourDescription;
