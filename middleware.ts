@@ -9,6 +9,8 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isTourRoute = nextUrl.pathname.toLowerCase().includes('tour/');
   const isAdminRoute = nextUrl.pathname.toLowerCase().includes('admin');
+  const isGuidePanel = nextUrl.pathname.toLowerCase().includes('guide');
+
   let userType = '';
 
   if (req.auth) {
@@ -35,6 +37,10 @@ export default auth((req) => {
   }
 
   if (isAdminRoute && userType !== 'Admin' ) {
+    return Response.redirect(new URL('/', nextUrl));
+  }
+
+  if (isGuidePanel && userType !== 'Guide' && userType !== 'Admin') {
     return Response.redirect(new URL('/', nextUrl));
   }
 
