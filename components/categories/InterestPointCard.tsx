@@ -2,9 +2,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-const InterestPointCard = ({id, imageCoverUrl, shortDescription, name}: {id: number, imageCoverUrl: string, shortDescription: string, name: string}) => {
+const InterestPointCard = ({
+  id,
+  imageCoverUrl,
+  name,
+  type
+}: {
+  id: number;
+  imageCoverUrl: string;
+  shortDescription: string;
+  name: string;
+  type: 'tour' | 'itinerary';
+}) => {
   return (
-    <Link href={`/tour/${id}`}>
+    <Link href={`/${type}/${id}`}>
       <div className='w-[300px]'>
         <Image
           className='w-[300px] h-[200px] rounded-t-xl object-cover'
