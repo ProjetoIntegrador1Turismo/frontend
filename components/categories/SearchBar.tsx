@@ -8,7 +8,11 @@ import { useDebounce } from 'use-debounce';
 import { XIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 
-const SearchBar = ({route} : {route: "event" | "experience" | "touristpoint" | "hotel" | "restaurant"}) => {
+const SearchBar = ({
+  route
+}: {
+  route: 'event' | 'experience' | 'touristpoint' | 'hotel' | 'restaurant' | 'itinerary';
+}) => {
   const [text, setText] = useState('');
   const router = useRouter();
   const [query] = useDebounce(text, 500);
@@ -33,7 +37,14 @@ const SearchBar = ({route} : {route: "event" | "experience" | "touristpoint" | "
         }}
         placeholder='Pesquise aqui'
       />
-      <Button variant='outline' onClick={() => {setText('')}} disabled={text === ''} size='sm'>
+      <Button
+        variant='outline'
+        onClick={() => {
+          setText('');
+        }}
+        disabled={text === ''}
+        size='sm'
+      >
         <XIcon color='red' />
       </Button>
     </div>
