@@ -9,7 +9,9 @@ const Navbar = () => {
   return (
     <>
       <div className={styles.NavbarContainer}>
-        <Link href='/'>Logo</Link>
+        <Link href='/'>
+          <img src='/tl.png' className='w-[96px] h-[60px]'/>
+        </Link>
         <NavbarButtonsContainer buttons={NavBarButtons} />
         <AuthArea />
       </div>
