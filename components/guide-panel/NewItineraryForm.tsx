@@ -181,7 +181,7 @@ const NewItineraryForm = () => {
                       <div className='flex gap-3 w-fit items-center'>
                         <SelectedInterestPointCard id={number} />
                         <Button
-                          className='shadow-md shadow-gray-400'
+                          className='shadow-md shadow-gray-400 font-bold'
                           onClick={() => {
                             form.setValue(
                               'interestPointIds',
@@ -192,7 +192,7 @@ const NewItineraryForm = () => {
                           disabled={isPending}
                           type='button'
                         >
-                          remover
+                          Remover
                         </Button>
                       </div>
                     );
