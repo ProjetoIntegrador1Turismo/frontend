@@ -3,6 +3,8 @@ import Itineraries from './ItinerariesPaginated';
 import NewItineraryForm from './NewItineraryForm';
 import InterestedTourists from './InterestedTourists';
 import { getAuthToken } from '@/api/service';
+import ItinerariesPaginated from './ItinerariesPaginated';
+import MyItineraries from './MyItineraries';
 
 export async function GuideTabs() {
   return (
@@ -24,8 +26,7 @@ export async function GuideTabs() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value='itineraries'>
-        <div className='h-[85vh]'>
-        </div>
+        <MyItineraries />
       </TabsContent>
       <TabsContent value='newItinerary'>
         <NewItineraryForm />
