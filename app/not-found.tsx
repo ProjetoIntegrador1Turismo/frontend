@@ -11,7 +11,7 @@ const NotFound = () => {
         estamos aqui para ajudar a encontrar o caminho de volta!
       </p>
       <img
-        src='/images/lost-traveler.svg' // Certifique-se de ter uma imagem relacionada ao tema ou substitua por outra URL
+        src='/404.svg'
         alt='Viajante Perdido'
         className='w-64 h-64 mt-6'
       />
