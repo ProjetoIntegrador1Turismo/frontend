@@ -15,18 +15,20 @@ const ItineraryCard = ({
   return (
     <Link href={`/itinerary/${id}`}>
       <div className='w-[200px]'>
-        <Image
-          className='w-[200px] h-[100px] rounded-t-xl object-cover'
-          src={imageCoverUrl}
-          alt={name}
-          width={300}
-          height={300}
-        />
-        <div className='bg-gradient-to-r from-tl-red to-tl-purple h-fit rounded-b-xl flex items-center justify-around'>
-          <h1 className='text-white text-md font-bold p-3 truncate max-w-[19g0px]'>{name}</h1>
+        {imageCoverUrl ? (
+          <Image
+            className='w-[200px] h-[100px] rounded-t-xl object-cover'
+            src={imageCoverUrl}
+            alt={name}
+            width={300}
+            height={300}
+          />
+        ) : null}
+        <div className='bg-gradient-to-r from-tl-red to-tl-purple h-fit rounded-b-xl flex items-center justify-between'>
+          <h1 className='text-white text-md font-bold p-3 truncate'>{name}</h1>
           <Link
             href={`/guide/itinerary/edit/${id}`}
-            className=' rounded-md p-1 px-2 transition-colors hover:bg-accent hover:text-accent-foreground text-white'
+            className=' rounded-md p-1 px-2 transition-colors hover:bg-accent hover:text-accent-foreground text-white mr-2'
           >
             ✎
           </Link>
