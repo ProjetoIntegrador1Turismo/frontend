@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import InterestPointPaginatedCard from './InterestPointPaginatedCard';
 import { DialogClose } from '@/components/ui/dialog';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 interface InterestPoint {
   id: number;
@@ -42,13 +43,17 @@ const apiTypeMap: Record<string, string> = {
   restaurant: 'restaurant'
 };
 
-const InterestPointPaginated: React.FC<InterestPointsPageProps> = ({ type, title, addInterestPoint }) => {
+const InterestPointPaginated: React.FC<InterestPointsPageProps> = ({
+  type,
+  title,
+  addInterestPoint
+}) => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState<InterestPoint[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 8;
   const { data: sessionData } = useSession();
-  
+
   const { data, error, isLoading } = useQuery<InterestPoint[], Error>({
     queryKey: ['interestPoints', type],
     queryFn: async () => {
@@ -71,7 +76,12 @@ const InterestPointPaginated: React.FC<InterestPointsPageProps> = ({ type, title
     }
   }, [searchTerm, data]);
 
-  if (isLoading) return <p>Buscando...</p>;
+  if (isLoading)
+    return (
+      <div className='min-h-[35vh] h-fit mb-3 w-[1267px] flex items-center justify-center'>
+        <ClipLoader color='black' />
+      </div>
+    );
   if (error)
     return (
       <p>
@@ -95,7 +105,13 @@ const InterestPointPaginated: React.FC<InterestPointsPageProps> = ({ type, title
       </CardHeader>
       <CardContent>
         <div className='mb-4'>
-          <SearchBar value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1)}} />
+          <SearchBar
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
           {currentItems.map((point) => (
