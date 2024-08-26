@@ -71,10 +71,8 @@ const NewItineraryForm = () => {
 
     startTransition(() => {
       createItinerary(ItineraryValues).then(async (data) => {
-        setSuccess(data.success);
-        setError(data.error);
         let imageResponse;
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+
         if (data.success && imgCover) {
           imgFormData.append('id', data.id);
           imageResponse = await axios.post(
@@ -85,6 +83,11 @@ const NewItineraryForm = () => {
             }
           );
         }
+        
+        setSuccess(data.success);
+        setError(data.error);
+
+        await new Promise((resolve) => setTimeout(resolve, 2000));
 
         if (imageResponse && imageResponse.status !== 200) {
           setError('Erro com a imagem');
@@ -130,7 +133,7 @@ const NewItineraryForm = () => {
                   disabled={isPending}
                   name='averageCost'
                   label='Custo médio'
-                  type='text'
+                  type='number'
                   className='flex-grow'
                 />
                 <ControlledInput
