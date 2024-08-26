@@ -1,4 +1,4 @@
-import { GuideCardProps } from '@/lib/interfaces';
+import { GuideCardInfo } from '@/lib/interfaces';
 import InterestButton from './InterestButton';
 import Rating from '../home-page/Rating';
 import Image from 'next/image';
@@ -25,7 +25,7 @@ const GuideCardTour = ({ guide }: { guide: any}) => {
       </div>
       <div className='flex flex-col'>
         <p className='font-light text-sm'>Viagens realizadas</p>
-        <h1 className='font-semibold text-2xl'>{guide.trips}</h1>
+        {/* <h1 className='font-semibold text-2xl'>{guide.trips}</h1> */}
       </div>
       <div className='flex justify-end items-center'>
         <InterestButton />
