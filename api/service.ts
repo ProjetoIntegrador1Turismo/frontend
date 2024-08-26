@@ -205,9 +205,25 @@ export async function RegisterGuide({
 }
 
 export const ItineraryCreate = async (values: z.infer<typeof NewItineraryFormSchema>) => {
-  const { interestPointIds, ...rest} = values
+  const { interestPointIds, averageCost,...rest} = values
   const response = await axios.post('http://localhost:8081/itinerary', {
     interestPointsId: interestPointIds,
+    mediumCost: averageCost,
+    ...rest
+  }, {
+    headers: {
+      Authorization: `Bearer ${await getAuthToken()}`
+    }
+  })
+
+  return {ok: response.status === 200, id: response.data.id};
+}
+
+export const ItineraryUpdate = async (values: z.infer<typeof NewItineraryFormSchema>, id: number) => {
+  const { interestPointIds, averageCost, ...rest} = values
+  const response = await axios.put(`http://localhost:8081/itinerary/${id}`, {
+    interestPointsId: interestPointIds,
+    mediumCost: averageCost,
     ...rest
   }, {
     headers: {
