@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import ItineraryCard from './ItineraryCard';
+import ClipLoader from 'react-spinners/ClipLoader';
+
 
 const ItinerariesPaginated = () => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState([]);
@@ -16,12 +18,12 @@ const ItinerariesPaginated = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['guideItineraries', sessionData?.user.email],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:8081/guides/itineraries`, {
+    const response = await axios.get(`http://localhost:8081/guides/itineraries`, {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
       return response.data;
     },
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: true
   });
 
   useEffect(() => {
@@ -32,13 +34,31 @@ const ItinerariesPaginated = () => {
     }
   }, [searchTerm, data]);
 
-  if (isLoading) return <p>Buscando...</p>;
+  if (isLoading)
+    return (
+      <div className='min-h-[45vh] h-fit mb-3 w-[667px] flex items-center justify-center'>
+        <ClipLoader color='black' />
+      </div>
+    );
   if (error)
     return (
       <p>
-        error <pre>{JSON.stringify(error, null, 2)}</pre>
+        error <pre className='max-w-[500px]'>{JSON.stringify(error, null, 2)}</pre>
       </p>
     );
+
+  if (data.length === 0) {
+    return (
+      <div className='w-[600px] flex items-center flex-col'>
+        <div className='w-fit flex flex-col items-center justify-center'>
+          <h1 className='text-xl font-bold bg-gradient-to-r from-tl-red to-tl-purple bg-clip-text text-transparent'>
+            Que vazio...
+          </h1>
+          <p className='text-sm'>Crie novos roteiros e verifique-os aqui!</p>
+        </div>
+      </div>
+    );
+  }
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -60,7 +80,7 @@ const ItinerariesPaginated = () => {
           }}
         />
       </div>
-      <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+      <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4'>
         {currentItems.map((point: any) => (
           <ItineraryCard id={point.id} imageCoverUrl={point.imageCoverUrl} name={point.title} />
         ))}
