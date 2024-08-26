@@ -4,6 +4,7 @@ import styles from '@/styles/main-page/MainCard.module.css';
 import Image from 'next/image';
 import { Top3InterestPoint } from '@/lib/interfaces';
 import Link from 'next/link';
+import Price from './Price';
 
 interface MainCardProps {
   tour: Top3InterestPoint;
@@ -29,7 +30,7 @@ const MainCard = ({ tour }: MainCardProps) => {
             </div>
             <div className={styles.PriceContainer}>
               <BRLIcon className={styles.BRLIcon} />
-              <p className='tracking-[6px]'>$ $ $</p>
+              <Price price={tour.averageValue} />
             </div>
           </div>
         </div>
