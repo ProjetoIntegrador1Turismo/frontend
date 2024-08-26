@@ -21,7 +21,10 @@ export const RegisterGuideSchema = z.object({
     message: 'Insira um e-mail válido!'
   }),
   password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }),
-  name: z.string().min(1, { message: 'Nome é obrigatório!' }).regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
+  name: z
+    .string()
+    .min(1, { message: 'Nome é obrigatório!' })
+    .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
   cadastur: z.string().min(1, { message: 'Cadastur é obrigatório para o cadastro de guia!' })
 });
 
@@ -43,7 +46,10 @@ export const UpdateProfileSchema = z.object({
     )
     .refine((files) => files?.[0]?.size <= 2 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
     .optional(),
-  name: z.string().min(4, { message: 'Nome é obrigatório!' }),
+  name: z
+    .string()
+    .min(1, { message: 'Nome é obrigatório!' })
+    .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
   email: z.string().email(),
   password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }).optional()
 });
@@ -65,6 +71,17 @@ export const NewItineraryFormSchema = z.object({
       required_error: 'Seu roteiro deve possuir pelo menos 1 ponto de interesse!'
     })
     .min(1, 'Seu roteiro deve possuir pelo menos 1 ponto de interesse!')
+});
+
+export const EditItineraryFormSchema = NewItineraryFormSchema.extend({
+  imgCover: z
+    .any()
+    .refine(
+      (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
+      'Only .jpg, .jpeg, .png and .webp formats are supported.'
+    )
+    .refine((file) => file?.size <= 3 * 1024 * 1024, `Tamanho máximo da imagem é 3mb`)
+    .optional()
 });
 
 const InterestPointSchema = z.object({

@@ -100,7 +100,7 @@ export interface HomePageData {
 export interface Top3InterestPoint {
   id: number
   name: string
-  averageValue: string
+  averageValue: number
   duration: any
   imageCoverUrl: string
 }

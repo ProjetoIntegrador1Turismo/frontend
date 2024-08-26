@@ -16,38 +16,40 @@ import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { NewItineraryFormSchema } from '@/schemas';
+import { EditItineraryFormSchema } from '@/schemas';
 import { FormError } from '../Auth/form-error';
 import { FormSucess } from '../Auth/form-sucess';
 import { useRouter } from 'next/navigation';
-import { createInterestPoint } from '@/actions/createInterestPoint';
 import ControlledInput from '../admin-panel/ControlledInput';
 import ControlledTextArea from '../admin-panel/ControlledTextArea';
 import ControlledSingleFileInput from '../admin-panel/ControlledSingleFileInput';
 import InterestPointPaginated from './InterestPointPaginated';
 import SelectedInterestPointCard from './SelectedInterestPointCard';
 import { useToast } from '../ui/use-toast';
-import { createItinerary } from '@/actions/createItinerary';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import { updateItinerary } from '@/actions/updateItinerary';
+import { Itinerary } from '@/app/guide/itinerary/edit/[id]/page';
 
-const NewItineraryForm = () => {
+const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();
   const { data: sessionData } = useSession();
-
+  
   const { toast } = useToast();
-
-  const form = useForm<z.infer<typeof NewItineraryFormSchema>>({
-    resolver: zodResolver(NewItineraryFormSchema),
-    shouldUnregister: true,
+  const form = useForm<z.infer<typeof EditItineraryFormSchema>>({
+    resolver: zodResolver(EditItineraryFormSchema),
     defaultValues: {
-      interestPointIds: []
+      interestPointIds: itinerary.interestPoints.map((ip) => ip.id),
+      averageCost: String(itinerary.mediumCost),
+      days: String(itinerary.days),
+      description: itinerary.description,
+      title: itinerary.title
     }
   });
-
+  
   const imgCoverRef = form.register('imgCover');
 
   const addInterestPoint = (id: number) => {
@@ -60,7 +62,7 @@ const NewItineraryForm = () => {
       : form.setValue('interestPointIds', [...form.getValues().interestPointIds, id]);
   };
 
-  const onSubmitCreateItinerary = (values: z.infer<typeof NewItineraryFormSchema>) => {
+  const onSubmitCreateItinerary = (values: z.infer<typeof EditItineraryFormSchema>) => {
     const { imgCover, ...ItineraryValues } = values;
     setSuccess('');
     setError('');
@@ -70,7 +72,7 @@ const NewItineraryForm = () => {
     }
 
     startTransition(() => {
-      createItinerary(ItineraryValues).then(async (data) => {
+      updateItinerary(ItineraryValues, itinerary.id).then(async (data) => {
         let imageResponse;
 
         if (data.success && imgCover) {
@@ -83,7 +85,7 @@ const NewItineraryForm = () => {
             }
           );
         }
-        
+
         setSuccess(data.success);
         setError(data.error);
 
@@ -107,7 +109,7 @@ const NewItineraryForm = () => {
   // n vou mais perder tempo nesse lixo
 
   return (
-    <div className='min-h-[80vh] h-fit mb-3'>
+    <div className='min-h-[80vh] h-fit mb-5'>
       <Card>
         <CardHeader>
           <CardTitle>Criação de Roteiros</CardTitle>
@@ -280,4 +282,4 @@ const NewItineraryForm = () => {
   );
 };
 
-export default NewItineraryForm;
+export default EditItineraryForm;
