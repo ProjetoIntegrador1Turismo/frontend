@@ -2,6 +2,7 @@ import InterestPointCard from '@/components/categories/InterestPointCard';
 import BondeDivisor from '@/components/home-page/BondeDivisor';
 import PeopleDivisor from '@/components/home-page/PeopleDivisor';
 import PlaneDivisor from '@/components/home-page/PlaneDivisor';
+import ItineraryGallery from '@/components/itinerary-page/ItineraryGallery';
 import CommentCard from '@/components/product-page/CommentCard';
 import TourGallery from '@/components/product-page/Gallery';
 import GuideCardTour from '@/components/product-page/GuideCardTour';
@@ -62,35 +63,36 @@ const mockComments = [
 ];
 
 export interface ItineraryPageSource {
-  guide: Guide
-  itinerary: Itinerary
-  reviews: any[]
+  guide: Guide;
+  itinerary: Itinerary;
+  reviews: any[];
 }
 
 export interface Guide {
-  id: number
-  firstName: string
-  cadasturCode: string
-  averageRating: any
+  id: number;
+  firstName: string;
+  lastName: string;
+  cadasturCode: string;
+  averageRating: any;
 }
 
 export interface Itinerary {
-  id: number
-  title: string
-  description: string
-  mediumCost: number
-  days: number
-  interestPoints: InterestPoint[]
+  id: number;
+  title: string;
+  description: string;
+  mediumCost: number;
+  days: number;
+  imageCoverUrl: string;
+  interestPoints: InterestPoint[];
 }
 
 export interface InterestPoint {
-  id: number
-  name: string
-  shortDescription: string
-  imageCoverUrl: string
-  interestPointType: string
+  id: number;
+  name: string;
+  shortDescription: string;
+  imageCoverUrl: string;
+  interestPointType: string;
 }
-
 
 const ItineraryPage = async ({ params }: { params: { id: string } }) => {
   try {
@@ -106,6 +108,16 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
     redirect('/');
   }
 
+  const RenderReviews = (reviews: any[]) => {
+    if (reviews.length === 0) {
+      return <p> nossa que vazio...</p>;
+    }
+
+    return itineraryData.reviews.map((comment, index) => (
+      <CommentCard key={index} comment={comment} />
+    ));
+  };
+
   return (
     <div className='h-fit flex flex-col mb-12 gap-8'>
       <div className='flex justify-center'></div>
@@ -113,29 +125,22 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
         <h1 className='font-semibold text-5xl truncate leading-[1.2]'>
           {itineraryData.itinerary.title}
         </h1>
-        <p className='select-none text-3xl font-light'>R${itineraryData.itinerary.mediumCost},00 | {itineraryData.itinerary.days} dias</p>
+        <p className='select-none text-3xl font-light'>
+          R${itineraryData.itinerary.mediumCost},00 | {itineraryData.itinerary.days} dias
+        </p>
       </div>
       <div className='flex flex-col gap-3 justify-center items-center'>
         <p className='text-xl text-center'>Ofertado por:</p>
         <GuideCardTour
           img='https://i.imgur.com/Aex3UZm.jpeg'
-          name={itineraryData.guide.firstName}
+          name={`${itineraryData.guide.firstName} ${itineraryData.guide.lastName}`}
           rating={itineraryData.guide.averageRating ?? 3}
         />
       </div>
 
       <PlaneDivisor />
 
-      <TourGallery
-        imgCover={'https://i.imgur.com/Aex3UZm.jpeg'}
-        images={[
-          'https://i.imgur.com/Aex3UZm.jpeg',
-          'https://i.imgur.com/Aex3UZm.jpeg',
-          'https://i.imgur.com/Aex3UZm.jpeg',
-          'https://i.imgur.com/Aex3UZm.jpeg',
-          'https://i.imgur.com/Aex3UZm.jpeg'
-        ]}
-      />
+      <ItineraryGallery imgCover={itineraryData.itinerary.imageCoverUrl} />
 
       <TourDescription shortDescription='dfaksiodjasiodasjio' longDescription='1234132421' />
 
@@ -161,9 +166,7 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
       <div className='flex flex-col gap-4'>
         <h2 className='text-3xl font-semibold'>O que as pessoas acham desse roteiro?</h2>
         <div className='flex flex-wrap justify-center gap-4'>
-          {mockComments.map((comment, index) => (
-            <CommentCard key={index} comment={comment} />
-          ))}
+          {RenderReviews(itineraryData.reviews)}
         </div>
       </div>
     </div>
