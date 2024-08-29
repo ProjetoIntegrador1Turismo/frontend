@@ -18,7 +18,7 @@ const TourGallery = ({ imgCover, images }: { imgCover: string; images: string[] 
       >
         <div className='flex gap-5 select-none'>
           <Image
-            alt='sexo'
+            alt='Cover'
             src={imgCover}
             className='rounded-3xl transition-opacity hover:opacity-80 shadow-lg shadow-gray-500 w-[800px] h-[500px] object-cover'
             width={800}
@@ -28,7 +28,7 @@ const TourGallery = ({ imgCover, images }: { imgCover: string; images: string[] 
             {images.slice(0, 4).map((image, index) => {
               return (
                 <Image
-                  alt='sexo'
+                  alt='Other'
                   src={image}
                   className='rounded-3xl h-[240px] w-[370px] transition-opacity hover:opacity-80 shadow-lg shadow-gray-500 object-cover'
                   width={370}
