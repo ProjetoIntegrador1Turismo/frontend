@@ -7,7 +7,7 @@ const Title = ({ name, price, address }: {name: string, price: number, address: 
   return (
     <div className='flex border-black'>
       <div className='flex flex-col gap-2 w-fit'>
-        <h1 className='text-5xl font-semibold tracking-wider'>{name.toUpperCase()}</h1>
+        <h1 className='text-5xl font-semibold tracking-wider min-w-[500px]'>{name}</h1>
         <div className='flex items-center justify-between'>
           <div className='select-none'>
             <p>Avaliação</p>
