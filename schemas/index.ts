@@ -16,6 +16,16 @@ export const RegisterSchema = z.object({
     .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!')
 });
 
+export const CommentSchema = z.object({
+  rating: z
+    .number({ required_error: 'Avaliação é obrigatória!' })
+    .min(1, 'Avaliação é obrigatória!'),
+  commentText: z
+    .string({ required_error: 'Comentário é obrigátorio!' })
+    .min(50, 'Descrição deve ter no mínimo 50 caracteres!')
+    .max(350, 'Descrição deve ter menos que 350 caracteres')
+});
+
 export const RegisterGuideSchema = z.object({
   email: z.string().email({
     message: 'Insira um e-mail válido!'
