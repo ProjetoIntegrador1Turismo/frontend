@@ -1,12 +1,11 @@
 'use client';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import SearchBar from '../guide-panel/SearchBar';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { DialogClose } from '@/components/ui/dialog';
 import InterestPointEditCard from './InterestPointEditCard';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const InterestPointEdit = () => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState([]);
@@ -34,7 +33,12 @@ const InterestPointEdit = () => {
     }
   }, [searchTerm, data]);
 
-  if (isLoading) return <p>Buscando...</p>;
+  if (isLoading)
+    return (
+      <div className='min-h-[40vh] h-fit mb-3 w-[667px] flex items-center justify-center'>
+        <ClipLoader color='black' />
+      </div>
+    );
   if (error)
     return (
       <p>
@@ -54,11 +58,21 @@ const InterestPointEdit = () => {
   return (
     <div>
       <div className='mb-4'>
-        <SearchBar value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value); setCurrentPage(1)}} />
+        <SearchBar
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {currentItems.map((point: any) => (
-          <InterestPointEditCard name={point.name} imageCoverUrl={point.imageCoverUrl} id={point.id} />
+          <InterestPointEditCard
+            name={point.name}
+            imageCoverUrl={point.imageCoverUrl}
+            id={point.id}
+          />
         ))}
       </div>
       <div className='flex justify-center mt-4'>
