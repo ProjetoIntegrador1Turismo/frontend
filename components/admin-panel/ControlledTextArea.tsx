@@ -4,7 +4,7 @@ import { Textarea } from '../ui/textarea';
 
 interface ControlledTextAreaProps {
   control: any; 
-  name: 'shortDescription' | 'longDescription' | 'description';
+  name: 'shortDescription' | 'longDescription' | 'description' | 'commentText';
   label: string;
   placeholder: string;
   disabled?: boolean;

@@ -10,7 +10,6 @@ const InterestPointCard = ({
 }: {
   id: number;
   imageCoverUrl: string;
-  shortDescription: string;
   name: string;
   type: 'tour' | 'itinerary';
 }) => {

@@ -2,6 +2,7 @@ import InterestPointCard from '@/components/categories/InterestPointCard';
 import BondeDivisor from '@/components/home-page/BondeDivisor';
 import PeopleDivisor from '@/components/home-page/PeopleDivisor';
 import PlaneDivisor from '@/components/home-page/PlaneDivisor';
+import ItineraryDescription from '@/components/itinerary-page/ItineraryDescription';
 import ItineraryGallery from '@/components/itinerary-page/ItineraryGallery';
 import CommentCard from '@/components/product-page/CommentCard';
 import TourGallery from '@/components/product-page/Gallery';
@@ -110,7 +111,16 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
 
   const RenderReviews = (reviews: any[]) => {
     if (reviews.length === 0) {
-      return <p> nossa que vazio...</p>;
+      return (
+        <div className='flex flex-col gap-3 items-center'>
+          <h1 className='text-xl text-center'>Sem reviews por aqui... ainda! </h1>
+          <p className='max-w-[200px] text-md font-light text-center'>
+            Parece que este guia não recebeu nenhum comentário. <br />
+            <br />
+            Seja o primeiro a compartilhar suas aventuras e inspire outros viajantes!
+          </p>
+        </div>
+      );
     }
 
     return itineraryData.reviews.map((comment, index) => (
@@ -142,19 +152,19 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
 
       <ItineraryGallery imgCover={itineraryData.itinerary.imageCoverUrl} />
 
-      <TourDescription shortDescription='dfaksiodjasiodasjio' longDescription='1234132421' />
+      <ItineraryDescription description={itineraryData.itinerary.description} />
 
       <BondeDivisor />
 
       {/* Atrações incluídas no roteiro */}
+      <h1 className='font-semibold text-4xl text-center'>Pontos de Interesse desse roteiro </h1>
       <div className='flex flex-wrap justify-center gap-4'>
-        {mockInterestPoints.map((point, index) => (
+        {itineraryData.itinerary.interestPoints.map((point, index) => (
           <InterestPointCard
             key={index}
-            id={1}
-            name='point '
-            imageCoverUrl='https://i.imgur.com/Aex3UZm.jpeg'
-            shortDescription='adsasd'
+            id={point.id}
+            name={point.name}
+            imageCoverUrl={point.imageCoverUrl}
             type={'tour'}
           />
         ))}
@@ -164,7 +174,7 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
 
       {/* Comentários */}
       <div className='flex flex-col gap-4'>
-        <h2 className='text-3xl font-semibold'>O que as pessoas acham desse roteiro?</h2>
+        <h2 className='text-4xl font-semibold text-center'>O que as pessoas acham desse guia?</h2>
         <div className='flex flex-wrap justify-center gap-4'>
           {RenderReviews(itineraryData.reviews)}
         </div>
