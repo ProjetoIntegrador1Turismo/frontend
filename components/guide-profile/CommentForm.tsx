@@ -11,7 +11,7 @@ import ControlledTextArea from '../admin-panel/ControlledTextArea';
 import { Button } from '../ui/button';
 
 const CommentForm = () => {
-  const [ratingValue, setRatingValue] = useState<number | null>();
+  const [ratingValue, setRatingValue] = useState<number>(0);
 
   const form = useForm<z.infer<typeof CommentSchema>>({
     resolver: zodResolver(CommentSchema)
@@ -42,8 +42,9 @@ const CommentForm = () => {
               <Rating
                 value={ratingValue}
                 onChange={(event, newValue) => {
-                  setRatingValue(newValue);
+                  setRatingValue(newValue ?? 0);
                   form.setValue('rating', newValue ?? 0);
+                  form.clearErrors('rating');
                 }}
               />
               {form.getFieldState('rating').error?.message ? (
