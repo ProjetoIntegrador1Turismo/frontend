@@ -1,25 +1,33 @@
 import React from 'react';
 import OneStar from '../home-page/OneStar';
+import { Review } from './GuideProfileTabs';
+import Rating from '../home-page/Rating';
+import { CommentDialog } from './CommentDialog';
 
-const CommentCard = () => {
+const CommentCard = ({ review }: { review: Review }) => {
   return (
-    <div className='w-[700px] h-[550px] border border-black rounded-xl shadow-md shadow-gray-400 p-4'>
+    <div className='w-[400px] h-[200px] border border-black rounded-xl shadow-md shadow-gray-400 p-4'>
       <div className='flex gap-3'>
-        <img src='/avatar.jpg' className='w-[90px] h-[90px] rounded-full object-cover' />
+        <img
+          src={review.avatarUrl}
+          className='w-[90px] h-[90px] rounded-full object-cover'
+          draggable={false}
+        />
         <div>
           <div className='flex gap-3 items-center'>
-            <h1 className='text-xl font-bold'>Gabriela da Silva Pereira</h1>
-            <p className='text-sm font-light'>Em 01/03/2024</p>
+            <h1 className='text-xl font-bold truncate'>{review.touristName}</h1>
+            <p className='text-sm font-light'>Em {review.date}</p>
           </div>
           <div>
             <p className='text-sm font-light'>Avaliação</p>
-            <OneStar />
+            <Rating rating={review.rating} />
           </div>
         </div>
       </div>
-      <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultricies bibendum leo, a euismod turpis sagittis eu. Pellentesque commodo velit dui, id pellentesque ante gravida id. Morbi efficitur nisi dignissim ligula porttitor, non faucibus neque blandit. Sed in lacinia turpis, rhoncus congue neque. Phasellus quis velit lectus. Maecenas sodales id neque sed mollis. Morbi imperdiet nisl tortor, sed blandit mi tincidunt vel. Etiam suscipit, elit ut euismod consectetur, nulla nulla placerat nisi, eget tristique enim elit maximus tortor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse consectetur, ex sodales feugiat cursus, ex nisi tempor justo, sed venenatis nunc magna quis libero. Aenean ultrices ullamcorper ex, ac cursus mauris imperdiet in. Integer et urna imperdiet lacus iaculis lacinia et in metus. 
-      </p>
+      <div className='flex'>
+        <p className='text-base line-clamp-3'>{review.text}</p>
+        <CommentDialog review={review} />
+      </div>
     </div>
   );
 };
