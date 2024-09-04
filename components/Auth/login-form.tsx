@@ -21,7 +21,6 @@ import * as z from 'zod';
 
 const LoginForm = () => {
   const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -34,17 +33,15 @@ const LoginForm = () => {
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError('');
-    setSuccess('');
 
     startTransition(() => {
-      login(values).then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
+      login(values).then(async (data) => {
+        setError(data?.error);
       });
     });
   };
 
-  return (
+  return (  
     <CardWrapper
       headerTitle='Login'
       headerLabel='Bem vindo de volta!'
@@ -86,7 +83,6 @@ const LoginForm = () => {
             />
           </div>
           <FormError message={error} />
-          <FormSucess message={success} />
           <Button
             disabled={isPending}
             type='submit'
