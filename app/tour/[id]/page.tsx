@@ -9,11 +9,11 @@ import axios from 'axios';
 import { redirect } from 'next/navigation';
 
 const TourPage = async ({ params }: { params: { id: string } }) => {
-  try {
-    Number(params.id);
-  } catch (error) {
+
+  if (isNaN(+params.id)) {
     redirect('/');
   }
+  
   let tourData;
   try {
     const request = await axios.get(`http://localhost:8081/page-source/tour/${params.id}`);
