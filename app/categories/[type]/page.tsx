@@ -78,7 +78,6 @@ export default async function CategoryPage({
               key={item.id}
               name={validatedParam.data === 'itinerary' ? item.title : item.name}
               imageCoverUrl={item.imageCoverUrl}
-              shortDescription={item.shortDescription}
             />
           ))}
       </div>
