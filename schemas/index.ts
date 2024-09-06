@@ -73,7 +73,7 @@ export const NewItineraryFormSchema = z.object({
     .any()
     .refine(
       (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
-      'Only .jpg, .jpeg, .png and .webp formats are supported.'
+      'Apenas imagens .jpg, .jpeg, .png são suportadas!.'
     )
     .refine((file) => file?.size <= 3 * 1024 * 1024, `Tamanho máximo da imagem é 3mb`),
   interestPointIds: z
