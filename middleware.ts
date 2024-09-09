@@ -10,6 +10,7 @@ export default auth((req) => {
   const isTourRoute = nextUrl.pathname.toLowerCase().includes('tour/');
   const isAdminRoute = nextUrl.pathname.toLowerCase().includes('admin');
   const isGuidePanel = nextUrl.pathname.toLowerCase().includes('guide');
+  const isGuideProfile = nextUrl.pathname.toLowerCase().includes('guide-profile/');
 
   let userType = '';
 
@@ -26,6 +27,10 @@ export default auth((req) => {
   }
 
   if (isApiAuthRoute) {
+    return;
+  }
+
+  if (isGuideProfile) {
     return;
   }
 
