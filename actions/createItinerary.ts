@@ -14,7 +14,6 @@ export const createItinerary = async (values: z.infer<typeof NewItineraryFormSch
 
   if (!status.ok) {
     return { error: 'Erro ao criar roteiro!' };
-    
   }
 
   return { success: 'Seu roteiro foi criado com sucesso!', id: status.id };

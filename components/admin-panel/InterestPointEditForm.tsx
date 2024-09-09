@@ -218,7 +218,7 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
       imgFormData.append('imgCover', imgCover);
     }
 
-    console.log(values)
+    console.log(values);
 
     startTransition(() => {
       updateInterestPoint(updateValues, InterestPoint.id).then(async (data) => {

@@ -10,7 +10,7 @@ const Navbar = () => {
     <>
       <div className={styles.NavbarContainer}>
         <Link href='/'>
-          <img src='/tl.png' className='w-[96px] h-[60px]'/>
+          <img src='/tl.png' className='w-[96px] h-[60px]' />
         </Link>
         <NavbarButtonsContainer buttons={NavBarButtons} />
         <AuthArea />

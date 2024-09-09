@@ -9,11 +9,10 @@ import axios from 'axios';
 import { redirect } from 'next/navigation';
 
 const TourPage = async ({ params }: { params: { id: string } }) => {
-
   if (isNaN(+params.id)) {
     redirect('/');
   }
-  
+
   let tourData;
   try {
     const request = await axios.get(`http://localhost:8081/page-source/tour/${params.id}`);
@@ -33,7 +32,10 @@ const TourPage = async ({ params }: { params: { id: string } }) => {
         <ProductButton />
       </div>
       <TourGallery images={tourData.images} imgCover={tourData.imageCoverUrl} />
-      <TourDescription longDescription={tourData.longDescription} shortDescription={tourData.shortDescription} />
+      <TourDescription
+        longDescription={tourData.longDescription}
+        shortDescription={tourData.shortDescription}
+      />
       <div className='flex justify-center items-center flex-col gap-4' id='guides'>
         <h1 className='text-4xl font-semibold'>Guias que ofertam esse passeio</h1>
         {mockGuides.map((value, index) => {

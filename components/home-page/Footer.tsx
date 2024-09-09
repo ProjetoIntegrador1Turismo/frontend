@@ -12,7 +12,7 @@ const Footer = () => {
     <div className='w-screen h-[150px] bg-gradient-to-r from-tl-red to-tl-purple -ml-[120px] select-none'>
       <div className='flex justify-around items-center h-full text-white'>
         <div className='flex flex-col items-center'>
-          <img src='/tl.png' className='w-[96px] h-[60px]'/>
+          <img src='/tl.png' className='w-[96px] h-[60px]' />
           <div className='flex gap-1'>
             <LinkedInLogoIcon />
             <TwitterLogoIcon />

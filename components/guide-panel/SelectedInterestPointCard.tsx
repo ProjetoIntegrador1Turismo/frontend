@@ -2,14 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import ClipLoader from "react-spinners/ClipLoader";
+import ClipLoader from 'react-spinners/ClipLoader';
 
-const SelectedInterestPointCard = ({
-  id
-}: {
-  id: number;
-}) => {
-
+const SelectedInterestPointCard = ({ id }: { id: number }) => {
   const { data: sessionData } = useSession();
 
   const { data, error, isLoading } = useQuery({
@@ -22,10 +17,10 @@ const SelectedInterestPointCard = ({
     refetchOnWindowFocus: false
   });
 
-  if (isLoading){
+  if (isLoading) {
     <div className='h-[150px] w-[300px] flex justify-center items-center'>
       <ClipLoader color='black' />
-    </div>
+    </div>;
   }
 
   return (

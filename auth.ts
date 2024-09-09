@@ -36,7 +36,7 @@ export const {
             },
             body: JSON.stringify({
               username: email,
-              password: password,
+              password: password
             })
           });
 

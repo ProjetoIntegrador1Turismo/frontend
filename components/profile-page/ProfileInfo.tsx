@@ -46,7 +46,7 @@ const ProfileInfo = () => {
     setError('');
     setSuccess('');
 
-    const { avatar, ...updateValues} = values;
+    const { avatar, ...updateValues } = values;
 
     updateProfile(updateValues).then(async (data) => {
       setSuccess(data.success);
@@ -56,7 +56,7 @@ const ProfileInfo = () => {
       });
       await new Promise((resolve) => setTimeout(resolve, 2000));
       if (data.success) {
-        router.refresh()
+        router.refresh();
       }
     });
   };

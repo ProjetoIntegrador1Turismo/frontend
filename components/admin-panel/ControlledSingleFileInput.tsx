@@ -11,7 +11,13 @@ interface ControlledFileInputProps {
   ref?: any;
 }
 
-const ControlledSingleFileInput = ({ control, name, label, disabled, ref }: ControlledFileInputProps) => {
+const ControlledSingleFileInput = ({
+  control,
+  name,
+  label,
+  disabled,
+  ref
+}: ControlledFileInputProps) => {
   return (
     <FormField
       control={control}
@@ -26,7 +32,7 @@ const ControlledSingleFileInput = ({ control, name, label, disabled, ref }: Cont
               disabled={disabled}
               accept='image/*'
               onChange={(e) => {
-                field.onChange(e.target?.files?.[0] ?? undefined)
+                field.onChange(e.target?.files?.[0] ?? undefined);
               }}
             />
           </FormControl>

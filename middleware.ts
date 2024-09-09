@@ -36,7 +36,7 @@ export default auth((req) => {
     return;
   }
 
-  if (isAdminRoute && userType !== 'Admin' ) {
+  if (isAdminRoute && userType !== 'Admin') {
     return Response.redirect(new URL('/', nextUrl));
   }
 

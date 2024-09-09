@@ -8,7 +8,7 @@ import {
 import { FirstSlider, HomeSliderProps } from '@/lib/interfaces';
 import SliderCard from './SliderCard';
 
-const HomeSlider = ({ slides }: {slides: FirstSlider[]}) => {
+const HomeSlider = ({ slides }: { slides: FirstSlider[] }) => {
   return (
     <Carousel
       opts={{

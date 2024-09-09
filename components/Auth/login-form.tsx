@@ -41,7 +41,7 @@ const LoginForm = () => {
     });
   };
 
-  return (  
+  return (
     <CardWrapper
       headerTitle='Login'
       headerLabel='Bem vindo de volta!'

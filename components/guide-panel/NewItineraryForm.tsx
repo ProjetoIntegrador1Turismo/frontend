@@ -83,7 +83,7 @@ const NewItineraryForm = () => {
             }
           );
         }
-        
+
         setSuccess(data.success);
         setError(data.error);
 

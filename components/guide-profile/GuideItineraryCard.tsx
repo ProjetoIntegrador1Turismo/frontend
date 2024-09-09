@@ -5,7 +5,7 @@ import React from 'react';
 const GuideItineraryCard = ({
   id,
   imageCoverUrl,
-  name,
+  name
 }: {
   id: number;
   imageCoverUrl: string;

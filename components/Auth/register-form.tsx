@@ -35,7 +35,7 @@ const RegisterForm = () => {
       href: '/register/guide',
       label: 'É um guia de turismo? Cadastre-se aqui!'
     }
-  ]
+  ];
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -63,11 +63,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <CardWrapper
-      headerTitle='Criar uma conta'
-      headerLabel='Bem vindo'
-      backButtons={backButtons}
-    >
+    <CardWrapper headerTitle='Criar uma conta' headerLabel='Bem vindo' backButtons={backButtons}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <div className='space-y-4'>
@@ -91,12 +87,7 @@ const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={isPending}
-                      {...field}
-                      placeholder='Seu email'
-                      type='email'
-                    />
+                    <Input disabled={isPending} {...field} placeholder='Seu email' type='email' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

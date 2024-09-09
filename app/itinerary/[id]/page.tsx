@@ -96,11 +96,10 @@ export interface InterestPoint {
 }
 
 const ItineraryPage = async ({ params }: { params: { id: string } }) => {
-
   if (isNaN(+params.id)) {
     redirect('/');
   }
-  
+
   let itineraryData: ItineraryPageSource;
   try {
     const request = await axios.get(`http://localhost:8081/page-source/itinerary/${params.id}`);

@@ -91,44 +91,46 @@ export interface CardWrapperProps {
 }
 
 export interface HomePageData {
-  top3InterestPoints: Top3InterestPoint[]
-  firstSlider: FirstSlider[]
-  secondSlider: SecondSlider[]
-  topGuides: TopGuide[]
+  top3InterestPoints: Top3InterestPoint[];
+  firstSlider: FirstSlider[];
+  secondSlider: SecondSlider[];
+  topGuides: TopGuide[];
 }
 
 export interface Top3InterestPoint {
-  id: number
-  name: string
-  averageValue: number
-  duration: any
-  imageCoverUrl: string
+  id: number;
+  name: string;
+  averageValue: number;
+  duration: any;
+  imageCoverUrl: string;
 }
 
 export interface FirstSlider {
-  id: number
-  name: string
-  imageCoverUrl: string
+  id: number;
+  name: string;
+  imageCoverUrl: string;
 }
 
 export interface SecondSlider {
-  id: number
-  name: string
-  imageCoverUrl: string
+  id: number;
+  name: string;
+  imageCoverUrl: string;
 }
 
 export interface TopGuide {
-  id: number
-  firstName: string
-  averageRating: number
+  id: number;
+  firstName: string;
+  averageRating: number;
+  lastName: string;
+  profileImageUrl: string;
 }
 
 export interface Guide {
-  id: number
-  firstName: string
-  cadasturCode: string
-  isApproved: boolean
-  itineraries: any[]
-  reviews: any
-  averageRating: any
+  id: number;
+  firstName: string;
+  cadasturCode: string;
+  isApproved: boolean;
+  itineraries: any[];
+  reviews: any;
+  averageRating: any;
 }

@@ -7,8 +7,7 @@ import SessionProvider from '@/components/Auth/SessionProvider';
 import { auth } from '@/auth';
 import Footer from '@/components/home-page/Footer';
 import ReactQueryClientProvider from '@/components/providers/ReactQueryClientProvider';
-import { Toaster } from "@/components/ui/toaster"
-
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title: 'TourLink',

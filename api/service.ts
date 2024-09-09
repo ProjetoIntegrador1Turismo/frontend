@@ -119,7 +119,7 @@ export async function interestPointCreate(values: z.infer<typeof InterestPointFo
 
     return response.status === 200;
   } catch (error) {
-    return false
+    return false;
   }
 }
 
@@ -205,31 +205,42 @@ export async function RegisterGuide({
 }
 
 export const ItineraryCreate = async (values: z.infer<typeof NewItineraryFormSchema>) => {
-  const { interestPointIds, averageCost,...rest} = values
-  const response = await axios.post('http://localhost:8081/itinerary', {
-    interestPointsId: interestPointIds,
-    mediumCost: averageCost,
-    ...rest
-  }, {
-    headers: {
-      Authorization: `Bearer ${await getAuthToken()}`
+  const { interestPointIds, averageCost, ...rest } = values;
+  const response = await axios.post(
+    'http://localhost:8081/itinerary',
+    {
+      interestPointsId: interestPointIds,
+      mediumCost: averageCost,
+      ...rest
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
     }
-  })
+  );
 
-  return {ok: response.status === 200, id: response.data.id};
-}
+  return { ok: response.status === 200, id: response.data.id };
+};
 
-export const ItineraryUpdate = async (values: z.infer<typeof NewItineraryFormSchema>, id: number) => {
-  const { interestPointIds, averageCost, ...rest} = values
-  const response = await axios.put(`http://localhost:8081/itinerary/${id}`, {
-    interestPointsId: interestPointIds,
-    mediumCost: averageCost,
-    ...rest
-  }, {
-    headers: {
-      Authorization: `Bearer ${await getAuthToken()}`
+export const ItineraryUpdate = async (
+  values: z.infer<typeof NewItineraryFormSchema>,
+  id: number
+) => {
+  const { interestPointIds, averageCost, ...rest } = values;
+  const response = await axios.put(
+    `http://localhost:8081/itinerary/${id}`,
+    {
+      interestPointsId: interestPointIds,
+      mediumCost: averageCost,
+      ...rest
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
     }
-  })
+  );
 
-  return {ok: response.status === 200, id: response.data.id};
-}
+  return { ok: response.status === 200, id: response.data.id };
+};

@@ -7,7 +7,6 @@ import { useSession } from 'next-auth/react';
 import ItineraryCard from './ItineraryCard';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-
 const ItinerariesPaginated = () => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -18,7 +17,7 @@ const ItinerariesPaginated = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['guideItineraries', sessionData?.user.email],
     queryFn: async () => {
-    const response = await axios.get(`http://localhost:8081/guides/itineraries`, {
+      const response = await axios.get(`http://localhost:8081/guides/itineraries`, {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
       return response.data;
