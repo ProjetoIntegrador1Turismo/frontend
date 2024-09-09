@@ -1,4 +1,4 @@
-export const publicRoutes = ['/', '/component', '/guide-profile'];
+export const publicRoutes = ['/', '/component'];
 
 export const authRoutes = ['/login', '/register', '/register/guide'];
 
