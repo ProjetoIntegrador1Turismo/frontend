@@ -2,6 +2,7 @@
 import { auth } from '@/auth';
 import { HomePageData } from '@/lib/interfaces';
 import {
+  CommentSchema,
   InterestPointEditFormSchema,
   InterestPointFormSchema,
   NewItineraryFormSchema,
@@ -10,16 +11,11 @@ import {
   UpdateProfileSchema
 } from '@/schemas';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
 import * as z from 'zod';
 
 export const getAuthToken = async () => {
   const session = await auth();
   return session?.user.authToken;
-};
-
-const getAuthTokenClient = () => {
-  return useSession().data?.user.authToken;
 };
 
 export async function RegisterUser({ name, email, password }: z.infer<typeof RegisterSchema>) {
@@ -243,4 +239,25 @@ export const ItineraryUpdate = async (
   );
 
   return { ok: response.status === 200, id: response.data.id };
+};
+
+export const createReview = async (values: z.infer<typeof CommentSchema>, guideId: number) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:8081/review/${guideId}`,
+      {
+        rating: values.rating,
+        text: values.commentText,
+        date: new Date().toISOString()
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${await getAuthToken()}`
+        }
+      }
+    );
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
 };
