@@ -2,8 +2,6 @@ import {
   Dialog,
   DialogContent,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
   DialogClose
 } from '@/components/ui/dialog';
@@ -11,6 +9,7 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import { Review } from './GuideProfileTabs';
 import Rating from '../home-page/Rating';
+import Image from 'next/image';
 
 export function CommentDialog({ review }: { review: Review }) {
   return (
@@ -23,10 +22,12 @@ export function CommentDialog({ review }: { review: Review }) {
       <DialogContent className='min-w-fit'>
         <div className='w-[500px] h-fit p-4'>
           <div className='flex gap-3'>
-            <img
+            <Image
+              height={90}
+              width={90}
+              alt={review.touristName}
               src={review.avatarUrl}
               className='w-[90px] h-[90px] rounded-full object-cover'
-              draggable={false}
             />
             <div>
               <div className='flex gap-3 items-center'>

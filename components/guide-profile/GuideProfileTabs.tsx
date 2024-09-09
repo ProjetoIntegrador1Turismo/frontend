@@ -3,6 +3,7 @@ import axios from 'axios';
 import { redirect } from 'next/navigation';
 import GuideItineraries from './GuideItineraries';
 import GuideReviews from './GuideReviews';
+import Image from 'next/image';
 
 export interface GuideProfilePageSource {
   id: number;
@@ -45,7 +46,10 @@ export async function GuideProfileTabs({ id }: { id: number }) {
     <Tabs defaultValue='itineraries' className='flex gap-4'>
       <TabsList className='flex flex-col h-fit gap-12 border border-black rounded-xl p-4'>
         <h1 className='font-bold text-3xl text-black break-words w-48 text-center'>{`${guideData.firstName} ${guideData.lastName}`}</h1>
-        <img
+        <Image
+          width={150}
+          height={150}
+          alt={guideData.firstName}
           src={guideData.profileImageUrl}
           className='w-[150px] h-[150px] rounded-full object-cover select-none'
           draggable={false}
@@ -61,7 +65,11 @@ export async function GuideProfileTabs({ id }: { id: number }) {
         <GuideItineraries itineraries={guideData.itineraries} />
       </TabsContent>
       <TabsContent value='reviews'>
-        <GuideReviews reviews={guideData.reviews} />
+        <GuideReviews
+          reviews={guideData.reviews}
+          guideId={guideData.id}
+          guideName={`${guideData.firstName} ${guideData.lastName}`}
+        />
       </TabsContent>
     </Tabs>
   );
