@@ -7,6 +7,11 @@ declare module 'next-auth' {
       lastName: string;
       email: string;
       userType: string;
+      authTokenExpiresIn: string;
+      refreshToken: string;
+      refreshTokenExpiresIn: string;
+      cadasturCode?: string;
+      profileImageUrl: string;
     };
   }
 }
