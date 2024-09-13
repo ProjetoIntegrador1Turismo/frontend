@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow
 } from '../ui/table';
-
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
@@ -79,7 +78,7 @@ const GuideApproval = () => {
 
   if (isLoading)
     return (
-      <div className='min-h-[75vh] h-fit mb-3 w-[667px] flex items-center justify-center'>
+      <div className='min-h-[75vh] h-fit w-[667px] flex items-center justify-center'>
         <ClipLoader color='black' />
       </div>
     );
@@ -91,7 +90,7 @@ const GuideApproval = () => {
     );
 
   return (
-    <div className='min-h-[75vh] h-fit mb-3'>
+    <div className='min-h-[75vh] h-fit'>
       <Card className='w-[667px]'>
         <CardHeader>
           <CardTitle>Aprovar cadastro de guias de turismo</CardTitle>
@@ -107,9 +106,9 @@ const GuideApproval = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.data.map((guide) => {
+              {data?.data.map((guide) => {
                 return (
-                  <TableRow>
+                  <TableRow key={guide.id}>
                     <TableCell>{guide.firstName}</TableCell>
                     <TableCell>{guide.cadasturCode}</TableCell>
                     <TableCell className='flex justify-evenly'>
@@ -134,7 +133,7 @@ const GuideApproval = () => {
             </TableBody>
             <TableFooter>
               <TableRow>
-                <TableCell>Total de guias: {data.data.length}</TableCell>
+                <TableCell>Total de guias: {data?.data.length}</TableCell>
               </TableRow>
             </TableFooter>
           </Table>
