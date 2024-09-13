@@ -8,7 +8,7 @@ const GuideCard = ({ guide }: GuideCardProps) => {
     <div className='grid grid-cols-[70px_1fr_1fr_30px] gap-4 items-center border-black border p-2 rounded-full min-w-[750px] max-w-[750px] max-h-[85px] shadow-lg shadow-gray-400'>
       <Image
         className='w-[70px] h-[70px] object-cover rounded-full select-none pointer-events-none'
-        src={`/avatar.jpg`}
+        src={guide.profileImageUrl}
         alt='Guide Image'
         width={70}
         height={70}
