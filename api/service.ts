@@ -42,12 +42,21 @@ export async function updateUser({ name, password, email }: z.infer<typeof Updat
   const [firstName, ...rest] = name.split(' ');
   const lastName = rest.join(' ');
 
-  const response = await axios.put('http://localhost:8081/user/update', {
-    email: email,
-    firstName: firstName,
-    lastName: lastName,
-    newPassword: password || null
-  });
+  const response = await axios.put(
+    'http://localhost:8081/user/update',
+    {
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      newPassword: password || null
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
+    }
+  );
 
   return response.status === 200;
 }
