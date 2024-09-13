@@ -17,7 +17,9 @@ export function CommentFormDialog({ guideId, guideName }: { guideId: number; gui
         </Button>
       </DialogTrigger>
       <DialogContent className='min-w-fit'>
-        <CommentForm guideId={guideId} guideName={guideName} />
+        <div className='mt-3'>
+          <CommentForm guideId={guideId} guideName={guideName} />
+        </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button type='button' variant='destructive'>
