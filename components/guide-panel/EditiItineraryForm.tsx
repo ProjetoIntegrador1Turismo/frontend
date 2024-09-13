@@ -162,7 +162,6 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
               <ControlledSingleFileInput
                 control={form.control}
                 disabled={isPending}
-                ref={imgCoverRef}
                 name='imgCover'
                 label='Imagem de Capa'
               />
