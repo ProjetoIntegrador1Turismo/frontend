@@ -8,11 +8,5 @@
   ],
   "plugins": [],
   "parser": "@typescript-eslint/parser",
-  "rules": { "quotes": [2, "single", { "avoidEscape": true }], "react/react-in-jsx-scope": 0 },
-  "prettier/prettier": [
-  "error",
-  {
-    "endOfLine": "lf"
-  }
-]
+  "rules": { "quotes": [2, "single", { "avoidEscape": true }], "react/react-in-jsx-scope": 0 }
 }

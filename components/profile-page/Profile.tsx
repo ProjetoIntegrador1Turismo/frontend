@@ -7,8 +7,6 @@ import { getAuthToken } from '@/api/service';
 import { redirect } from 'next/navigation';
 import MyComments from './MyComments';
 import MyReviews from './MyReviews';
-import MyInterestedItineraries from './MyInterestedItineraries';
-import { Title } from '@radix-ui/react-toast';
 
 interface UserPageSource {
   id: number;
@@ -25,14 +23,6 @@ export interface InterestedItinerary {
   id: number;
   title: string;
   imageCoverUrl: string;
-  guide: Guide;
-}
-
-export interface Guide {
-  id: number;
-  firstName: string;
-  lastName: string;
-  profileImageUrl: string;
 }
 
 export interface Comment {
@@ -121,8 +111,8 @@ export async function Profile() {
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='comments'>
           Comentários
         </TabsTrigger>
-        <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='roteiros'>
-          Roteiros
+        <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='history'>
+          Histórico
         </TabsTrigger>
       </TabsList>
       <TabsContent value='info'>
@@ -134,9 +124,8 @@ export async function Profile() {
       <TabsContent value='comments'>
         <MyComments comments={userData.data.comments} profilePic={session!.user.profileImageUrl} />
       </TabsContent>
-      <TabsContent value='roteiros'>
-        <Title className='text-2xl font-bold text-center'>Roteiros de Interesse</Title>
-        <MyInterestedItineraries interestedItineraries={userData.data.interestedItineraries} />
+      <TabsContent value='history'>
+        <p>Histórico</p>
       </TabsContent>
     </Tabs>
   );
