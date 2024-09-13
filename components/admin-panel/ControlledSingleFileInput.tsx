@@ -8,7 +8,6 @@ interface ControlledFileInputProps {
   label: string;
   disabled?: boolean;
   className?: string;
-  ref?: any;
 }
 
 const ControlledSingleFileInput = ({
@@ -16,7 +15,6 @@ const ControlledSingleFileInput = ({
   name,
   label,
   disabled,
-  ref
 }: ControlledFileInputProps) => {
   return (
     <FormField
@@ -27,7 +25,6 @@ const ControlledSingleFileInput = ({
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <Input
-              {...ref}
               type='file'
               disabled={disabled}
               accept='image/*'
