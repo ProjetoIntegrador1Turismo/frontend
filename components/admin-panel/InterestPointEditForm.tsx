@@ -1,5 +1,5 @@
 'use client';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { useState, useTransition } from 'react';
 import { Form } from '@/components/ui/form';
@@ -222,8 +222,6 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
 
     startTransition(() => {
       updateInterestPoint(updateValues, InterestPoint.id).then(async (data) => {
-        setSuccess(data.success);
-        setError(data.error);
         let imageResponse;
         if (images || imgCover) {
           imageResponse = await axios.post(
@@ -234,7 +232,8 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
             }
           );
         }
-
+        setSuccess(data.success);
+        setError(data.error);
         if (imageResponse && imageResponse.status !== 200) {
           setError('Erro com as imagens');
         }
