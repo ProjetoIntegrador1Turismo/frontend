@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import GuideItineraries from './GuideItineraries';
 import GuideReviews from './GuideReviews';
 import Image from 'next/image';
+import { auth } from '@/auth';
 
 export interface GuideProfilePageSource {
   id: number;
@@ -41,6 +42,7 @@ export async function GuideProfileTabs({ id }: { id: number }) {
   } catch (error) {
     redirect('/');
   }
+  const session = await auth();
 
   return (
     <Tabs defaultValue='itineraries' className='flex gap-4'>
@@ -68,6 +70,7 @@ export async function GuideProfileTabs({ id }: { id: number }) {
         <GuideReviews
           reviews={guideData.reviews}
           guideId={guideData.id}
+          userType={session?.user.userType}
           guideName={`${guideData.firstName} ${guideData.lastName}`}
         />
       </TabsContent>
