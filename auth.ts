@@ -9,14 +9,17 @@ export const {
   signOut
 } = NextAuth({
   callbacks: {
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === 'update') {
+        return { ...token, ...session.user };
+      }
       if (trigger === 'signIn') {
         return {
           ...token,
           ...user,
-          authTokenExpirationTime: Date.now() + user.authTokenExpiresIn * 1000
+          authTokenExpirationTime: Date.now() + +user.authTokenExpiresIn * 1000
         };
-      } else if (Date.now() < token.authTokenExpirationTime * 1000) {
+      } else if (Date.now() < token.authTokenExpirationTime) {
         return token;
       } else {
         try {
@@ -31,14 +34,13 @@ export const {
           );
 
           const TokenOrError = await refreshResponse.json();
-          if (!refreshResponse.ok) throw TokenOrError;
           token.authToken = TokenOrError.authToken;
           token.refreshToken = TokenOrError.refreshToken;
           token.authTokenExpiresIn = TokenOrError.authTokenExpiresIn;
           token.refreshTokenExpiresIn = TokenOrError.refreshTokenExpiresIn;
           return token;
         } catch (error) {
-          await signOut();
+          await signOut({ redirectTo: '/login' });
           return token;
         }
       }
