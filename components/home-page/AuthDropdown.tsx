@@ -20,6 +20,8 @@ import {
 import { useSession } from 'next-auth/react';
 import { logout } from '@/actions/logout';
 import Link from 'next/link';
+import Image from 'next/image';
+import { JSX } from 'react';
 
 export function AuthDropdown() {
   const { data } = useSession();
@@ -28,7 +30,13 @@ export function AuthDropdown() {
     Admin: (
       <DropdownMenu>
         <div className='flex min-h-[45px] min-w-[85px] h-[45px] w-[85px] rounded-[25px] justify-evenly items-center bg-gradient-to-r from-tl-red to-tl-purple'>
-          <UserCircle width={35} height={35} color='white' />
+          <Image
+            alt={data?.user.firstName ?? ''}
+            src={data?.user.profileImageUrl ?? ''}
+            height={35}
+            width={35}
+            className='rounded-full w-[35px] h-[35px] object-cover'
+          />
           <DropdownMenuTrigger asChild>
             <Menu width={35} height={35} color='white' />
           </DropdownMenuTrigger>
@@ -65,7 +73,13 @@ export function AuthDropdown() {
     Tourist: (
       <DropdownMenu>
         <div className='flex min-h-[45px] min-w-[85px] h-[45px] w-[85px] rounded-[25px] justify-evenly items-center bg-gradient-to-r from-tl-red to-tl-purple'>
-          <UserCircle width={35} height={35} color='white' />
+          <Image
+            alt={data?.user.firstName ?? ''}
+            src={data?.user.profileImageUrl ?? ''}
+            height={35}
+            width={35}
+            className='rounded-full w-[35px] h-[35px] object-cover'
+          />
           <DropdownMenuTrigger asChild>
             <Menu width={35} height={35} color='white' />
           </DropdownMenuTrigger>
@@ -96,7 +110,13 @@ export function AuthDropdown() {
     Guide: (
       <DropdownMenu>
         <div className='flex min-h-[45px] min-w-[85px] h-[45px] w-[85px] rounded-[25px] justify-evenly items-center bg-gradient-to-r from-tl-red to-tl-purple'>
-          <UserCircle width={35} height={35} color='white' />
+          <Image
+            alt={data?.user.firstName ?? ''}
+            src={data?.user.profileImageUrl ?? ''}
+            height={35}
+            width={35}
+            className='rounded-full w-[35px] h-[35px] object-cover'
+          />
           <DropdownMenuTrigger asChild>
             <Menu width={35} height={35} color='white' />
           </DropdownMenuTrigger>
