@@ -24,7 +24,7 @@ export default async function RootLayout({
     <html className={poppins.className} lang='en'>
       <ReactQueryClientProvider>
         <SessionProvider session={session}>
-          <body>
+          <body suppressHydrationWarning>
             <Navbar />
             {children}
             <Footer />
