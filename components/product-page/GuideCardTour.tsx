@@ -1,18 +1,31 @@
-import { GuideCardInfo } from '@/lib/interfaces';
 import InterestButton from './InterestButton';
 import Rating from '../home-page/Rating';
 import Image from 'next/image';
+import Link from 'next/link';
 
-const GuideCardTour = ({ img, name, rating }: { img: string; name: string; rating: number }) => {
+const GuideCardTour = ({
+  img,
+  name,
+  rating,
+  id
+}: {
+  img: string;
+  name: string;
+  rating: number;
+  id: number;
+}) => {
   return (
     <div className='grid grid-cols-[70px_1fr_1fr_270px] gap-4 items-center border-black border p-2 rounded-full min-w-[750px] max-w-[750px] max-h-[85px] shadow-lg shadow-gray-400'>
-      <Image
-        className='w-[70px] h-[70px] object-cover rounded-full select-none'
-        src={img}
-        alt='Guide Image'
-        width={60}
-        height={60}
-      />
+      <Link href={`/guide-profile/${id}`}>
+        <Image
+          className='w-[70px] h-[70px] object-cover rounded-full select-none'
+          src={img}
+          alt='Guide Image'
+          width={60}
+          height={60}
+        />
+      </Link>
+
       <div className='flex flex-col justify-center'>
         <p className='font-light text-sm leading-none select-none'>Nome</p>
         <h1
