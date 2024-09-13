@@ -36,7 +36,9 @@ const MyReviews = ({ reviews, profilePic }: { reviews: Review[]; profilePic: str
         <CardContent>
           <div className='grid grid-cols-2 grid-rows-3 gap-4'>
             {currentData.map((review) => {
-              return <ReviewCardProfile review={{...review, avatarUrl: profilePic}} key={review.id} />;
+              return (
+                <ReviewCardProfile review={{ ...review, avatarUrl: profilePic }} key={review.id} />
+              );
             })}
           </div>
         </CardContent>

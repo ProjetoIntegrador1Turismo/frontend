@@ -14,7 +14,7 @@ const ControlledSingleFileInput = ({
   control,
   name,
   label,
-  disabled,
+  disabled
 }: ControlledFileInputProps) => {
   return (
     <FormField

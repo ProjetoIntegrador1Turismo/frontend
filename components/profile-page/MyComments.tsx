@@ -30,7 +30,9 @@ const MyComments = ({ comments, profilePic }: { comments: Comment[]; profilePic:
       <Card>
         <CardHeader>
           <CardTitle>Seus comentários</CardTitle>
-          <CardDescription>Aqui você encontra todos os seus comentários de pontos de interesse!</CardDescription>
+          <CardDescription>
+            Aqui você encontra todos os seus comentários de pontos de interesse!
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className='grid grid-cols-2 grid-rows-3 gap-4'>

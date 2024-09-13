@@ -55,8 +55,8 @@ const GuideReviews = ({
             Aqui você encontra todos as avaliações que {guideName} recebeu!
           </CardDescription>
           {userType && userType !== 'Guide' && (
-              <CommentFormDialog guideId={guideId} guideName={guideName} />
-            )}
+            <CommentFormDialog guideId={guideId} guideName={guideName} />
+          )}
         </CardHeader>
         <CardContent className='grid grid-cols-3 grid-rows-2 gap-4'>
           {reviews.map((review) => {

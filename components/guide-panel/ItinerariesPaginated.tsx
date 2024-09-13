@@ -50,10 +50,11 @@ const ItinerariesPaginated = () => {
     return (
       <div className='w-[500px] flex items-center flex-col'>
         <div className='w-fit flex flex-col items-center justify-center'>
-          <h1 className='text-xl'>
-          🌍✨
-          </h1>
-          <p className='text-sm w-1/2'>Parece que ainda não há nenhum roteiro criado por aqui. Que tal começar a planejar uma nova aventura agora mesmo?. </p>
+          <h1 className='text-xl'>🌍✨</h1>
+          <p className='text-sm w-1/2'>
+            Parece que ainda não há nenhum roteiro criado por aqui. Que tal começar a planejar uma
+            nova aventura agora mesmo?.{' '}
+          </p>
         </div>
       </div>
     );
