@@ -17,7 +17,7 @@ const ItinerariesPaginated = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['guideItineraries', sessionData?.user.email],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:8081/guides/itineraries`, {
+      const response = await axios.get('http://localhost:8081/guides/itineraries', {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
       return response.data;
@@ -50,10 +50,10 @@ const ItinerariesPaginated = () => {
     return (
       <div className='w-[500px] flex items-center flex-col'>
         <div className='w-fit flex flex-col items-center justify-center'>
-          <h1 className='text-xl font-bold bg-gradient-to-r from-tl-red to-tl-purple bg-clip-text text-transparent'>
-            Que vazio...
+          <h1 className='text-xl'>
+          🌍✨
           </h1>
-          <p className='text-sm'>Crie novos roteiros e verifique-os aqui!</p>
+          <p className='text-sm w-1/2'>Parece que ainda não há nenhum roteiro criado por aqui. Que tal começar a planejar uma nova aventura agora mesmo?. </p>
         </div>
       </div>
     );
@@ -81,7 +81,12 @@ const ItinerariesPaginated = () => {
       </div>
       <div className='grid grid-cols-2 w-fit gap-4'>
         {currentItems.map((point: any) => (
-          <ItineraryCard id={point.id} imageCoverUrl={point.imageCoverUrl} name={point.title} />
+          <ItineraryCard
+            id={point.id}
+            imageCoverUrl={point.imageCoverUrl}
+            name={point.title}
+            key={point.id}
+          />
         ))}
       </div>
       <div className='flex justify-center mt-4'>
