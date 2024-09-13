@@ -1,12 +1,47 @@
-import GuideCard from '@/components/home-page/GuideCard';
 import TourGallery from '@/components/product-page/Gallery';
 import GuideCardTour from '@/components/product-page/GuideCardTour';
 import ProductButton from '@/components/product-page/ProductButton';
 import Title from '@/components/product-page/Title';
 import TourDescription from '@/components/product-page/TourDescription';
-import { mockGuide, mockGuides, tourTitleMock } from '@/lib/mocks';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
+
+export interface TourPageSource {
+  interestPoint: InterestPoint;
+  guidesWhoOfferThisTour: GuideWhoOfferThisTour[];
+}
+
+export interface InterestPoint {
+  id: number;
+  name: string;
+  address: Address;
+  averageValue: number;
+  shortDescription: string;
+  longDescription: string;
+  starsNumber: number;
+  isResort: boolean;
+  breakfastIncluded: boolean;
+  foodType: string;
+  date: Date;
+  duration: string;
+  requiredAge: number;
+  imageCoverUrl: string;
+  images: string[];
+}
+
+export interface Address {
+  road: string;
+  number: string;
+  zipCode: string;
+}
+
+export interface GuideWhoOfferThisTour {
+  id: number;
+  firstName: string;
+  lastName: string;
+  averageRating: number;
+  profileImageUrl: string;
+}
 
 const TourPage = async ({ params }: { params: { id: string } }) => {
   if (isNaN(+params.id)) {
@@ -14,9 +49,13 @@ const TourPage = async ({ params }: { params: { id: string } }) => {
   }
 
   let tourData;
+  let guides;
   try {
-    const request = await axios.get(`http://localhost:8081/page-source/tour/${params.id}`);
+    const request = await axios.get<TourPageSource>(
+      `http://localhost:8081/page-source/tour/${params.id}`
+    );
     tourData = request.data.interestPoint;
+    guides = request.data.guidesWhoOfferThisTour;
   } catch (error) {
     redirect('/');
   }
@@ -38,8 +77,16 @@ const TourPage = async ({ params }: { params: { id: string } }) => {
       />
       <div className='flex justify-center items-center flex-col gap-4' id='guides'>
         <h1 className='text-4xl font-semibold'>Guias que ofertam esse passeio</h1>
-        {mockGuides.map((value, index) => {
-          return <GuideCardTour guide={value} key={index} />;
+        {guides.map((guide) => {
+          return (
+            <GuideCardTour
+              img={guide.profileImageUrl}
+              name={`${guide.firstName} ${guide.lastName}`}
+              rating={guide.averageRating}
+              id={guide.id}
+              key={guide.id}
+            />
+          );
         })}
       </div>
     </div>
