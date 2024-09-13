@@ -79,7 +79,7 @@ const CommentForm = ({ guideId, guideName }: { guideId: number; guideName: strin
                 className='bg-gradient-to-r from-tl-red to-tl-purple w-fit'
                 type='submit'
               >
-                Cadastrar
+                Avaliar
               </Button>
             </form>
           </Form>
