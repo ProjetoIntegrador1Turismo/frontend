@@ -6,7 +6,31 @@ import GuideItineraryCard from './GuideItineraryCard';
 
 const GuideItineraries = ({ itineraries }: { itineraries: Itinerary[] }) => {
   if (itineraries.length === 0) {
-    return <p>Wow, que vazio!</p>;
+    return (
+      <div className='min-h-[75vh] h-fit'>
+        <Card>
+          <CardHeader>
+            <CardTitle>Roteiros do guia</CardTitle>
+            <CardDescription>
+              Aqui você encontra todos os roteiros que esse guia oferece!
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className='w-[500px] flex items-center flex-col'>
+              <div className='w-fit flex flex-col items-center justify-center'>
+                <h1 className='text-xl font-bold bg-gradient-to-r from-tl-red to-tl-purple bg-clip-text text-transparent'>
+                  Que vazio...
+                </h1>
+                <p className='text-sm text-center w-1/2'>
+                  Este guia ainda não possui roteiros disponíveis no momento. Volte em breve para
+                  explorar novas aventuras!
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (
