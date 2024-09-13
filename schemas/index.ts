@@ -51,10 +51,10 @@ export const UpdateProfileSchema = z.object({
   avatar: z
     .any()
     .refine(
-      (files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type),
-      'Apenas imagens .jpg, .jpeg, .png são aceitas.'
+      (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
+      'Apenas imagens .jpg, .jpeg, .png são suportadas!'
     )
-    .refine((files) => files?.[0]?.size <= 2 * 1024 * 1024, 'O arquivo pode ter no máximo 3mb!')
+    .refine((file) => file?.size <= 3 * 1024 * 1024, 'Tamanho máximo da imagem é 3mb')
     .optional(),
   name: z
     .string()
@@ -73,7 +73,7 @@ export const NewItineraryFormSchema = z.object({
     .any()
     .refine(
       (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
-      'Apenas imagens .jpg, .jpeg, .png são suportadas!.'
+      'Apenas imagens .jpg, .jpeg, .png são suportadas!'
     )
     .refine((file) => file?.size <= 3 * 1024 * 1024, 'Tamanho máximo da imagem é 3mb'),
   interestPointIds: z
@@ -88,7 +88,7 @@ export const EditItineraryFormSchema = NewItineraryFormSchema.extend({
     .any()
     .refine(
       (file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type),
-      'Only .jpg, .jpeg, .png and .webp formats are supported.'
+      'Apenas imagens .jpg, .jpeg, .png são suportadas!'
     )
     .refine((file) => file?.size <= 3 * 1024 * 1024, 'Tamanho máximo da imagem é 3mb')
     .optional()
