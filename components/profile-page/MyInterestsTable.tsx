@@ -10,15 +10,24 @@ import Avatar from '@mui/material/Avatar';
 import { InterestedItinerary } from './Profile';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, CircleXIcon } from 'lucide-react';
+import axios from 'axios';
+import { useToast } from '../ui/use-toast';
+import { useSession } from 'next-auth/react';
 
 interface MyInterestsTableProps {
   interestedItineraries: InterestedItinerary[];
+  setInterestedItineraries: React.Dispatch<React.SetStateAction<InterestedItinerary[]>>; // Para atualizar a lista
 }
 
-const MyInterestsTable: React.FC<MyInterestsTableProps> = ({ interestedItineraries }) => {
+const MyInterestsTable: React.FC<MyInterestsTableProps> = ({
+  interestedItineraries,
+  setInterestedItineraries
+}) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 6;
+  const { toast } = useToast();
+  const { data: sessionData } = useSession();
 
   useEffect(() => {
     setCurrentPage(1);
@@ -43,6 +52,24 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({ interestedItinerari
     }
   };
 
+  const handleRemoveInterest = async (itineraryId: number) => {
+    try {
+      await axios.delete(`http://localhost:8081/tourist/signal/${itineraryId}`,
+        {
+          headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+        }
+        
+      );
+      toast({ title: 'Interesse removido com sucesso!', variant: 'destructive' });
+      setInterestedItineraries((prev) =>
+        prev.filter((itinerary) => itinerary.id !== itineraryId)
+      );
+    } catch (error) {
+      toast({ title: 'Erro ao remover interesse', variant: 'destructive' });
+      console.error('Erro ao remover interesse:', error);
+    }
+  };
+
   return (
     <div className='h-fit mb-3'>
       <TableContainer component={Paper} className='min-h-[495px]'>
@@ -52,6 +79,7 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({ interestedItinerari
               <TableCell>Guia</TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Roteiro</TableCell>
+              <TableCell>Ação</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -71,6 +99,14 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({ interestedItinerari
                     {itinerary.title}
                     <ExternalLink className='ml-2 h-4 w-4' />
                   </Link>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant='destructive'
+                    onClick={() => handleRemoveInterest(itinerary.id)}
+                  >
+                    <CircleXIcon />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
