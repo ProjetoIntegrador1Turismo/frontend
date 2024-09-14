@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useDebounce } from 'use-debounce';
 import { XIcon } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -24,7 +24,7 @@ const SearchBar = ({
     if (query) {
       router.push(`?query=${query}`);
     }
-  }, [query, router]);
+  }, [query, router, route]);
 
   return (
     <div className='flex shadow-md shadow-gray-400 border border-black gap-3 rounded-full h-[50px] items-center w-[250px] p-3'>
