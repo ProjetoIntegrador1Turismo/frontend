@@ -35,7 +35,8 @@ export function AuthDropdown() {
             src={data?.user.profileImageUrl ?? ''}
             height={35}
             width={35}
-            className='rounded-full w-[35px] h-[35px] object-cover'
+            className='rounded-full w-[35px] h-[35px] object-cover select-none'
+            draggable={false}
           />
           <DropdownMenuTrigger asChild>
             <Menu width={35} height={35} color='white' />
@@ -78,7 +79,8 @@ export function AuthDropdown() {
             src={data?.user.profileImageUrl ?? ''}
             height={35}
             width={35}
-            className='rounded-full w-[35px] h-[35px] object-cover'
+            className='rounded-full w-[35px] h-[35px] object-cover select-none'
+            draggable={false}
           />
           <DropdownMenuTrigger asChild>
             <Menu width={35} height={35} color='white' />
@@ -115,7 +117,8 @@ export function AuthDropdown() {
             src={data?.user.profileImageUrl ?? ''}
             height={35}
             width={35}
-            className='rounded-full w-[35px] h-[35px] object-cover'
+            draggable={false}
+            className='rounded-full w-[35px] h-[35px] object-cover select-none'
           />
           <DropdownMenuTrigger asChild>
             <Menu width={35} height={35} color='white' />
