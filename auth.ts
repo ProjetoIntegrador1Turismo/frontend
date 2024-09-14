@@ -9,11 +9,12 @@ export const {
   signOut
 } = NextAuth({
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, trigger, session, account }) {
       if (trigger === 'update') {
         return { ...token, ...session.user };
       }
-      if (trigger === 'signIn') {
+      if (account && user) {
+        // first time login
         return {
           ...token,
           ...user,
@@ -38,6 +39,7 @@ export const {
           token.refreshToken = TokenOrError.refreshToken;
           token.authTokenExpiresIn = TokenOrError.authTokenExpiresIn;
           token.refreshTokenExpiresIn = TokenOrError.refreshTokenExpiresIn;
+          token.authTokenExpirationTime = Date.now() + TokenOrError.authTokenExpiresIn * 1000;
           return token;
         } catch (error) {
           await signOut({ redirectTo: '/login' });
