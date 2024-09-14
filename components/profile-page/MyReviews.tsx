@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Review } from './Profile';
 import { Button } from '../ui/button';
-import ReviewCard from '../guide-profile/ReviewCard';
 import ReviewCardProfile from './ReviewCardProfile';
 
 const MyReviews = ({ reviews, profilePic }: { reviews: Review[]; profilePic: string }) => {
@@ -26,6 +25,37 @@ const MyReviews = ({ reviews, profilePic }: { reviews: Review[]; profilePic: str
     }
   };
 
+  if (reviews.length === 0) {
+    return (
+      <div className='w-[802px] min-h-[75vh] h-fit mb-3'>
+        <Card>
+          <CardHeader>
+            <CardTitle>Suas avaliações</CardTitle>
+            <CardDescription>Aqui você encontra todos as suas avaliações de guia!</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className='w-[500px] flex items-center flex-col'>
+              <div className='w-fit flex flex-col items-center justify-center'>
+                <h1 className='text-xl font-bold bg-gradient-to-r from-tl-red to-tl-purple bg-clip-text text-transparent'>
+                  Que vazio...
+                </h1>
+                <br />
+                <p className='text-sm text-center w-1/2'>
+                  Você ainda não avaliou nenhum guia de turismo... ainda!
+                </p>
+                <br />
+                <p className='text-sm w-1/2 text-center'>
+                  Que tal compartilhar suas experiências e ajudar outros viajantes a encontrar os
+                  melhores profissionais?
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className='w-[802px] min-h-[75vh] h-fit mb-3'>
       <Card>
@@ -36,7 +66,9 @@ const MyReviews = ({ reviews, profilePic }: { reviews: Review[]; profilePic: str
         <CardContent>
           <div className='grid grid-cols-2 grid-rows-3 gap-4'>
             {currentData.map((review) => {
-              return <ReviewCardProfile review={{...review, avatarUrl: profilePic}} key={review.id} />;
+              return (
+                <ReviewCardProfile review={{ ...review, avatarUrl: profilePic }} key={review.id} />
+              );
             })}
           </div>
         </CardContent>

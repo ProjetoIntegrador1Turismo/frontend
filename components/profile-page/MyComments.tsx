@@ -25,12 +25,44 @@ const MyComments = ({ comments, profilePic }: { comments: Comment[]; profilePic:
     }
   };
 
+  if (comments.length === 0) {
+    return (
+      <div className='w-[802px] min-h-[75vh] h-fit mb-3'>
+        <Card>
+          <CardHeader>
+            <CardTitle>Suas avaliações</CardTitle>
+            <CardDescription>Aqui você encontra todos as suas avaliações de guia!</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className='w-[500px] flex items-center flex-col'>
+              <div className='w-fit flex flex-col items-center justify-center'>
+                <h1 className='text-xl font-bold bg-gradient-to-r from-tl-red to-tl-purple bg-clip-text text-transparent'>
+                  Que vazio...
+                </h1>
+                <br />
+                <p className='text-sm text-center w-1/2'>
+                  Você ainda não comentou em nenhum ponto de interesse!
+                </p>
+                <br />
+                <p className='text-sm text-center w-1/2'>
+                  Compartilhe suas dicas e ajude outros exploradores a descobrir lugares incríveis!
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className='w-[802px] min-h-[75vh] h-fit mb-3'>
       <Card>
         <CardHeader>
           <CardTitle>Seus comentários</CardTitle>
-          <CardDescription>Aqui você encontra todos os seus comentários de pontos de interesse!</CardDescription>
+          <CardDescription>
+            Aqui você encontra todos os seus comentários de pontos de interesse!
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className='grid grid-cols-2 grid-rows-3 gap-4'>
