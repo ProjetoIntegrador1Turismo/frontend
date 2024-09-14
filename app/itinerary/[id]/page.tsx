@@ -1,72 +1,19 @@
 import InterestPointCard from '@/components/categories/InterestPointCard';
+import ReviewCard from '@/components/guide-profile/ReviewCard';
 import BondeDivisor from '@/components/home-page/BondeDivisor';
 import PeopleDivisor from '@/components/home-page/PeopleDivisor';
 import PlaneDivisor from '@/components/home-page/PlaneDivisor';
 import ItineraryDescription from '@/components/itinerary-page/ItineraryDescription';
 import ItineraryGallery from '@/components/itinerary-page/ItineraryGallery';
-import CommentCard from '@/components/product-page/CommentCard';
-import TourGallery from '@/components/product-page/Gallery';
 import GuideCardTour from '@/components/product-page/GuideCardTour';
-import Title from '@/components/product-page/Title';
-import TourDescription from '@/components/product-page/TourDescription';
+import { Review } from '@/components/profile-page/Profile';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
-
-// MOCKS:
-const tourTitleMock = {
-  title: 'Roteiro Primeira vez em Foz do Iguaçu',
-  description:
-    'Esse é um roteiro incrível para quem está visitando Foz do Iguaçu pela primeira vez. Aproveite as melhores atrações com um guia experiente.'
-};
-
-const mockGuides = {
-  firstName: 'Guia 1'
-};
-
-const mockInterestPoints = [
-  {
-    image: 'https://i.imgur.com/Aex3UZm.jpeg',
-    name: 'Parque das Aves'
-  },
-  {
-    image: 'https://i.imgur.com/Aex3UZm.jpeg',
-    name: 'Cataratas do Iguaçu'
-  },
-  {
-    image: 'https://i.imgur.com/Aex3UZm.jpeg',
-    name: 'Marco das Três Fronteiras'
-  },
-  {
-    image: 'https://i.imgur.com/Aex3UZm.jpeg',
-    name: 'Itaipu Binacional'
-  }
-];
-
-const mockComments = [
-  {
-    avatar: 'https://i.imgur.com/Aex3UZm.jpeg',
-    name: 'Fulano de Tal',
-    date: '01/01/2021',
-    text: 'Esse roteiro é incrível, recomendo muito!'
-  },
-  {
-    avatar: 'https://i.imgur.com/Aex3UZm.jpeg',
-    name: 'Beltrano de Tal',
-    date: '01/01/2021',
-    text: 'Esse roteiro é incrível, recomendo muito!'
-  },
-  {
-    avatar: 'https://i.imgur.com/Aex3UZm.jpeg',
-    name: 'Ciclano de Tal',
-    date: '01/01/2021',
-    text: 'Esse roteiro é incrível, recomendo muito!'
-  }
-];
 
 export interface ItineraryPageSource {
   guide: Guide;
   itinerary: Itinerary;
-  reviews: any[];
+  reviews: Review[];
 }
 
 export interface Guide {
@@ -74,7 +21,8 @@ export interface Guide {
   firstName: string;
   lastName: string;
   cadasturCode: string;
-  averageRating: any;
+  averageRating: number;
+  profileImageUrl: string;
 }
 
 export interface Itinerary {
@@ -96,11 +44,10 @@ export interface InterestPoint {
 }
 
 const ItineraryPage = async ({ params }: { params: { id: string } }) => {
-  try {
-    Number(params.id);
-  } catch (error) {
+  if (isNaN(+params.id)) {
     redirect('/');
   }
+
   let itineraryData: ItineraryPageSource;
   try {
     const request = await axios.get(`http://localhost:8081/page-source/itinerary/${params.id}`);
@@ -123,9 +70,17 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
       );
     }
 
-    return itineraryData.reviews.map((comment, index) => (
-      <CommentCard key={index} comment={comment} />
-    ));
+    return itineraryData.reviews.map((comment, index) => {
+      const { avatarUrl, ...rest } = comment;
+      return (
+        <ReviewCard
+          review={{
+            ...rest,
+            avatarUrl: comment.avatarUrl ?? ' '
+          }}
+        />
+      );
+    });
   };
 
   return (
@@ -142,7 +97,8 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
       <div className='flex flex-col gap-3 justify-center items-center'>
         <p className='text-xl text-center'>Ofertado por:</p>
         <GuideCardTour
-          img='https://i.imgur.com/Aex3UZm.jpeg'
+          img={itineraryData.guide.profileImageUrl ?? '/avatar.jpg'}
+          id={itineraryData.guide.id}
           name={`${itineraryData.guide.firstName} ${itineraryData.guide.lastName}`}
           rating={itineraryData.guide.averageRating ?? 3}
         />

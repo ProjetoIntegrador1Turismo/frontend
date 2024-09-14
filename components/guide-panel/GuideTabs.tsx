@@ -5,16 +5,25 @@ import InterestedTourists from './InterestedTourists';
 import { getAuthToken } from '@/api/service';
 import ItinerariesPaginated from './ItinerariesPaginated';
 import MyItineraries from './MyItineraries';
+import { auth } from '@/auth';
+import Image from 'next/image';
 
 export async function GuideTabs() {
+  const session = await auth();
   return (
     <Tabs defaultValue='itineraries' className='flex gap-4'>
       <TabsList className='flex flex-col h-fit gap-12 border border-black rounded-xl p-4'>
         <h1 className='font-bold text-3xl text-black break-words w-48 text-center'>
           <p>Guia</p>
         </h1>
-        {/* <img src='/avatar.jpg' className='w-[150px] h-[150px] rounded-full object-cover' /> */}
-        <p>Cadastur: guide.cadasturCode</p>
+        <Image
+          alt={session?.user.firstName ?? ''}
+          className='w-[150px] h-[150px] rounded-full object-cover'
+          height={150}
+          width={150}
+          src={session?.user.profileImageUrl ?? ''}
+        />
+        <p>Cadastur: {session?.user.cadasturCode}</p>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='itineraries'>
           Meus roteiros
         </TabsTrigger>

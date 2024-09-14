@@ -31,7 +31,7 @@ const ItineraryGallery = ({ imgCover }: { imgCover: string }) => {
         close={() => {
           setOpen(false);
         }}
-        slides={[{ src: imgCover, width: 1400}]}
+        slides={[{ src: imgCover, width: 1400 }]}
       />
     </>
   );

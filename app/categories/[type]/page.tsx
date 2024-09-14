@@ -71,16 +71,15 @@ export default async function CategoryPage({
         <SearchBar route={validatedParam.data} />
       </div>
       <div className='grid grid-cols-5 grid-rows-2 gap-4'>
-          {content.map((item: any) => (
-            <InterestPointCard
-              type={validatedParam.data === 'itinerary' ? 'itinerary' : 'tour'}
-              id={item.id}
-              key={item.id}
-              name={validatedParam.data === 'itinerary' ? item.title : item.name}
-              imageCoverUrl={item.imageCoverUrl}
-              shortDescription={item.shortDescription}
-            />
-          ))}
+        {content.map((item: any) => (
+          <InterestPointCard
+            type={validatedParam.data === 'itinerary' ? 'itinerary' : 'tour'}
+            id={item.id}
+            key={item.id}
+            name={validatedParam.data === 'itinerary' ? item.title : item.name}
+            imageCoverUrl={item.imageCoverUrl}
+          />
+        ))}
       </div>
       <div className='self-end'>
         <PaginationControls

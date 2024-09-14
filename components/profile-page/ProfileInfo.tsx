@@ -23,22 +23,23 @@ import { updateProfile } from '@/actions/updateProfile';
 import { FormError } from '../Auth/form-error';
 import { FormSucess } from '../Auth/form-sucess';
 import { useRouter } from 'next/navigation';
+import ControlledSingleFileInput from '../admin-panel/ControlledSingleFileInput';
+import axios from 'axios';
 
 const ProfileInfo = () => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [edit, setEdit] = useState<boolean>(false);
   const router = useRouter();
-  const { data } = useSession();
+  const { data: SessionData, update: updateSession } = useSession();
 
   const form = useForm<z.infer<typeof UpdateProfileSchema>>({
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
-      name: data?.user.firstName + ' ' + data?.user.lastName,
-      email: data?.user.email
+      name: SessionData?.user.firstName + ' ' + SessionData?.user.lastName,
+      email: SessionData?.user.email ?? ''
     }
   });
-
   const fileRef = form.register('avatar');
 
   const onSubmitUpdateProfile = (values: z.infer<typeof UpdateProfileSchema>) => {
@@ -46,9 +47,45 @@ const ProfileInfo = () => {
     setError('');
     setSuccess('');
 
-    const { avatar, ...updateValues} = values;
+    const { avatar, ...updateValues } = values;
+
+    console.log(avatar);
 
     updateProfile(updateValues).then(async (data) => {
+      const imgFormData = new FormData();
+      if (data.success) {
+        let imageResponse;
+        if (avatar) {
+          imgFormData.append('file', avatar);
+          imageResponse = await axios.post('http://localhost:8081/file/upload/user', imgFormData, {
+            headers: { Authorization: `Bearer ${SessionData?.user.authToken}` }
+          });
+        }
+        const nameParts = updateValues.name.trim().split(' ');
+        if (imageResponse && imageResponse.status === 200) {
+          await updateSession({
+            ...SessionData,
+            user: {
+              ...SessionData?.user,
+              firstName: nameParts[0],
+              lastName: nameParts.slice(1).join(' '),
+              profileImageUrl: imageResponse.data
+            }
+          });
+        }
+
+        if (imageResponse?.status !== 200) {
+          setError('Erro com a foto de perfil!');
+          await updateSession({
+            ...SessionData,
+            user: {
+              ...SessionData?.user,
+              firstName: nameParts[0],
+              lastName: nameParts.slice(1).join(' ')
+            }
+          });
+        }
+      }
       setSuccess(data.success);
       setError(data.error);
       setEdit((prevState) => {
@@ -56,7 +93,7 @@ const ProfileInfo = () => {
       });
       await new Promise((resolve) => setTimeout(resolve, 2000));
       if (data.success) {
-        router.refresh()
+        router.refresh();
       }
     });
   };
@@ -132,28 +169,12 @@ const ProfileInfo = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+              <ControlledSingleFileInput
                 control={form.control}
                 name='avatar'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Foto de Perfil</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={!edit}
-                        type='file'
-                        accept='image/*'
-                        {...fileRef}
-                        onChange={(event) => {
-                          form.clearErrors();
-                          field.onChange(event.target?.files?.[0] ?? undefined);
-                        }}
-                        className='shadow-md shadow-gray-400 border border-black'
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label='Foto de Perfil'
+                disabled={!edit}
+                className='shadow-md shadow-gray-400 border border-black'
               />
             </div>
             {edit && (

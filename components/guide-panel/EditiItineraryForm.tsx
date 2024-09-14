@@ -37,7 +37,7 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
   const [success, setSuccess] = useState<string | undefined>('');
   const router = useRouter();
   const { data: sessionData } = useSession();
-  
+
   const { toast } = useToast();
   const form = useForm<z.infer<typeof EditItineraryFormSchema>>({
     resolver: zodResolver(EditItineraryFormSchema),
@@ -49,7 +49,7 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
       title: itinerary.title
     }
   });
-  
+
   const imgCoverRef = form.register('imgCover');
 
   const addInterestPoint = (id: number) => {
@@ -162,7 +162,6 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
               <ControlledSingleFileInput
                 control={form.control}
                 disabled={isPending}
-                ref={imgCoverRef}
                 name='imgCover'
                 label='Imagem de Capa'
               />

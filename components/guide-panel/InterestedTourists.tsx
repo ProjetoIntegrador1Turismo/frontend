@@ -48,7 +48,7 @@ const InterestedTourists: React.FC = () => {
   };
 
   return (
-    <div className='h-[75vh]'>
+    <div className='min-h-[75vh] w-[550px] h-fit'>
       <Card>
         <CardHeader>
           <CardTitle className='text-3xl font-bold'>Turistas interessados</CardTitle>

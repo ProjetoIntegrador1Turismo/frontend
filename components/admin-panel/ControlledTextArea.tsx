@@ -3,7 +3,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/
 import { Textarea } from '../ui/textarea';
 
 interface ControlledTextAreaProps {
-  control: any; 
+  control: any;
   name: 'shortDescription' | 'longDescription' | 'description' | 'commentText';
   label: string;
   placeholder: string;
@@ -27,7 +27,12 @@ const ControlledTextArea = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Textarea placeholder={placeholder} className={className} {...field} disabled={disabled} />
+            <Textarea
+              placeholder={placeholder}
+              className={className}
+              {...field}
+              disabled={disabled}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

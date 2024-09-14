@@ -14,7 +14,6 @@ export const createInterestPoint = async (values: z.infer<typeof InterestPointFo
 
   if (!status) {
     return { error: 'Erro ao criar ponto de interesse!' };
-    
   }
 
   return { success: 'Seu ponto de interesse foi criado com sucesso!' };

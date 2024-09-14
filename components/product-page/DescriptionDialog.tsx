@@ -7,11 +7,10 @@ import {
   DialogTrigger,
   DialogClose
 } from '@/components/ui/dialog';
-import { TourDescriptionProps } from '@/lib/interfaces';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 
-export function DescriptionDialog({ longDescription }: { longDescription: string}) {
+export function DescriptionDialog({ longDescription }: { longDescription: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>

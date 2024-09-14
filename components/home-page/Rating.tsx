@@ -7,7 +7,7 @@ import FiveStars from './FiveStars';
 
 const Rating = ({ rating }: RatingProps) => {
   switch (rating) {
-    case 0:
+    case 1:
       return <OneStar />;
     case 2:
       return <TwoStars />;

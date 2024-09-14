@@ -7,7 +7,6 @@ import { useSession } from 'next-auth/react';
 import ItineraryCard from './ItineraryCard';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-
 const ItinerariesPaginated = () => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -18,7 +17,7 @@ const ItinerariesPaginated = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['guideItineraries', sessionData?.user.email],
     queryFn: async () => {
-    const response = await axios.get(`http://localhost:8081/guides/itineraries`, {
+      const response = await axios.get('http://localhost:8081/guides/itineraries', {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
       return response.data;
@@ -36,7 +35,7 @@ const ItinerariesPaginated = () => {
 
   if (isLoading)
     return (
-      <div className='min-h-[45vh] h-fit mb-3 w-[667px] flex items-center justify-center'>
+      <div className='min-h-[45vh] h-fit mb-3 w-[500px] flex items-center justify-center'>
         <ClipLoader color='black' />
       </div>
     );
@@ -49,12 +48,13 @@ const ItinerariesPaginated = () => {
 
   if (data.length === 0) {
     return (
-      <div className='w-[600px] flex items-center flex-col'>
+      <div className='w-[500px] flex items-center flex-col'>
         <div className='w-fit flex flex-col items-center justify-center'>
-          <h1 className='text-xl font-bold bg-gradient-to-r from-tl-red to-tl-purple bg-clip-text text-transparent'>
-            Que vazio...
-          </h1>
-          <p className='text-sm'>Crie novos roteiros e verifique-os aqui!</p>
+          <h1 className='text-xl'>🌍✨</h1>
+          <p className='text-sm w-1/2'>
+            Parece que ainda não há nenhum roteiro criado por aqui. Que tal começar a planejar uma
+            nova aventura agora mesmo?.{' '}
+          </p>
         </div>
       </div>
     );
@@ -80,9 +80,14 @@ const ItinerariesPaginated = () => {
           }}
         />
       </div>
-      <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4'>
+      <div className='grid grid-cols-2 w-fit gap-4'>
         {currentItems.map((point: any) => (
-          <ItineraryCard id={point.id} imageCoverUrl={point.imageCoverUrl} name={point.title} />
+          <ItineraryCard
+            id={point.id}
+            imageCoverUrl={point.imageCoverUrl}
+            name={point.title}
+            key={point.id}
+          />
         ))}
       </div>
       <div className='flex justify-center mt-4'>

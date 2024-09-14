@@ -2,6 +2,7 @@
 import { auth } from '@/auth';
 import { HomePageData } from '@/lib/interfaces';
 import {
+  CommentSchema,
   InterestPointEditFormSchema,
   InterestPointFormSchema,
   NewItineraryFormSchema,
@@ -10,16 +11,11 @@ import {
   UpdateProfileSchema
 } from '@/schemas';
 import axios from 'axios';
-import { useSession } from 'next-auth/react';
 import * as z from 'zod';
 
 export const getAuthToken = async () => {
   const session = await auth();
   return session?.user.authToken;
-};
-
-const getAuthTokenClient = () => {
-  return useSession().data?.user.authToken;
 };
 
 export async function RegisterUser({ name, email, password }: z.infer<typeof RegisterSchema>) {
@@ -46,12 +42,21 @@ export async function updateUser({ name, password, email }: z.infer<typeof Updat
   const [firstName, ...rest] = name.split(' ');
   const lastName = rest.join(' ');
 
-  const response = await axios.put('http://localhost:8081/user/update', {
-    email: email,
-    firstName: firstName,
-    lastName: lastName,
-    newPassword: password || null
-  });
+  const response = await axios.put(
+    'http://localhost:8081/user/update',
+    {
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      newPassword: password || null
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
+    }
+  );
 
   return response.status === 200;
 }
@@ -119,7 +124,7 @@ export async function interestPointCreate(values: z.infer<typeof InterestPointFo
 
     return response.status === 200;
   } catch (error) {
-    return false
+    return false;
   }
 }
 
@@ -205,31 +210,63 @@ export async function RegisterGuide({
 }
 
 export const ItineraryCreate = async (values: z.infer<typeof NewItineraryFormSchema>) => {
-  const { interestPointIds, averageCost,...rest} = values
-  const response = await axios.post('http://localhost:8081/itinerary', {
-    interestPointsId: interestPointIds,
-    mediumCost: averageCost,
-    ...rest
-  }, {
-    headers: {
-      Authorization: `Bearer ${await getAuthToken()}`
+  const { interestPointIds, averageCost, ...rest } = values;
+  const response = await axios.post(
+    'http://localhost:8081/itinerary',
+    {
+      interestPointsId: interestPointIds,
+      mediumCost: averageCost,
+      ...rest
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
     }
-  })
+  );
 
-  return {ok: response.status === 200, id: response.data.id};
-}
+  return { ok: response.status === 200, id: response.data.id };
+};
 
-export const ItineraryUpdate = async (values: z.infer<typeof NewItineraryFormSchema>, id: number) => {
-  const { interestPointIds, averageCost, ...rest} = values
-  const response = await axios.put(`http://localhost:8081/itinerary/${id}`, {
-    interestPointsId: interestPointIds,
-    mediumCost: averageCost,
-    ...rest
-  }, {
-    headers: {
-      Authorization: `Bearer ${await getAuthToken()}`
+export const ItineraryUpdate = async (
+  values: z.infer<typeof NewItineraryFormSchema>,
+  id: number
+) => {
+  const { interestPointIds, averageCost, ...rest } = values;
+  const response = await axios.put(
+    `http://localhost:8081/itinerary/${id}`,
+    {
+      interestPointsId: interestPointIds,
+      mediumCost: averageCost,
+      ...rest
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${await getAuthToken()}`
+      }
     }
-  })
+  );
 
-  return {ok: response.status === 200, id: response.data.id};
-}
+  return { ok: response.status === 200, id: response.data.id };
+};
+
+export const createReview = async (values: z.infer<typeof CommentSchema>, guideId: number) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:8081/review/${guideId}`,
+      {
+        rating: values.rating,
+        text: values.commentText,
+        date: new Date().toISOString()
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${await getAuthToken()}`
+        }
+      }
+    );
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
+};

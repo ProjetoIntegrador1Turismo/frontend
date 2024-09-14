@@ -17,7 +17,7 @@ const InterestPointEdit = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['interestPoints'],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:8081/interestpoint`, {
+      const response = await axios.get('http://localhost:8081/interestpoint', {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
       });
       return response.data;
@@ -66,12 +66,13 @@ const InterestPointEdit = () => {
           }}
         />
       </div>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[316px]'>
         {currentItems.map((point: any) => (
           <InterestPointEditCard
             name={point.name}
             imageCoverUrl={point.imageCoverUrl}
             id={point.id}
+            key={point.id}
           />
         ))}
       </div>

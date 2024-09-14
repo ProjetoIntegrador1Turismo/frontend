@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import { LoginSchema } from './schemas';
-import { AdapterUser } from 'next-auth/adapters';
 
 export const {
   handlers: { GET, POST },
@@ -10,16 +9,52 @@ export const {
   signOut
 } = NextAuth({
   callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user };
+    async jwt({ token, user, trigger, session, account }) {
+      if (trigger === 'update') {
+        return { ...token, ...session.user };
+      }
+      if (account && user) {
+        // first time login
+        return {
+          ...token,
+          ...user,
+          authTokenExpirationTime: Date.now() + +user.authTokenExpiresIn * 1000
+        };
+      } else if (Date.now() < token.authTokenExpirationTime) {
+        return token;
+      } else {
+        try {
+          const refreshResponse = await fetch(
+            `http://localhost:8081/auth/refresh?refreshToken=${token.refreshToken}`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            }
+          );
+
+          const TokenOrError = await refreshResponse.json();
+          token.authToken = TokenOrError.authToken;
+          token.refreshToken = TokenOrError.refreshToken;
+          token.authTokenExpiresIn = TokenOrError.authTokenExpiresIn;
+          token.refreshTokenExpiresIn = TokenOrError.refreshTokenExpiresIn;
+          token.authTokenExpirationTime = Date.now() + TokenOrError.authTokenExpiresIn * 1000;
+          return token;
+        } catch (error) {
+          await signOut({ redirectTo: '/login' });
+          return token;
+        }
+      }
     },
     async session({ token, session }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
+      // if (token.sub && session.user) {
+      //   session.user.id = token.sub;
+      // }
       // eslint-disable-next-line prettier/prettier
       // not ideal, thanks next auth v5 :(
-      session.user = token as unknown as AdapterUser;
+
+      session.user = token;
       return session;
     }
   },
@@ -36,7 +71,7 @@ export const {
             },
             body: JSON.stringify({
               username: email,
-              password: password,
+              password: password
             })
           });
 

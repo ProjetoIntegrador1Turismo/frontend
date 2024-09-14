@@ -3,7 +3,7 @@ import { MapPin } from 'lucide-react';
 import Rating from '../home-page/Rating';
 import TourPrice from './TourPrice';
 
-const Title = ({ name, price, address }: {name: string, price: number, address: string}) => {
+const Title = ({ name, price, address }: { name: string; price: number; address: string }) => {
   return (
     <div className='flex border-black'>
       <div className='flex flex-col gap-2 w-fit'>

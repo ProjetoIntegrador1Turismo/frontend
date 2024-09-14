@@ -83,7 +83,7 @@ const NewItineraryForm = () => {
             }
           );
         }
-        
+
         setSuccess(data.success);
         setError(data.error);
 
@@ -160,7 +160,6 @@ const NewItineraryForm = () => {
               <ControlledSingleFileInput
                 control={form.control}
                 disabled={isPending}
-                ref={imgCoverRef}
                 name='imgCover'
                 label='Imagem de Capa'
               />
@@ -181,7 +180,7 @@ const NewItineraryForm = () => {
                 <div className='flex flex-col gap-3'>
                   {form.getValues().interestPointIds.map((number) => {
                     return (
-                      <div className='flex gap-3 w-fit items-center'>
+                      <div className='flex gap-3 w-fit items-center' key={number}>
                         <SelectedInterestPointCard id={number} />
                         <Button
                           className='shadow-md shadow-gray-400 font-bold'

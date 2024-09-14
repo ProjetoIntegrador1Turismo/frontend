@@ -10,6 +10,7 @@ export default auth((req) => {
   const isTourRoute = nextUrl.pathname.toLowerCase().includes('tour/');
   const isAdminRoute = nextUrl.pathname.toLowerCase().includes('admin');
   const isGuidePanel = nextUrl.pathname.toLowerCase().includes('guide');
+  const isGuideProfile = nextUrl.pathname.toLowerCase().includes('guide-profile/');
 
   let userType = '';
 
@@ -29,6 +30,10 @@ export default auth((req) => {
     return;
   }
 
+  if (isGuideProfile) {
+    return;
+  }
+
   if (isAuthRoute) {
     if (isLoggedIn) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
@@ -36,7 +41,7 @@ export default auth((req) => {
     return;
   }
 
-  if (isAdminRoute && userType !== 'Admin' ) {
+  if (isAdminRoute && userType !== 'Admin') {
     return Response.redirect(new URL('/', nextUrl));
   }
 

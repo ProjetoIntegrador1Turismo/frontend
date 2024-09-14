@@ -1,5 +1,7 @@
-import { auth } from "@/auth";
-import InterestPointEditForm, { InterestPointData } from "@/components/admin-panel/InterestPointEditForm";
+import { auth } from '@/auth';
+import InterestPointEditForm, {
+  InterestPointData
+} from '@/components/admin-panel/InterestPointEditForm';
 
 const InterestPointEditPage = async ({ params }: { params: { id: string } }) => {
   const session = await auth();
@@ -8,9 +10,11 @@ const InterestPointEditPage = async ({ params }: { params: { id: string } }) => 
   });
   const interestPointData = (await response.json()) as InterestPointData;
 
-  return <div>
-    <InterestPointEditForm InterestPoint={interestPointData} />
-  </div>;
+  return (
+    <div>
+      <InterestPointEditForm InterestPoint={interestPointData} />
+    </div>
+  );
 };
 
 export default InterestPointEditPage;

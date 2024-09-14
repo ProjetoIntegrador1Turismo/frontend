@@ -48,7 +48,7 @@ const TourGallery = ({ imgCover, images }: { imgCover: string; images: string[] 
         plugins={[Counter]}
         counter={{ container: { style: { top: 'unset', bottom: 0 } } }}
         slides={[
-          { src: imgCover, width: 1400},
+          { src: imgCover, width: 1400 },
           ...images.map((image) => {
             return { src: image, width: 1400 };
           })

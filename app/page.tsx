@@ -6,10 +6,8 @@ import BondeDivisor from '@/components/home-page/BondeDivisor';
 import WeekGuides from '@/components/home-page/WeekGuides';
 import { fetchHomepageData } from '@/api/service';
 
-
 export default async function Home() {
-  const PageData = await fetchHomepageData()
-
+  const PageData = await fetchHomepageData();
 
   return (
     <div>
@@ -22,7 +20,7 @@ export default async function Home() {
       <SliderWithHeader title='Restaurantes, Eventos e Passeios' slides={PageData.firstSlider} />
       <SliderWithHeader title='Roteiros, Hóteis e Expêriencias' slides={PageData.secondSlider} />
       <BondeDivisor />
-      <WeekGuides guides={PageData.topGuides  } />
+      <WeekGuides guides={PageData.topGuides} />
       <div className='mb-14' />
     </div>
   );

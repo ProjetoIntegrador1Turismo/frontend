@@ -13,7 +13,7 @@ const ItineraryCard = ({
   name: string;
 }) => {
   return (
-    <Link href={`/itinerary/${id}`}>
+    <Link href={`/itinerary/${id}`} className='w-fit'>
       <div className='w-[200px]'>
         {imageCoverUrl ? (
           <Image
