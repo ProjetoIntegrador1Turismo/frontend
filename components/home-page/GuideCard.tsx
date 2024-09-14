@@ -2,6 +2,7 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { GuideCardProps } from '@/lib/interfaces';
 import Rating from './Rating';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const GuideCard = ({ guide }: GuideCardProps) => {
   return (
@@ -22,9 +23,9 @@ const GuideCard = ({ guide }: GuideCardProps) => {
         <Rating rating={guide.averageRating} />
       </div>
       <div className='flex justify-end items-center'>
-        <a>
+        <Link href={`/guide-profile/${guide.id}`}>
           <DotsHorizontalIcon width={30} height={30} />
-        </a>
+        </Link>
       </div>
     </div>
   );
