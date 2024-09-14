@@ -44,7 +44,7 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({ interestedItinerari
   };
 
   return (
-    <div className='w-[802px] h-fit mb-3'>
+    <div className='h-fit mb-3'>
       <TableContainer component={Paper} className='min-h-[495px]'>
         <Table sx={{ minWidth: 650 }} aria-label='itinerary table'>
           <TableHead>
