@@ -1,40 +1,48 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import InterestedTouristsTable from './InterestedTouristsTable';
+import ClipLoader from 'react-spinners/ClipLoader';
+import { useSession } from 'next-auth/react';
 
 interface Tourist {
-  id: number;
-  name: string;
-  contact: string;
-  itineraryInterest: string;
+  tourist: {
+    id: number;
+    email: string;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    profileImageUrl: string;
+    phone: string | null;
+  };
+  itinerary: {
+    id: number;
+    title: string;
+    imageCoverUrl: string;
+  };
 }
 
 const InterestedTourists: React.FC = () => {
   const [tourists, setTourists] = useState<Tourist[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
+  const [loading, setLoading] = useState<boolean>(true);
+  const { data: sessionData } = useSession();
 
-  // SOMENTE PRA VER COMO FICA REMOVER DEPOIS E FAZER IGUAL A FUNCAO DO PAINEL DO ADMIN
   useEffect(() => {
     const fetchTourists = async () => {
-      const data = [
-        {
-          id: 1,
-          name: 'Chat chunguete',
-          contact: 'chungao@gmail.com',
-          itineraryInterest: 'Foz do Iguaçu: 7 dias'
-        },
-        {
-          id: 2,
-          name: 'Calvo de cria',
-          contact: 'calvoo@docs.com',
-          itineraryInterest: 'Rio de Janeiro: 5 dias'
-        }
-        // Adicione mais dados conforme necessário
-      ];
-      setTourists(data);
+      try {
+        const response = await axios.get('http://localhost:8081/guides/interestedTourists',
+          { headers: { Authorization: `Bearer ${sessionData?.user.authToken}` } }
+        );
+        setTourists(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar turistas:', error);
+      } finally {
+        setLoading(false);
+      }
     };
-
     fetchTourists();
   }, []);
 
@@ -43,46 +51,44 @@ const InterestedTourists: React.FC = () => {
   const currentItems = tourists.slice(startIndex, endIndex);
   const totalPages = Math.ceil(tourists.length / itemsPerPage);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
   };
 
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[75vh]">
+        <ClipLoader color="black" />
+      </div>
+    );
+  }
+
   return (
-    <div className='min-h-[75vh] w-[550px] h-fit'>
+    <div className="min-h-[75vh] w-[750px] h-fit">
       <Card>
         <CardHeader>
-          <CardTitle className='text-3xl font-bold'>Turistas interessados</CardTitle>
+          <CardTitle className="text-3xl font-bold">Turistas interessados</CardTitle>
         </CardHeader>
         <CardContent>
-          <table className='w-full border-collapse'>
-            <thead>
-              <tr className='bg-gray-100'>
-                <th className='border p-2'>Nome</th>
-                <th className='border p-2'>Contato</th>
-                <th className='border p-2'>Roteiro de Interesse</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((tourist) => (
-                <tr key={tourist.id} className='even:bg-gray-50'>
-                  <td className='border p-2'>{tourist.name}</td>
-                  <td className='border p-2'>{tourist.contact}</td>
-                  <td className='border p-2'>{tourist.itineraryInterest}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className='flex justify-center mt-4'>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i + 1}
-                className={`px-3 py-1 mx-1 rounded-full ${currentPage === i + 1 ? 'bg-gray-400' : 'bg-gray-200'}`}
-                onClick={() => handlePageChange(i + 1)}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
+          {tourists.length > 0 ? (
+            <InterestedTouristsTable
+              tourists={currentItems}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePrevious={handlePrevious}
+              handleNext={handleNext}
+            />
+          ) : (
+            <p>Nenhum turista interessado no momento.</p>
+          )}
         </CardContent>
       </Card>
     </div>
