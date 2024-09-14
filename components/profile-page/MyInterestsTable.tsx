@@ -44,8 +44,8 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({ interestedItinerari
   };
 
   return (
-    <div className='w-[802px] min-h-[75vh] h-fit mb-3'>
-      <TableContainer component={Paper}>
+    <div className='w-[802px] h-fit mb-3'>
+      <TableContainer component={Paper} className='min-h-[495px]'>
         <Table sx={{ minWidth: 650 }} aria-label='itinerary table'>
           <TableHead>
             <TableRow>
@@ -60,7 +60,7 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({ interestedItinerari
                 <TableCell>
                   <Avatar src={itinerary.guide.profileImageUrl} alt={itinerary.title} />
                 </TableCell>
-                <TableCell>{itinerary.guide.firstName + " " + itinerary.guide.lastName}</TableCell>
+                <TableCell>{itinerary.guide.firstName + ' ' + itinerary.guide.lastName}</TableCell>
                 <TableCell>
                   <Link
                     href={`/itinerary/${itinerary.id}`}
@@ -77,26 +77,27 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({ interestedItinerari
           </TableBody>
         </Table>
       </TableContainer>
-
-      <div className='flex items-center justify-center w-full gap-4 mt-4'>
-        <Button
-          className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
-          onClick={handlePrevious}
-          disabled={currentPage === 1}
-        >
-          Anterior
-        </Button>
-        <p>
-          {currentPage} de {totalPages}
-        </p>
-        <Button
-          className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
-          onClick={handleNext}
-          disabled={currentPage === totalPages}
-        >
-          Próximo
-        </Button>
-      </div>
+      {interestedItineraries.length !== 0 && (
+        <div className='flex items-center justify-center w-full gap-4 mt-4'>
+          <Button
+            className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
+            onClick={handlePrevious}
+            disabled={currentPage === 1}
+          >
+            Anterior
+          </Button>
+          <p>
+            {currentPage} de {totalPages}
+          </p>
+          <Button
+            className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+          >
+            Próximo
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

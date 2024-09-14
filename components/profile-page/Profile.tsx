@@ -135,7 +135,6 @@ export async function Profile() {
         <MyComments comments={userData.data.comments} profilePic={session!.user.profileImageUrl} />
       </TabsContent>
       <TabsContent value='roteiros'>
-        <Title className='text-2xl font-bold text-center'>Roteiros que você se interessou</Title>
         <MyInterestedItineraries interestedItineraries={userData.data.interestedItineraries} />
       </TabsContent>
     </Tabs>
