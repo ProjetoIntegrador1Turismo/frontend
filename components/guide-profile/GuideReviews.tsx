@@ -1,8 +1,12 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import { Review } from './GuideProfileTabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import ReviewCard from './ReviewCard';
 import { CommentFormDialog } from './CommentFormDialog';
+import { Button } from '../ui/button';
+import SearchBar from './SearchBar';
+import { useDebounce } from 'use-debounce';
 
 const GuideReviews = ({
   reviews,
@@ -15,6 +19,39 @@ const GuideReviews = ({
   guideName: string;
   userType: string | undefined;
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [query] = useDebounce(searchTerm, 500);
+  const itemsPerPage = 6;
+
+  const handleSearchChange = (text: string) => {
+    setSearchTerm(text);
+    setCurrentPage(1);
+  };
+
+  const filteredReviews = reviews.filter((review) =>
+    review.touristName.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredReviews.length / itemsPerPage);
+
+  const currentData = filteredReviews.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
   if (reviews.length === 0) {
     return (
       <div className='min-h-[75vh] h-fit w-fit'>
@@ -54,15 +91,39 @@ const GuideReviews = ({
           <CardDescription>
             Aqui você encontra todos as avaliações que {guideName} recebeu!
           </CardDescription>
-          {userType && userType !== 'Guide' && (
-            <CommentFormDialog guideId={guideId} guideName={guideName} />
-          )}
+          <div className='flex justify-between items-center'>
+            {userType && userType !== 'Guide' && (
+              <CommentFormDialog guideId={guideId} guideName={guideName} />
+            )}
+            <SearchBar setText={handleSearchChange} text={searchTerm} />
+          </div>
         </CardHeader>
         <CardContent className='grid grid-cols-3 grid-rows-2 gap-4'>
-          {reviews.map((review) => {
+          {currentData.map((review) => {
             return <ReviewCard review={review} key={review.id} />;
           })}
         </CardContent>
+        <CardFooter>
+          <div className='flex items-center justify-center w-full gap-4'>
+            <Button
+              className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
+              onClick={handlePrevious}
+              disabled={currentPage === 1 || currentData.length === 0}
+            >
+              Anterior
+            </Button>
+            <p>
+              {currentPage} de {totalPages}
+            </p>
+            <Button
+              className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
+              onClick={handleNext}
+              disabled={currentPage === totalPages || currentData.length === 0}
+            >
+              Próximo
+            </Button>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );
