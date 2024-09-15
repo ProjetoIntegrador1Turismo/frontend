@@ -54,16 +54,11 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({
 
   const handleRemoveInterest = async (itineraryId: number) => {
     try {
-      await axios.delete(`http://localhost:8081/tourist/signal/${itineraryId}`,
-        {
-          headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
-        }
-        
-      );
+      await axios.delete(`http://localhost:8081/tourist/signal/${itineraryId}`, {
+        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+      });
       toast({ title: 'Interesse removido com sucesso!', variant: 'destructive' });
-      setInterestedItineraries((prev) =>
-        prev.filter((itinerary) => itinerary.id !== itineraryId)
-      );
+      setInterestedItineraries((prev) => prev.filter((itinerary) => itinerary.id !== itineraryId));
     } catch (error) {
       toast({ title: 'Erro ao remover interesse', variant: 'destructive' });
       console.error('Erro ao remover interesse:', error);
@@ -101,10 +96,7 @@ const MyInterestsTable: React.FC<MyInterestsTableProps> = ({
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <Button
-                    variant='destructive'
-                    onClick={() => handleRemoveInterest(itinerary.id)}
-                  >
+                  <Button variant='destructive' onClick={() => handleRemoveInterest(itinerary.id)}>
                     <CircleXIcon />
                   </Button>
                 </TableCell>
