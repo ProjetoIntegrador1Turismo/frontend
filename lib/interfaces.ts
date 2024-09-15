@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 export interface NavBarButtonProps {
   buttonText: string;
   href: string;
+  highlight?: boolean;
 }
 
 export interface NavBarButtonsContainerProps {
