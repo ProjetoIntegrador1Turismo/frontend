@@ -6,7 +6,14 @@ const NavbarButtonsContainer = ({ buttons }: NavBarButtonsContainerProps) => {
   return (
     <div className={styles.NavButtonsContainer}>
       {buttons.map((button, i) => {
-        return <NavBarButton key={i} buttonText={button.buttonText} href={button.href} />;
+        {
+          if (button.buttonText === 'Roteiros') {
+            return (
+              <NavBarButton key={i} buttonText={button.buttonText} href={button.href} highlight />
+            );
+          }
+          return <NavBarButton key={i} buttonText={button.buttonText} href={button.href} />;
+        }
       })}
     </div>
   );
