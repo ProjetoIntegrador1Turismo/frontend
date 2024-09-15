@@ -112,18 +112,23 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
 
       <BondeDivisor />
 
-      {/* Atrações incluídas no roteiro */}
       <h1 className='font-semibold text-4xl text-center'>Pontos de Interesse desse roteiro </h1>
       <div className='flex flex-wrap justify-center gap-4'>
-        {itineraryData.itinerary.interestPoints.map((point, index) => (
-          <InterestPointCard
-            key={index}
-            id={point.id}
-            name={point.name}
-            imageCoverUrl={point.imageCoverUrl}
-            type={'tour'}
-          />
-        ))}
+        {itineraryData.itinerary.interestPoints.length > 0 ? (
+          itineraryData.itinerary.interestPoints.map((point, index) => (
+            <InterestPointCard
+              key={index}
+              id={point.id}
+              name={point.name}
+              imageCoverUrl={point.imageCoverUrl}
+              type={'tour'}
+            />
+          ))
+        ) : (
+          <p className='text-lg font-bold bg-gradient-to-r from-tl-red to-tl-purple bg-clip-text text-transparent'>
+            Este roteiro não tem pontos de interesse cadastrados!
+          </p>
+        )}
       </div>
 
       <PeopleDivisor />
