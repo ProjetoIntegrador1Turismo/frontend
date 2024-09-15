@@ -2,12 +2,12 @@ import { NavBarButtonProps } from './interfaces';
 
 export const NavBarButtons: NavBarButtonProps[] = [
   {
-    buttonText: 'Pontos Turísticos',
-    href: '/categories/touristpoint'
-  },
-  {
     buttonText: 'Roteiros',
     href: '/categories/itinerary'
+  },
+  {
+    buttonText: 'Pontos Turísticos',
+    href: '/categories/touristpoint'
   },
   {
     buttonText: 'Hotéis',
