@@ -4,6 +4,7 @@ import GuideApproval from './GuideApproval';
 import InterestPoints from './InterestPoints';
 import { auth } from '@/auth';
 import Image from 'next/image';
+import { MapPinIcon, Pen, PersonStanding } from 'lucide-react';
 
 export async function AdminTabs() {
   const session = await auth();
@@ -21,13 +22,13 @@ export async function AdminTabs() {
           alt={session?.user.firstName ?? ' '}
         />
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='interestpoint'>
-          Cadastrar Pontos
+          <MapPinIcon /> | Cadastrar Pontos
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='config'>
-          Editar Pontos
+          <Pen /> | Editar Pontos
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='guides'>
-          Aprovar Guias
+          <PersonStanding /> | Aprovar Guias
         </TabsTrigger>
       </TabsList>
       <TabsContent value='interestpoint'>
