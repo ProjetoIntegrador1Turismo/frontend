@@ -36,7 +36,7 @@ const InterestPointEdit = () => {
 
   if (isLoading)
     return (
-      <div className='min-h-[40vh] h-fit mb-3 w-[667px] flex items-center justify-center'>
+      <div className='min-h-[40vh] h-fit mb-3 w-[750px] flex items-center justify-center'>
         <ClipLoader color='black' />
       </div>
     );
@@ -76,7 +76,7 @@ const InterestPointEdit = () => {
         />
       </div>
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[316px]'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 min-h-[316px]'>
         {currentItems.map((point: any) => (
           <InterestPointEditCard
             name={point.name}
