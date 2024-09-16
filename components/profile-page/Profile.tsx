@@ -9,6 +9,7 @@ import MyComments from './MyComments';
 import MyReviews from './MyReviews';
 import MyInterestedItineraries from './MyInterestedItineraries';
 import { Title } from '@radix-ui/react-toast';
+import { User, Star, MessageCircle, Map } from 'lucide-react';
 
 interface UserPageSource {
   id: number;
@@ -119,16 +120,16 @@ export async function Profile() {
           alt={session?.user.firstName ?? ' '}
         />
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='info'>
-          Informações Básicas
+          <User /> | Informações Básicas
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='reviews'>
-          Avaliações
+          <Star /> | Avaliações
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='comments'>
-          Comentários
+          <MessageCircle /> | Comentários
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='roteiros'>
-          Roteiros
+          <Map /> | Roteiros
         </TabsTrigger>
       </TabsList>
       <TabsContent value='info'>
