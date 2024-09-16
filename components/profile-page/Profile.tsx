@@ -41,7 +41,13 @@ export interface Comment {
   wasVisitingDate: string;
   rating: number;
   interestPoint: InterestPoint;
+  tourist: Tourist;
+}
+
+export interface Tourist {
+  id: number;
   touristName: string;
+  profileImageUrl: string;
 }
 
 interface InterestPoint {
