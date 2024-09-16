@@ -28,7 +28,7 @@ export async function AdminTabs() {
           <Pen /> | Editar Pontos
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='guides'>
-          <PersonStanding /> | Aprovar Guias
+          <PersonStanding /> | Gerenciar Guias
         </TabsTrigger>
       </TabsList>
       <TabsContent value='interestpoint'>
