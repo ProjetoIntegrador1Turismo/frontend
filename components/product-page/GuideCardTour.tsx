@@ -1,18 +1,24 @@
-import InterestButton from './InterestButton';
 import Rating from '../home-page/Rating';
 import Image from 'next/image';
 import Link from 'next/link';
+import ItinerariesDialog from './ItinerariesDialog';
 
 const GuideCardTour = ({
   img,
   name,
   rating,
-  id
+  id,
+  tourTitle,
+  guideName,
+  tourId
 }: {
   img: string;
   name: string;
   rating: number;
   id: number;
+  tourTitle: string;
+  guideName: string;
+  tourId: number;
 }) => {
   return (
     <div className='grid grid-cols-[70px_1fr_1fr_270px] gap-4 items-center border-black border p-2 rounded-full min-w-[750px] max-w-[750px] max-h-[85px] shadow-lg shadow-gray-400'>
@@ -40,7 +46,12 @@ const GuideCardTour = ({
         <Rating rating={rating} />
       </div>
       <div className='flex justify-end items-center'>
-        <InterestButton />
+        <ItinerariesDialog
+          guideId={id}
+          guideName={guideName}
+          tourId={tourId}
+          tourTitle={tourTitle}
+        />
       </div>
     </div>
   );
