@@ -270,3 +270,27 @@ export const createReview = async (values: z.infer<typeof CommentSchema>, guideI
     return false;
   }
 };
+
+export const createInterestPointComment = async (
+  values: z.infer<typeof CommentSchema>,
+  tourId: number
+) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:8081/comment/create/${tourId}`,
+      {
+        rating: values.rating,
+        text: values.commentText,
+        wasVisitingDate: new Date().toISOString()
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${await getAuthToken()}`
+        }
+      }
+    );
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
+};
