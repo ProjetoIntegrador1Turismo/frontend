@@ -1,3 +1,8 @@
+import { auth } from '@/auth';
+import PeopleDivisor from '@/components/home-page/PeopleDivisor';
+import PlaneDivisor from '@/components/home-page/PlaneDivisor';
+import CommentCardTour from '@/components/product-page/CommentCardTour';
+import { CommentFormDialog } from '@/components/product-page/CommentFormDialog';
 import TourGallery from '@/components/product-page/Gallery';
 import GuideCardTour from '@/components/product-page/GuideCardTour';
 import ProductButton from '@/components/product-page/ProductButton';
@@ -9,6 +14,20 @@ import { redirect } from 'next/navigation';
 export interface TourPageSource {
   interestPoint: InterestPoint;
   guidesWhoOfferThisTour: GuideWhoOfferThisTour[];
+  comments: Comment[];
+}
+export interface Comment {
+  id:              number;
+  text:            string;
+  wasVisitingDate: string;
+  rating:          number;
+  tourist:         Tourist;
+}
+
+export interface Tourist {
+  id:              number;
+  touristName:     string;
+  profileImageUrl: string;
 }
 
 export interface InterestPoint {
@@ -48,14 +67,18 @@ const TourPage = async ({ params }: { params: { id: string } }) => {
     redirect('/');
   }
 
+  const session = await auth();
+
   let tourData;
   let guides;
+  let comments;
   try {
     const request = await axios.get<TourPageSource>(
       `http://localhost:8081/page-source/tour/${params.id}`
     );
     tourData = request.data.interestPoint;
     guides = request.data.guidesWhoOfferThisTour;
+    comments = request.data.comments;
   } catch (error) {
     redirect('/');
   }
@@ -75,6 +98,7 @@ const TourPage = async ({ params }: { params: { id: string } }) => {
         longDescription={tourData.longDescription}
         shortDescription={tourData.shortDescription}
       />
+      <PlaneDivisor />
       <div className='flex justify-center items-center flex-col gap-4' id='guides'>
         <h1 className='text-4xl font-semibold'>Guias que ofertam esse passeio</h1>
         {guides.map((guide) => {
@@ -85,9 +109,29 @@ const TourPage = async ({ params }: { params: { id: string } }) => {
               rating={guide.averageRating}
               id={guide.id}
               key={guide.id}
+              guideName={`${guide.firstName} ${guide.lastName}`}
+              tourTitle={tourData.name}
+              tourId={tourData.id}
             />
           );
         })}
+      </div>
+      <PeopleDivisor />
+      <div className='flex flex-col gap-4 items-center'>
+        <h2 className='text-4xl font-semibold text-center'>
+          O que as pessoas acham desse passeio?
+        </h2>
+        {session && session.user.userType !== 'Guide' && (
+          <CommentFormDialog tourId={tourData.id} tourTitle={tourData.name} />
+        )}
+        <div className='flex flex-wrap justify-center gap-4'>
+          {comments.map((comment) => {
+            const { tourist, ...rest } = comment
+            return (
+              <CommentCardTour comment={{ ...rest, touristName: tourist.touristName }} profilePic={comment.tourist.profileImageUrl} key={comment.id} />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

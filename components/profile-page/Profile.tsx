@@ -47,6 +47,7 @@ export interface Comment {
 
 export interface Tourist {
   id: number;
+  interestPoint?: InterestPoint;
   touristName: string;
   profileImageUrl: string;
 }

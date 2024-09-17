@@ -11,9 +11,9 @@ import ControlledTextArea from '../admin-panel/ControlledTextArea';
 import { Button } from '../ui/button';
 import { FormError } from '../Auth/form-error';
 import { FormSucess } from '../Auth/form-sucess';
-import { createGuideReview } from '@/actions/createGuideReview';
+import { createComment } from '@/actions/createComment';
 
-const CommentForm = ({ guideId, guideName }: { guideId: number; guideName: string }) => {
+const CommentForm = ({ tourId, tourTitle }: { tourId: number; tourTitle: string }) => {
   const [ratingValue, setRatingValue] = useState<number>(0);
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -25,7 +25,7 @@ const CommentForm = ({ guideId, guideName }: { guideId: number; guideName: strin
 
   const onSubmitCreateComment = (values: z.infer<typeof CommentSchema>) => {
     startTransition(() => {
-      createGuideReview(values, guideId).then((data) => {
+      createComment(values, tourId).then((data) => {
         setSuccess(data.success);
         setError(data.error);
       });
@@ -36,8 +36,8 @@ const CommentForm = ({ guideId, guideName }: { guideId: number; guideName: strin
     <div className='max-w-[500px] h-fit'>
       <Card>
         <CardHeader>
-          <CardTitle>Avaliação de Guia</CardTitle>
-          <CardDescription>Escreva um texto avaliando {guideName}!</CardDescription>
+          <CardTitle>Comentário de Ponto de Interesse</CardTitle>
+          <CardDescription>Escreva um texto avaliando {tourTitle}!</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

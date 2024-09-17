@@ -3,9 +3,9 @@ import ReviewCard from '@/components/guide-profile/ReviewCard';
 import BondeDivisor from '@/components/home-page/BondeDivisor';
 import PeopleDivisor from '@/components/home-page/PeopleDivisor';
 import PlaneDivisor from '@/components/home-page/PlaneDivisor';
+import GuideCardItinerary from '@/components/itinerary-page/GuideCardItinerary';
 import ItineraryDescription from '@/components/itinerary-page/ItineraryDescription';
 import ItineraryGallery from '@/components/itinerary-page/ItineraryGallery';
-import GuideCardTour from '@/components/product-page/GuideCardTour';
 import { Review } from '@/components/profile-page/Profile';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
@@ -70,14 +70,15 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
       );
     }
 
-    return itineraryData.reviews.map((comment, index) => {
+    return itineraryData.reviews.map((comment) => {
       const { avatarUrl, ...rest } = comment;
       return (
         <ReviewCard
           review={{
             ...rest,
-            avatarUrl: comment.avatarUrl ?? ' '
+            avatarUrl: avatarUrl ?? ' '
           }}
+          key={comment.id}
         />
       );
     });
@@ -96,7 +97,7 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
       </div>
       <div className='flex flex-col gap-3 justify-center items-center'>
         <p className='text-xl text-center'>Ofertado por:</p>
-        <GuideCardTour
+        <GuideCardItinerary
           img={itineraryData.guide.profileImageUrl ?? '/avatar.jpg'}
           id={itineraryData.guide.id}
           name={`${itineraryData.guide.firstName} ${itineraryData.guide.lastName}`}
