@@ -13,7 +13,7 @@ import { FormError } from '../Auth/form-error';
 import { FormSucess } from '../Auth/form-sucess';
 import { createGuideReview } from '@/actions/createGuideReview';
 
-const CommentForm = ({ guideId, guideName }: { guideId: number; guideName: string }) => {
+const ReviewForm = ({ guideId, guideName }: { guideId: number; guideName: string }) => {
   const [ratingValue, setRatingValue] = useState<number>(0);
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
@@ -89,4 +89,4 @@ const CommentForm = ({ guideId, guideName }: { guideId: number; guideName: strin
   );
 };
 
-export default CommentForm;
+export default ReviewForm;

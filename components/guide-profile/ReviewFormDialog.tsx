@@ -6,9 +6,9 @@ import {
   DialogClose
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import CommentForm from './CommentForm';
+import ReviewForm from './ReviewForm';
 
-export function CommentFormDialog({ guideId, guideName }: { guideId: number; guideName: string }) {
+export function ReviewFormDialog({ guideId, guideName }: { guideId: number; guideName: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -18,7 +18,7 @@ export function CommentFormDialog({ guideId, guideName }: { guideId: number; gui
       </DialogTrigger>
       <DialogContent className='min-w-fit'>
         <div className='mt-3'>
-          <CommentForm guideId={guideId} guideName={guideName} />
+          <ReviewForm guideId={guideId} guideName={guideName} />
         </div>
         <DialogFooter>
           <DialogClose asChild>
