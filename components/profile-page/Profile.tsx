@@ -40,7 +40,7 @@ export interface Comment {
   text: string;
   wasVisitingDate: string;
   rating: number;
-  interestPoint: InterestPoint;
+  interestPoint?: InterestPoint;
   touristName: string;
 }
 

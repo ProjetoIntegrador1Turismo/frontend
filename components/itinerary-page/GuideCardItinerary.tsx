@@ -1,24 +1,18 @@
+import { PlaneIcon } from 'lucide-react';
 import Rating from '../home-page/Rating';
 import Image from 'next/image';
 import Link from 'next/link';
-import ItinerariesDialog from './ItinerariesDialog';
 
-const GuideCardTour = ({
+const GuideCardItinerary = ({
   img,
   name,
   rating,
-  id,
-  tourTitle,
-  guideName,
-  tourId
+  id
 }: {
   img: string;
   name: string;
   rating: number;
   id: number;
-  tourTitle: string;
-  guideName: string;
-  tourId: number;
 }) => {
   return (
     <div className='grid grid-cols-[70px_1fr_1fr_270px] gap-4 items-center border-black border p-2 rounded-full min-w-[750px] max-w-[750px] max-h-[85px] shadow-lg shadow-gray-400'>
@@ -46,15 +40,12 @@ const GuideCardTour = ({
         <Rating rating={rating} />
       </div>
       <div className='flex justify-end items-center'>
-        <ItinerariesDialog
-          guideId={id}
-          guideName={guideName}
-          tourId={tourId}
-          tourTitle={tourTitle}
-        />
+        <button className='w-[250px] h-[70px] bg-gradient-to-t  from-tl-red items-center text-xl to-tl-purple rounded-full flex justify-center gap-2 text-white font-extrabold hover:from-tl-red-2 hover:to-tl-purple-2 select-none'>
+          Tenho interesse <PlaneIcon />
+        </button>
       </div>
     </div>
   );
 };
 
-export default GuideCardTour;
+export default GuideCardItinerary;

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Review } from './GuideProfileTabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import ReviewCard from './ReviewCard';
-import { CommentFormDialog } from './CommentFormDialog';
+import { ReviewFormDialog } from './ReviewFormDialog';
 import { Button } from '../ui/button';
 import SearchBar from './SearchBar';
 import { useDebounce } from 'use-debounce';
@@ -62,7 +62,7 @@ const GuideReviews = ({
               Aqui você encontra todos as avaliações que {guideName} recebeu!
             </CardDescription>
             {userType && userType !== 'Guide' && (
-              <CommentFormDialog guideId={guideId} guideName={guideName} />
+              <ReviewFormDialog guideId={guideId} guideName={guideName} />
             )}
           </CardHeader>
           <CardContent className='grid grid-cols-3 grid-rows-2 gap-4'>
@@ -93,7 +93,7 @@ const GuideReviews = ({
           </CardDescription>
           <div className='flex justify-between items-center'>
             {userType && userType !== 'Guide' && (
-              <CommentFormDialog guideId={guideId} guideName={guideName} />
+              <ReviewFormDialog guideId={guideId} guideName={guideName} />
             )}
             <SearchBar setText={handleSearchChange} text={searchTerm} />
           </div>
