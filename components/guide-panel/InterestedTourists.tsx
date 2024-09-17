@@ -33,9 +33,9 @@ const InterestedTourists: React.FC = () => {
   useEffect(() => {
     const fetchTourists = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/guides/interestedTourists',
-          { headers: { Authorization: `Bearer ${sessionData?.user.authToken}` } }
-        );
+        const response = await axios.get('http://localhost:8081/guides/interestedTourists', {
+          headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+        });
         setTourists(response.data);
       } catch (error) {
         console.error('Erro ao buscar turistas:', error);
@@ -65,17 +65,17 @@ const InterestedTourists: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[75vh]">
-        <ClipLoader color="black" />
+      <div className='flex justify-center items-center min-h-[75vh]'>
+        <ClipLoader color='black' />
       </div>
     );
   }
 
   return (
-    <div className="min-h-[75vh] w-[750px] h-fit">
+    <div className='min-h-[75vh] w-[750px] h-fit'>
       <Card>
         <CardHeader>
-          <CardTitle className="text-3xl font-bold">Turistas interessados</CardTitle>
+          <CardTitle className='text-3xl font-bold'>Turistas interessados</CardTitle>
         </CardHeader>
         <CardContent>
           {tourists.length > 0 ? (

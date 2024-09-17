@@ -10,7 +10,6 @@ import {
 } from '../ui/table';
 import { Guide } from '@/lib/interfaces';
 
-
 interface GuideTableProps {
   guides: Guide[];
   actionButton: (id: number) => React.ReactNode;

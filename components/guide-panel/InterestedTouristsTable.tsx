@@ -41,12 +41,12 @@ const InterestedTouristsTable: React.FC<InterestedTouristsTableProps> = ({
   currentPage,
   totalPages,
   handlePrevious,
-  handleNext,
+  handleNext
 }) => {
   return (
-    <div className="h-fit mb-3">
-      <TableContainer component={Paper} className="min-h-[495px]">
-        <Table sx={{ minWidth: 650 }} aria-label="interested tourists table">
+    <div className='h-fit mb-3'>
+      <TableContainer component={Paper} className='min-h-[495px]'>
+        <Table sx={{ minWidth: 650 }} aria-label='interested tourists table'>
           <TableHead>
             <TableRow>
               <TableCell>Foto</TableCell>
@@ -59,10 +59,7 @@ const InterestedTouristsTable: React.FC<InterestedTouristsTableProps> = ({
             {tourists.map((entry, index) => (
               <TableRow key={`${entry.tourist.id}-${index}`}>
                 <TableCell>
-                  <Avatar
-                    src={entry.tourist.profileImageUrl}
-                    alt={entry.tourist.firstName}
-                  />
+                  <Avatar src={entry.tourist.profileImageUrl} alt={entry.tourist.firstName} />
                 </TableCell>
                 <TableCell>{`${entry.tourist.firstName} ${entry.tourist.lastName}`}</TableCell>
                 <TableCell>
@@ -72,12 +69,12 @@ const InterestedTouristsTable: React.FC<InterestedTouristsTableProps> = ({
                 <TableCell>
                   <Link
                     href={`/itinerary/${entry.itinerary.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center text-gray-700 hover:text-purple-500"
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='flex items-center text-gray-700 hover:text-purple-500'
                   >
                     {entry.itinerary.title}
-                    <ExternalLink className="ml-2 h-4 w-4" />
+                    <ExternalLink className='ml-2 h-4 w-4' />
                   </Link>
                 </TableCell>
               </TableRow>
@@ -86,9 +83,9 @@ const InterestedTouristsTable: React.FC<InterestedTouristsTableProps> = ({
         </Table>
       </TableContainer>
       {tourists.length !== 0 && (
-        <div className="flex items-center justify-center w-full gap-4 mt-4">
+        <div className='flex items-center justify-center w-full gap-4 mt-4'>
           <Button
-            className="bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none"
+            className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
             onClick={handlePrevious}
             disabled={currentPage === 1}
           >
@@ -98,7 +95,7 @@ const InterestedTouristsTable: React.FC<InterestedTouristsTableProps> = ({
             {currentPage} de {totalPages}
           </p>
           <Button
-            className="bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none"
+            className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
             onClick={handleNext}
             disabled={currentPage === totalPages}
           >
