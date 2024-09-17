@@ -8,6 +8,7 @@ import {
   NewItineraryFormSchema,
   RegisterGuideSchema,
   RegisterSchema,
+  SelectTop3FormSchema,
   UpdateProfileSchema
 } from '@/schemas';
 import axios from 'axios';
@@ -294,3 +295,21 @@ export const createInterestPointComment = async (
     return false;
   }
 };
+
+export const selectTop3Home = async (values: z.infer<typeof SelectTop3FormSchema>) => {
+  try {
+    const response = await axios.post(
+      'http://localhost:8081/admin/principal-cards',
+      values.interestPointIds,
+      {
+        headers: {
+          Authorization: `Bearer ${await getAuthToken()}`
+        }
+      }
+    );
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
+};
+

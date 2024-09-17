@@ -17,6 +17,16 @@ export interface TourPageSource {
   comments: Comment[];
 }
 export interface Comment {
+  id: number;
+  text: string;
+  wasVisitingDate: string;
+  rating: number;
+  tourist: Tourist;
+}
+
+export interface Tourist {
+  id: number;
+  touristName: string;
   id:              number;
   text:            string;
   wasVisitingDate: string;

@@ -140,17 +140,20 @@ const GuideApproval = () => {
     <div className='min-h-[75vh] h-fit'>
       <Card className='w-[667px]'>
         <CardHeader>
-          <CardTitle>Aprovar ou Inativar Guias</CardTitle>
+          <CardTitle>Aprovar ou Desativar Guias</CardTitle>
           <CardDescription>Gerencie o status dos guias de turismo.</CardDescription>
         </CardHeader>
         <CardContent>
-          <SearchBar
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
+          <div className='mb-3'>
+            <SearchBar
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+          </div>
+
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList>
               <TabsTrigger value='inativos'>Guias Inativos</TabsTrigger>

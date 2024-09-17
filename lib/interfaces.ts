@@ -129,6 +129,7 @@ export interface TopGuide {
 export interface Guide {
   id: number;
   firstName: string;
+  lastName: string;
   cadasturCode: string;
   isApproved: boolean;
   itineraries: any[];
