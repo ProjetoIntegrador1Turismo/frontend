@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import InterestPointEditCard from './InterestPointEditCard';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { Button } from '../ui/button';
 
 const InterestPointEdit = () => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState([]);
@@ -51,8 +52,16 @@ const InterestPointEdit = () => {
   const currentItems = filteredInterestPoints.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredInterestPoints.length / itemsPerPage);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
   };
 
   return (
@@ -66,6 +75,7 @@ const InterestPointEdit = () => {
           }}
         />
       </div>
+
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[316px]'>
         {currentItems.map((point: any) => (
           <InterestPointEditCard
@@ -76,17 +86,28 @@ const InterestPointEdit = () => {
           />
         ))}
       </div>
-      <div className='flex justify-center mt-4'>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i + 1}
-            className={`px-3 py-1 mx-1 rounded-full ${currentPage === i + 1 ? 'bg-gray-400' : 'bg-gray-200'}`}
-            onClick={() => handlePageChange(i + 1)}
+
+      {filteredInterestPoints.length !== 0 && (
+        <div className='flex items-center justify-center w-full gap-4 mt-4'>
+          <Button
+            className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
+            onClick={handlePrevious}
+            disabled={currentPage === 1}
           >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+            Anterior
+          </Button>
+          <p>
+            {currentPage} de {totalPages}
+          </p>
+          <Button
+            className='bg-gradient-to-r from-tl-red to-tl-purple w-fit select-none'
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+          >
+            Próximo
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

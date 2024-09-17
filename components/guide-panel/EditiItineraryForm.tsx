@@ -30,11 +30,14 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { updateItinerary } from '@/actions/updateItinerary';
 import { Itinerary } from '@/app/guide/itinerary/edit/[id]/page';
+import { Trash } from 'lucide-react';
 
 const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
+  const [isInterestPointDialogOpen, setIsInterestPointDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); 
   const router = useRouter();
   const { data: sessionData } = useSession();
 
@@ -55,7 +58,7 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
   const addInterestPoint = (id: number) => {
     form.getValues().interestPointIds.includes(id)
       ? toast({
-          title: 'Não foi possivel adicionar esse ponto de interesse',
+          title: 'Não foi possível adicionar esse ponto de interesse',
           description: 'Esse ponto de interesse já está no seu roteiro!',
           variant: 'destructive'
         })
@@ -101,19 +104,38 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
       });
     });
   };
-  // por alguma razao se tira essa linha nao funciona?
+
+
+  const handleDelete = () => {
+    axios
+      .delete(`http://localhost:8081/itinerary/${itinerary.id}`, {
+        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+      })
+      .then(() => {
+        toast({ title: 'Roteiro excluído com sucesso!', variant: 'destructive' });
+        setIsDeleteDialogOpen(false);
+        setTimeout(() => router.push('/guide'), 2000);
+      })
+      .catch((error) => {
+        console.error('Erro ao excluir o roteiro:', error);
+        toast({ title: 'Erro ao excluir o roteiro', variant: 'destructive' });
+      });
+  };
+
   form.watch();
-  // que codigo lixo...
-  // bom, funciona!
-  // nao consigo entender pq funciona
-  // n vou mais perder tempo nesse lixo
 
   return (
     <div className='min-h-[80vh] h-fit mb-5'>
       <Card>
         <CardHeader>
-          <CardTitle>Criação de Roteiros</CardTitle>
-          <CardDescription>Insira os dados e crie um novo roteiro.</CardDescription>
+          <Button
+            className='mb-4 bg-gradient-to-r from-tl-red to-tl-purple w-fit'
+            onClick={() => router.push('/guide')}
+          >
+            Voltar para o painel
+          </Button>
+          <CardTitle>Edição do roteiro</CardTitle>
+          <CardDescription>Insira os novos dados do roteiro.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -166,7 +188,7 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
                 label='Imagem de Capa'
               />
 
-              <Dialog>
+              <Dialog open={isInterestPointDialogOpen} onOpenChange={setIsInterestPointDialogOpen}>
                 <div className='flex gap-3 items-center'>
                   <div>
                     <CardTitle>Pontos de interesse</CardTitle>
@@ -182,7 +204,7 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
                 <div className='flex flex-col gap-3'>
                   {form.getValues().interestPointIds.map((number) => {
                     return (
-                      <div className='flex gap-3 w-fit items-center'>
+                      <div className='flex gap-3 w-fit items-center' key={number}>
                         <SelectedInterestPointCard id={number} />
                         <Button
                           className='shadow-md shadow-gray-400 font-bold'
@@ -276,6 +298,36 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
             </form>
           </Form>
         </CardContent>
+
+        <div className='flex justify-end mb-4 mr-4'>
+          <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant='destructive'>
+                <Trash className='mr-2' /> Excluir roteiro
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle className='text-2xl'>
+                  Tem certeza que deseja excluir este roteiro?
+                </DialogTitle>
+                <p>
+                  {' '}
+                  Essa ação não pode ser desfeita! Você perderá todas as informações e <u>turistas
+                  interessados.</u>
+                </p>
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant='destructive' onClick={handleDelete}>
+                  Excluir
+                </Button>
+                <DialogClose asChild>
+                  <Button variant='default'>Cancelar</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       </Card>
     </div>
   );

@@ -90,7 +90,6 @@ const ItinerariesPaginated = () => {
         />
       </div>
 
-      {/* A tabela (os itens) */}
       <div className='grid grid-cols-3 w-fit gap-4'>
         {currentItems.map((point: any) => (
           <ItineraryCard

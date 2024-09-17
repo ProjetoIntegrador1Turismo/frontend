@@ -7,6 +7,7 @@ import ItinerariesPaginated from './ItinerariesPaginated';
 import MyItineraries from './MyItineraries';
 import { auth } from '@/auth';
 import Image from 'next/image';
+import { Book, BookPlus, BookUser } from 'lucide-react';
 
 export async function GuideTabs() {
   const session = await auth();
@@ -25,13 +26,22 @@ export async function GuideTabs() {
         />
         <p>Cadastur: {session?.user.cadasturCode}</p>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='itineraries'>
-          Meus roteiros
+          <div className='flex gap-1 items-center'>
+            <Book height={15} width={15} />
+            Meus roteiros
+          </div>
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='newItinerary'>
-          Novo Roteiro
+          <div className='flex gap-1 items-center'>
+            <BookPlus height={15} width={15} />
+            Novo roteiro
+          </div>
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='tourists'>
-          Turistas interessados
+          <div className='flex gap-1 items-center'>
+            <BookUser height={15} width={15} />
+            Turistas interessados
+          </div>
         </TabsTrigger>
       </TabsList>
       <TabsContent value='itineraries'>
