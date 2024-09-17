@@ -1,22 +1,20 @@
 'use client';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '../ui/table';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { Guide } from '@/lib/interfaces';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState, useEffect } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
+import SearchBar from '../guide-panel/SearchBar';
+import GuideTable from './GuideTable';
+import GuidePagination from './GuidePagination';
 import { Button } from '../ui/button';
 import { Check, CircleXIcon } from 'lucide-react';
 import { useToast } from '../ui/use-toast';
-import ClipLoader from 'react-spinners/ClipLoader';
+
+// TODO: AJUSTAR PRA VOLTAR PRA PÁGINA ANTERIOR AUTOMATICAMENTE QUANDO A LISTA FICAR VAZIA
 
 interface QueryReturn {
   data: Guide[];
@@ -26,9 +24,17 @@ const GuideApproval = () => {
   const { data: sessionData } = useSession();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState('inativos');
 
-  const { data, error, isLoading } = useQuery<QueryReturn, Error>({
-    queryKey: ['pendingGuides'],
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 5;
+
+  const [filteredInactiveGuides, setFilteredInactiveGuides] = useState<Guide[]>([]);
+  const [filteredActiveGuides, setFilteredActiveGuides] = useState<Guide[]>([]);
+
+  const { data: inactiveGuides, refetch: refetchInactiveGuides } = useQuery<QueryReturn, Error>({
+    queryKey: ['inactiveGuides'],
     queryFn: async () => {
       return axios.get('http://localhost:8081/admin/unapproved-guides', {
         headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
@@ -37,7 +43,57 @@ const GuideApproval = () => {
     refetchOnWindowFocus: false
   });
 
-  const { mutate: approveGuide, isPending: isPendingApproval } = useMutation({
+  const { data: activeGuides, refetch: refetchActiveGuides } = useQuery<QueryReturn, Error>({
+    queryKey: ['activeGuides'],
+    queryFn: async () => {
+      return axios.get('http://localhost:8081/admin/approved-guides', {
+        headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+      });
+    },
+    refetchOnWindowFocus: false
+  });
+
+  useEffect(() => {
+    if (activeTab === 'inativos') {
+      refetchInactiveGuides();
+    } else if (activeTab === 'ativos') {
+      refetchActiveGuides();
+    }
+  }, [activeTab, refetchInactiveGuides, refetchActiveGuides]);
+
+  useEffect(() => {
+    if (inactiveGuides) {
+      setFilteredInactiveGuides(
+        inactiveGuides.data.filter((guide: Guide) =>
+          guide.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+  }, [searchTerm, inactiveGuides]);
+
+  useEffect(() => {
+    if (activeGuides) {
+      setFilteredActiveGuides(
+        activeGuides.data.filter((guide: Guide) =>
+          guide.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+  }, [searchTerm, activeGuides]);
+
+  const handleNext = (guides: Guide[]) => {
+    if (currentPage < totalPages(guides)) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const { mutate: approveGuide } = useMutation({
     mutationFn: async (id: number) => {
       return axios.put(
         `http://localhost:8081/admin/approve-guide/${id}`,
@@ -47,16 +103,14 @@ const GuideApproval = () => {
         }
       );
     },
-    onSuccess: async (response) => {
-      queryClient.invalidateQueries({ queryKey: ['pendingGuides'] });
-      toast({
-        title: 'Guia foi aprovado!',
-        description: `Guia de id ${response.data.id} foi aprovado com sucesso!`
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['inactiveGuides'] });
+      queryClient.invalidateQueries({ queryKey: ['activeGuides'] });
+      toast({ title: 'Guia aprovado!', variant: 'default', className: 'bg-green-500 text-white' });
     }
   });
 
-  const { mutate: denyGuide, isPending: isPendingDenial } = useMutation({
+  const { mutate: disapproveGuide } = useMutation({
     mutationFn: async (id: number) => {
       return axios.put(
         `http://localhost:8081/admin/disapprove-guide/${id}`,
@@ -66,77 +120,77 @@ const GuideApproval = () => {
         }
       );
     },
-    onSuccess: (response) => {
-      queryClient.invalidateQueries({ queryKey: ['pendingGuides'] });
-      toast({
-        title: 'Guia foi negado!',
-        description: `Guia de id ${response.data.id} foi negado com sucesso!`,
-        variant: 'destructive'
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['inactiveGuides'] });
+      queryClient.invalidateQueries({ queryKey: ['activeGuides'] });
+      toast({ title: 'Guia inativado!', variant: 'destructive' });
     }
   });
 
-  if (isLoading)
-    return (
-      <div className='min-h-[75vh] h-fit w-[667px] flex items-center justify-center'>
-        <ClipLoader color='black' />
-      </div>
-    );
-  if (error)
-    return (
-      <p className='break-words max-w-[500px]'>
-        error <pre>{JSON.stringify(error, null, 2)} </pre>
-      </p>
-    );
+  const paginatedData = (guides: Guide[]) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return guides.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+  const totalPages = (guides: Guide[]) => Math.ceil(guides.length / itemsPerPage);
+
+  if (!inactiveGuides || !activeGuides) return <ClipLoader color='black' />;
 
   return (
     <div className='min-h-[75vh] h-fit'>
       <Card className='w-[667px]'>
         <CardHeader>
-          <CardTitle>Aprovar cadastro de guias de turismo</CardTitle>
-          <CardDescription>Aprove os guias para liberar o acesso.</CardDescription>
+          <CardTitle>Aprovar ou Inativar Guias</CardTitle>
+          <CardDescription>Gerencie o status dos guias de turismo.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table className='border border-black rounded-xl'>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Cadastur</TableHead>
-                <TableHead className='text-center'>Ação</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data?.data.map((guide) => {
-                return (
-                  <TableRow key={guide.id}>
-                    <TableCell>{guide.firstName}</TableCell>
-                    <TableCell>{guide.cadasturCode}</TableCell>
-                    <TableCell className='flex justify-evenly'>
-                      <Button
-                        className='bg-green-500'
-                        disabled={isPendingApproval}
-                        onClick={() => approveGuide(guide.id)}
-                      >
-                        <Check />
-                      </Button>
-                      <Button
-                        variant='destructive'
-                        disabled={isPendingDenial}
-                        onClick={() => denyGuide(guide.id)}
-                      >
-                        <CircleXIcon />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TableCell>Total de guias: {data?.data.length}</TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
+          <SearchBar
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList>
+              <TabsTrigger value='inativos'>Guias Inativos</TabsTrigger>
+              <TabsTrigger value='ativos'>Guias Ativos</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value='inativos'>
+              <GuideTable
+                guides={paginatedData(filteredInactiveGuides)}
+                actionButton={(id) => (
+                  <Button className='bg-green-500' onClick={() => approveGuide(id)}>
+                    <Check />
+                  </Button>
+                )}
+              />
+              <GuidePagination
+                currentPage={currentPage}
+                totalPages={totalPages(filteredInactiveGuides)}
+                onNext={() => handleNext(filteredInactiveGuides)}
+                onPrevious={handlePrevious}
+              />
+            </TabsContent>
+
+            <TabsContent value='ativos'>
+              <GuideTable
+                guides={paginatedData(filteredActiveGuides)}
+                actionButton={(id) => (
+                  <Button variant='destructive' onClick={() => disapproveGuide(id)}>
+                    <CircleXIcon />
+                  </Button>
+                )}
+              />
+              <GuidePagination
+                currentPage={currentPage}
+                totalPages={totalPages(filteredActiveGuides)}
+                onNext={() => handleNext(filteredActiveGuides)}
+                onPrevious={handlePrevious}
+              />
+            </TabsContent>
+          </Tabs>
         </CardContent>
         <CardFooter></CardFooter>
       </Card>
