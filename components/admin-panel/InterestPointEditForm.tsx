@@ -22,6 +22,15 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import ControlledSingleFileInput from './ControlledSingleFileInput';
 
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger,
+  DialogClose
+} from '@/components/ui/dialog';
+import { Trash } from 'lucide-react';
+
 export interface InterestPointData {
   id: number;
   name: string;
@@ -50,6 +59,25 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
   const [isPending, startTransition] = useTransition();
   const { data: SessionData } = useSession();
   const router = useRouter();
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8081/interestpoint/${InterestPoint.id}`,
+        {
+          headers: { Authorization: `Bearer ${SessionData?.user.authToken}` }
+        }
+      );
+      if (response.status === 200 || response.status === 204) {
+        setSuccess('Ponto de interesse excluído com sucesso! Redirecionando você...');
+        setTimeout(() => router.push('/admin'), 2000);
+      } else {
+        setError('Erro ao excluir o ponto de interesse.');
+      }
+    } catch (err) {
+      setError('Erro ao excluir o ponto de interesse.');
+    }
+  };
 
   const form = useForm<z.infer<typeof InterestPointEditFormSchema>>({
     resolver: zodResolver(InterestPointEditFormSchema),
@@ -248,6 +276,14 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
 
   return (
     <Card className='mb-4'>
+      <div className='flex justify-start mt-4 ml-6'>
+        <Button
+          className='bg-gradient-to-r from-tl-red to-tl-purple'
+          onClick={() => router.push('/admin')}
+        >
+          Voltar para o painel
+        </Button>
+      </div>
       <CardHeader>
         <CardTitle>Editar um ponto de interesse</CardTitle>
         <CardDescription>Edite os dados de {InterestPoint.name}</CardDescription>
@@ -340,6 +376,32 @@ const InterestPointEditForm = ({ InterestPoint }: { InterestPoint: InterestPoint
             </div>
           </form>
         </Form>
+
+        <div className='flex justify-end mt-4'>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant='destructive'>
+                <Trash className='mr-2' /> Excluir
+              </Button>
+            </DialogTrigger>
+            <DialogContent className='min-w-fit'>
+              <p className='mt-3 bold-font'>
+                Você tem certeza que deseja excluir o ponto de interesse?
+              </p>
+              <p className='mt-3 bold-font'>Essa ação não pode ser desfeita!</p>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant='destructive' onClick={handleDelete}>
+                    Sim, excluir
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button variant='secondary'>Não, cancelar</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       </CardContent>
     </Card>
   );
