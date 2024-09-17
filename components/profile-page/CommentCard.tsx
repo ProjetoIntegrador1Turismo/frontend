@@ -12,14 +12,14 @@ const CommentCard = ({ comment, profilePic }: { comment: Comment; profilePic: st
         <Image
           height={90}
           width={90}
-          alt={comment.touristName}
+          alt={comment.tourist.touristName}
           src={profilePic}
           className='w-[60px] h-[60px] rounded-full object-cover'
           draggable={false}
         />
         <div>
           <div className='flex gap-3 items-center'>
-            <h1 className='text-xl font-bold truncate max-w-[150px]'>{comment.touristName}</h1>
+            <h1 className='text-xl font-bold truncate max-w-[150px]'>{comment.tourist.touristName}</h1>
             <p className='text-xs font-light'>Em {format(comment.wasVisitingDate, 'dd/MM/yyyy')}</p>
           </div>
           <div className='flex gap-8'>

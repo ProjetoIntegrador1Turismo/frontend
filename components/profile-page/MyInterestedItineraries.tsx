@@ -19,7 +19,7 @@ const MyInterestedItineraries = ({
         <CardHeader>
           <CardTitle>Roteiros que você se interessou</CardTitle>
           <CardDescription>
-            Aqui você encontra todos os roteiros que você se interessou!
+            Os guias entrarão em contato com você.
           </CardDescription>
         </CardHeader>
         <CardContent>

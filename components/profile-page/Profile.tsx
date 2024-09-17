@@ -9,6 +9,7 @@ import MyComments from './MyComments';
 import MyReviews from './MyReviews';
 import MyInterestedItineraries from './MyInterestedItineraries';
 import { Title } from '@radix-ui/react-toast';
+import { User, Star, MessageCircle, Map } from 'lucide-react';
 
 interface UserPageSource {
   id: number;
@@ -40,8 +41,15 @@ export interface Comment {
   text: string;
   wasVisitingDate: string;
   rating: number;
+  interestPoint: InterestPoint;
+  tourist: Tourist;
+}
+
+export interface Tourist {
+  id: number;
   interestPoint?: InterestPoint;
   touristName: string;
+  profileImageUrl: string;
 }
 
 interface InterestPoint {
@@ -113,16 +121,28 @@ export async function Profile() {
           alt={session?.user.firstName ?? ' '}
         />
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='info'>
-          Informações Básicas
+          <div className='flex gap-1 items-center'>
+            <User height={15} width={15} />
+            Informações básicas
+          </div>
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='reviews'>
-          Avaliações
+          <div className='flex gap-1 items-center'>
+            <Star height={15} width={15} />
+            Avaliações
+          </div>
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='comments'>
-          Comentários
+          <div className='flex gap-1 items-center'>
+            <MessageCircle height={15} width={15} />
+            Comentários
+          </div>
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='roteiros'>
-          Roteiros
+          <div className='flex gap-1 items-center'>
+            <Map height={15} width={15} />
+            Roteiros Interessados
+          </div>
         </TabsTrigger>
       </TabsList>
       <TabsContent value='info'>

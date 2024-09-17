@@ -27,6 +27,16 @@ export interface Comment {
 export interface Tourist {
   id: number;
   touristName: string;
+  id:              number;
+  text:            string;
+  wasVisitingDate: string;
+  rating:          number;
+  tourist:         Tourist;
+}
+
+export interface Tourist {
+  id:              number;
+  touristName:     string;
   profileImageUrl: string;
 }
 
@@ -126,13 +136,9 @@ const TourPage = async ({ params }: { params: { id: string } }) => {
         )}
         <div className='flex flex-wrap justify-center gap-4'>
           {comments.map((comment) => {
-            const { tourist, ...rest } = comment;
+            const { tourist, ...rest } = comment
             return (
-              <CommentCardTour
-                comment={{ ...rest, touristName: tourist.touristName }}
-                profilePic={comment.tourist.profileImageUrl}
-                key={comment.id}
-              />
+              <CommentCardTour comment={{ ...rest, touristName: tourist.touristName }} profilePic={comment.tourist.profileImageUrl} key={comment.id} />
             );
           })}
         </div>
