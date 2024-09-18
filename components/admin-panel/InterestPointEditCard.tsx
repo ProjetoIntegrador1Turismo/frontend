@@ -11,8 +11,8 @@ const InterestPointEditCard = ({
   imageCoverUrl: string;
 }) => {
   return (
-    <Link href={`/tour/${id}`}>
-      <div className='w-[200px]'>
+    <Link href={`/admin/interestpoint/edit/${id}`}>
+      <div className='h-[150px] max-w-[250px]'>
         <Image
           className='w-[300px] h-[100px] rounded-t-xl object-cover'
           src={imageCoverUrl}
@@ -22,12 +22,6 @@ const InterestPointEditCard = ({
         />
         <div className='bg-gradient-to-r from-tl-red to-tl-purple rounded-b-xl flex items-center justify-center'>
           <h1 className='text-white text-xl font-bold p-3 truncate max-w-[300px]'>{name}</h1>
-          <Link
-            href={`/admin/interestpoint/edit/${id}`}
-            className=' rounded-md p-1 px-2 transition-colors hover:bg-accent hover:text-accent-foreground text-white mr-2'
-          >
-            ✎
-          </Link>
         </div>
       </div>
     </Link>
