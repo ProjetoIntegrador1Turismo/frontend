@@ -120,16 +120,28 @@ export async function Profile() {
           alt={session?.user.firstName ?? ' '}
         />
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='info'>
-          <User /> | Informações Básicas
+          <div className='flex gap-1 items-center'>
+            <User height={15} width={15} />
+            Informações básicas
+          </div>
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='reviews'>
-          <Star /> | Avaliações
+          <div className='flex gap-1 items-center'>
+            <Star height={15} width={15} />
+            Avaliações
+          </div>
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='comments'>
-          <MessageCircle /> | Comentários
+          <div className='flex gap-1 items-center'>
+            <MessageCircle height={15} width={15} />
+            Comentários
+          </div>
         </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='roteiros'>
-          <Map /> | Roteiros
+          <div className='flex gap-1 items-center'>
+            <Map height={15} width={15} />
+            Roteiros Interessados
+          </div>
         </TabsTrigger>
       </TabsList>
       <TabsContent value='info'>
