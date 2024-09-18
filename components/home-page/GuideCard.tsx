@@ -7,13 +7,16 @@ import Link from 'next/link';
 const GuideCard = ({ guide }: GuideCardProps) => {
   return (
     <div className='grid grid-cols-[70px_1fr_1fr_30px] gap-4 items-center border-black border p-2 rounded-full min-w-[750px] max-w-[750px] max-h-[85px] shadow-lg shadow-gray-400'>
-      <Image
-        className='w-[70px] h-[70px] object-cover rounded-full select-none pointer-events-none'
-        src={guide.profileImageUrl}
-        alt='Guide Image'
-        width={70}
-        height={70}
-      />
+      <Link href={`/guide-profile/${guide.id}`} className='h-fit w-fit'>
+        <Image
+          className='w-[70px] h-[70px] object-cover rounded-full select-none pointer-events-none'
+          src={guide.profileImageUrl}
+          alt='Guide Image'
+          width={70}
+          height={70}
+        />
+      </Link>
+
       <div className='flex flex-col'>
         <p className='font-light text-sm select-none'>Nome</p>
         <h1 className='font-semibold text-lg truncate w-[250px]'>{`${guide.firstName} ${guide.lastName}`}</h1>

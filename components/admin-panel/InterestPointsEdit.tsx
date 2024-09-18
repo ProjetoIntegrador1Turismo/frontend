@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import InterestPointEditCard from './InterestPointEditCard';
 import ClipLoader from 'react-spinners/ClipLoader';
+import GuidePagination from './GuidePagination';
 
 const InterestPointEdit = () => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState([]);
@@ -51,10 +52,6 @@ const InterestPointEdit = () => {
   const currentItems = filteredInterestPoints.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredInterestPoints.length / itemsPerPage);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
   return (
     <div>
       <div className='mb-4'>
@@ -76,17 +73,20 @@ const InterestPointEdit = () => {
           />
         ))}
       </div>
-      <div className='flex justify-center mt-4'>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i + 1}
-            className={`px-3 py-1 mx-1 rounded-full ${currentPage === i + 1 ? 'bg-gray-400' : 'bg-gray-200'}`}
-            onClick={() => handlePageChange(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      <GuidePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onNext={() => {
+          if (currentPage < totalPages) {
+            setCurrentPage((prevPage) => prevPage + 1);
+          }
+        }}
+        onPrevious={() => {
+          if (currentPage > 1) {
+            setCurrentPage((prevPage) => prevPage - 1);
+          }
+        }}
+      />
     </div>
   );
 };

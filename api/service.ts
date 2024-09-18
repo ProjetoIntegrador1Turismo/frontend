@@ -19,7 +19,12 @@ export const getAuthToken = async () => {
   return session?.user.authToken;
 };
 
-export async function RegisterUser({ name, email, password, phone }: z.infer<typeof RegisterSchema>) {
+export async function RegisterUser({
+  name,
+  email,
+  password,
+  phone
+}: z.infer<typeof RegisterSchema>) {
   const [firstName, ...rest] = name.split(' ');
   const lastName = rest.join(' ');
 
@@ -40,7 +45,12 @@ export const fetchHomepageData = async () => {
   return (await response.json()) as HomePageData;
 };
 
-export async function updateUser({ name, password, email, phone }: z.infer<typeof UpdateProfileSchema>) {
+export async function updateUser({
+  name,
+  password,
+  email,
+  phone
+}: z.infer<typeof UpdateProfileSchema>) {
   const [firstName, ...rest] = name.split(' ');
   const lastName = rest.join(' ');
 
@@ -316,4 +326,3 @@ export const selectTop3Home = async (values: z.infer<typeof SelectTop3FormSchema
     return false;
   }
 };
-

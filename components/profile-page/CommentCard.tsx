@@ -19,7 +19,9 @@ const CommentCard = ({ comment, profilePic }: { comment: Comment; profilePic: st
         />
         <div>
           <div className='flex gap-3 items-center'>
-            <h1 className='text-xl font-bold truncate max-w-[150px]'>{comment.tourist.touristName}</h1>
+            <h1 className='text-xl font-bold truncate max-w-[150px]'>
+              {comment.tourist.touristName}
+            </h1>
             <p className='text-xs font-light'>Em {format(comment.wasVisitingDate, 'dd/MM/yyyy')}</p>
           </div>
           <div className='flex gap-8'>

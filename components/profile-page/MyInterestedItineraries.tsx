@@ -18,9 +18,7 @@ const MyInterestedItineraries = ({
       <Card>
         <CardHeader>
           <CardTitle>Roteiros que você se interessou</CardTitle>
-          <CardDescription>
-            Os guias entrarão em contato com você.
-          </CardDescription>
+          <CardDescription>Os guias entrarão em contato com você.</CardDescription>
         </CardHeader>
         <CardContent>
           <MyInterestsTable
