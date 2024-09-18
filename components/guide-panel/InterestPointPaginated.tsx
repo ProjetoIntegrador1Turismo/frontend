@@ -43,11 +43,7 @@ const apiTypeMap: Record<string, string> = {
   restaurant: 'restaurant'
 };
 
-const InterestPointPaginated: React.FC<InterestPointsPageProps> = ({
-  type,
-  title,
-  addInterestPoint
-}) => {
+const InterestPointPaginated = ({ type, title, addInterestPoint }: InterestPointsPageProps) => {
   const [filteredInterestPoints, setFilteredInterestPoints] = useState<InterestPoint[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -113,9 +109,9 @@ const InterestPointPaginated: React.FC<InterestPointsPageProps> = ({
             }}
           />
         </div>
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 min-h-[316px] items-start'>
           {currentItems.map((point) => (
-            <DialogClose>
+            <DialogClose key={point.id}>
               <InterestPointPaginatedCard
                 key={point.id}
                 id={point.id}
