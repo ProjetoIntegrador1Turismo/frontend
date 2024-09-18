@@ -20,6 +20,7 @@ import { Input } from '../ui/input';
 import CardWrapper from './card-wrapper';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
+import ReactInputMask from 'react-input-mask';
 
 const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('');
@@ -101,6 +102,27 @@ const RegisterForm = () => {
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
                     <Input disabled={isPending} {...field} placeholder='******' type='password' />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='phone'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefone</FormLabel>
+                  <FormControl>
+                    <ReactInputMask
+                      mask={'(99) 99999-9999'}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                      }}
+                      placeholder='(99) 99999-9999'
+                      value={field.value}
+                      children={<Input />}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -13,7 +13,10 @@ export const RegisterSchema = z.object({
   name: z
     .string()
     .min(1, { message: 'Nome é obrigatório!' })
-    .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!')
+    .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
+  phone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, {
+    message: 'O número de telefone deve estar no formato (99) 99999-9999'
+  })
 });
 
 export const CommentSchema = z.object({
@@ -35,7 +38,14 @@ export const RegisterGuideSchema = z.object({
     .string()
     .min(1, { message: 'Nome é obrigatório!' })
     .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
-  cadastur: z.string().min(1, { message: 'Cadastur é obrigatório para o cadastro de guia!' })
+  cadastur: z
+    .string({ required_error: 'Cadastur é obrigatório para cadastro de guia!' })
+    .regex(/^[0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2}$/, {
+      message: 'O número de Cadastur deve estar no formato 99.999.999/9999-99'
+    }),
+  phone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, {
+    message: 'O número de telefone deve estar no formato (99) 99999-9999'
+  })
 });
 
 export const CategoriesParams = z.union([
@@ -61,7 +71,10 @@ export const UpdateProfileSchema = z.object({
     .min(1, { message: 'Nome é obrigatório!' })
     .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
   email: z.string().email(),
-  password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }).optional()
+  password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }).optional(),
+  phone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, {
+    message: 'O número de telefone deve estar no formato (99) 99999-9999'
+  })
 });
 
 export const NewItineraryFormSchema = z.object({

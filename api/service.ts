@@ -19,7 +19,7 @@ export const getAuthToken = async () => {
   return session?.user.authToken;
 };
 
-export async function RegisterUser({ name, email, password }: z.infer<typeof RegisterSchema>) {
+export async function RegisterUser({ name, email, password, phone }: z.infer<typeof RegisterSchema>) {
   const [firstName, ...rest] = name.split(' ');
   const lastName = rest.join(' ');
 
@@ -27,7 +27,8 @@ export async function RegisterUser({ name, email, password }: z.infer<typeof Reg
     firstName: firstName,
     lastName: lastName,
     email: email,
-    password: password
+    password: password,
+    phone: phone
   });
 
   return response.status === 200;
@@ -39,7 +40,7 @@ export const fetchHomepageData = async () => {
   return (await response.json()) as HomePageData;
 };
 
-export async function updateUser({ name, password, email }: z.infer<typeof UpdateProfileSchema>) {
+export async function updateUser({ name, password, email, phone }: z.infer<typeof UpdateProfileSchema>) {
   const [firstName, ...rest] = name.split(' ');
   const lastName = rest.join(' ');
 
@@ -49,7 +50,8 @@ export async function updateUser({ name, password, email }: z.infer<typeof Updat
       email: email,
       firstName: firstName,
       lastName: lastName,
-      newPassword: password || null
+      newPassword: password || null,
+      phone: phone
     },
     {
       headers: {
@@ -194,7 +196,8 @@ export async function RegisterGuide({
   name,
   email,
   password,
-  cadastur
+  cadastur,
+  phone
 }: z.infer<typeof RegisterGuideSchema>) {
   const [firstName, ...rest] = name.split(' ');
   const lastName = rest.join(' ');
@@ -204,7 +207,8 @@ export async function RegisterGuide({
     lastName: lastName,
     email: email,
     cadasturCode: cadastur,
-    password: password
+    password: password,
+    phone: phone
   });
 
   return response.status === 200;

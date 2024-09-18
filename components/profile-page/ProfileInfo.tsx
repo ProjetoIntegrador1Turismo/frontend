@@ -25,6 +25,7 @@ import { FormSucess } from '../Auth/form-sucess';
 import { useRouter } from 'next/navigation';
 import ControlledSingleFileInput from '../admin-panel/ControlledSingleFileInput';
 import axios from 'axios';
+import ReactInputMask from 'react-input-mask';
 
 const ProfileInfo = () => {
   const [error, setError] = useState<string | undefined>('');
@@ -37,10 +38,10 @@ const ProfileInfo = () => {
     resolver: zodResolver(UpdateProfileSchema),
     defaultValues: {
       name: SessionData?.user.firstName + ' ' + SessionData?.user.lastName,
-      email: SessionData?.user.email ?? ''
+      email: SessionData?.user.email ?? '',
+      phone: SessionData?.user.phone
     }
   });
-  const fileRef = form.register('avatar');
 
   const onSubmitUpdateProfile = (values: z.infer<typeof UpdateProfileSchema>) => {
     console.log(values);
@@ -69,19 +70,21 @@ const ProfileInfo = () => {
               ...SessionData?.user,
               firstName: nameParts[0],
               lastName: nameParts.slice(1).join(' '),
-              profileImageUrl: imageResponse.data
+              profileImageUrl: imageResponse.data,
+              phone: updateValues.phone
             }
           });
         }
 
-        if (imageResponse?.status !== 200) {
+        if (imageResponse && imageResponse?.status !== 200) {
           setError('Erro com a foto de perfil!');
           await updateSession({
             ...SessionData,
             user: {
               ...SessionData?.user,
               firstName: nameParts[0],
-              lastName: nameParts.slice(1).join(' ')
+              lastName: nameParts.slice(1).join(' '),
+              phone: updateValues.phone
             }
           });
         }
@@ -103,12 +106,13 @@ const ProfileInfo = () => {
       <CardHeader>
         <CardTitle>Seus dados</CardTitle>
         <CardDescription>Edite-os quando quiser.</CardDescription>
+        <pre>{JSON.stringify(form.watch(), null, 2)}</pre>
       </CardHeader>
       <CardContent className='w-[800px]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmitUpdateProfile)} className='flex gap-4'>
             <div className='space-y-2'>
-              <FormField
+              <FormField  
                 control={form.control}
                 name='name'
                 render={({ field }) => (
@@ -120,6 +124,30 @@ const ProfileInfo = () => {
                         {...field}
                         type='text'
                         className='shadow-md shadow-gray-400 border border-black'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='phone'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Telefone</FormLabel>
+                    <FormControl>
+                      <ReactInputMask
+                        mask={'(99) 99999-9999'}
+                        onChange={(e) => {
+                          field.onChange(e.target.value);
+                        }}
+                        placeholder='(99) 99999-9999'
+                        value={field.value}
+                        children={
+                          <Input className='w-[280px] shadow-md shadow-gray-400 border border-black' />
+                        }
+                        disabled={!edit}
                       />
                     </FormControl>
                     <FormMessage />
@@ -140,9 +168,9 @@ const ProfileInfo = () => {
                         className='shadow-md shadow-gray-400 border border-black'
                       />
                     </FormControl>
-                    <div className='text-xs flex items-center space-x-2 text-yellow-600'>
+                    <div className='text-xs flex items-center space-x-2 text-yellow-600 '>
                       <InfoCircledIcon />
-                      <p>Infelizmente, não é possivel mudar o email.</p>
+                      <p className='h-1/3 truncate'>Infelizmente, não é possivel mudar o email.</p>
                     </div>
                     <FormMessage />
                   </FormItem>
