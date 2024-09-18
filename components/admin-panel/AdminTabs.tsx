@@ -34,16 +34,16 @@ export async function AdminTabs() {
             Editar Pontos
           </div>
         </TabsTrigger>
-        <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='guides'>
-          <div className='flex gap-1 items-center'>
-            <User height={15} width={15} />
-            Gerenciar Guias
-          </div>
-        </TabsTrigger>
         <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='top3'>
           <div className='flex gap-1 items-center'>
             <Medal height={15} width={15} />
             Selecionar Top 3
+          </div>
+        </TabsTrigger>
+        <TabsTrigger className='rounded-xl shadow-md shadow-gray-400' value='guides'>
+          <div className='flex gap-1 items-center'>
+            <User height={15} width={15} />
+            Gerenciar Guias
           </div>
         </TabsTrigger>
       </TabsList>
