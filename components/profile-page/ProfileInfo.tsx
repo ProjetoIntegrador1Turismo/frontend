@@ -106,13 +106,12 @@ const ProfileInfo = () => {
       <CardHeader>
         <CardTitle>Seus dados</CardTitle>
         <CardDescription>Edite-os quando quiser.</CardDescription>
-        <pre>{JSON.stringify(form.watch(), null, 2)}</pre>
       </CardHeader>
       <CardContent className='w-[800px]'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmitUpdateProfile)} className='flex gap-4'>
             <div className='space-y-2'>
-              <FormField  
+              <FormField
                 control={form.control}
                 name='name'
                 render={({ field }) => (
@@ -144,11 +143,10 @@ const ProfileInfo = () => {
                         }}
                         placeholder='(99) 99999-9999'
                         value={field.value}
-                        children={
-                          <Input className='w-[280px] shadow-md shadow-gray-400 border border-black' />
-                        }
                         disabled={!edit}
-                      />
+                      >
+                        <Input className='w-[280px] shadow-md shadow-gray-400 border border-black' />
+                      </ReactInputMask>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
