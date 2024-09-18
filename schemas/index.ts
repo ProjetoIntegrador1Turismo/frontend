@@ -222,3 +222,9 @@ export const InterestPointEditFormSchema = z.discriminatedUnion('type', [
   RestaurantEditSchema,
   TouristPointEditSchema
 ]);
+
+export const SelectTop3FormSchema = z.object({
+  interestPointIds: z.array(z.number()).refine((arr) => arr.length === 3, {
+    message: 'Deve ter exatamente 3 pontos de interesse!'
+  })
+});
