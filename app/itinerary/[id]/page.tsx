@@ -99,7 +99,8 @@ const ItineraryPage = async ({ params }: { params: { id: string } }) => {
         <p className='text-xl text-center'>Ofertado por:</p>
         <GuideCardItinerary
           img={itineraryData.guide.profileImageUrl ?? '/avatar.jpg'}
-          id={itineraryData.guide.id}
+          guideId={itineraryData.guide.id}
+          itineraryId={itineraryData.itinerary.id}
           name={`${itineraryData.guide.firstName} ${itineraryData.guide.lastName}`}
           rating={itineraryData.guide.averageRating ?? 3}
         />

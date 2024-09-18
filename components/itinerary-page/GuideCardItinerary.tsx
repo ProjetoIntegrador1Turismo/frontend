@@ -1,22 +1,53 @@
-import { PlaneIcon } from 'lucide-react';
+'use client';
 import Rating from '../home-page/Rating';
 import Image from 'next/image';
 import Link from 'next/link';
+import InterestButtonItinerary from './InterestButtonItinerary';
+import { useMutation } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import { useToast } from '../ui/use-toast';
 
 const GuideCardItinerary = ({
   img,
   name,
   rating,
-  id
+  guideId,
+  itineraryId
 }: {
   img: string;
   name: string;
   rating: number;
-  id: number;
+  guideId: number;
+  itineraryId: number;
 }) => {
+  const { data: sessionData } = useSession();
+  const { toast } = useToast();
+
+  const { mutate: signal, isPending } = useMutation({
+    mutationFn: async () => {
+      const data = await axios.post(
+        `http://localhost:8081/tourist/signal/${itineraryId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${sessionData?.user.authToken}` }
+        }
+      );
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      return data;
+    },
+    onSuccess: () => {
+      toast({ title: 'Sucesso!', variant: 'default', className: 'bg-green-500 text-white', description: `Demonstrou interesse no roteiro de ${name}`});
+    },
+    onError: () => {
+      toast({ title: 'Erro', variant: 'destructive', description: `Você já demonstrou interesse nesse roteiro!` });
+    }
+  })
+
+
   return (
     <div className='grid grid-cols-[70px_1fr_1fr_270px] gap-4 items-center border-black border p-2 rounded-full min-w-[750px] max-w-[750px] max-h-[85px] shadow-lg shadow-gray-400'>
-      <Link href={`/guide-profile/${id}`}>
+      <Link href={`/guide-profile/${guideId}`}>
         <Image
           className='w-[70px] h-[70px] object-cover rounded-full select-none'
           src={img}
@@ -40,9 +71,7 @@ const GuideCardItinerary = ({
         <Rating rating={rating} />
       </div>
       <div className='flex justify-end items-center'>
-        <button className='w-[250px] h-[70px] bg-gradient-to-t  from-tl-red items-center text-xl to-tl-purple rounded-full flex justify-center gap-2 text-white font-extrabold hover:from-tl-red-2 hover:to-tl-purple-2 select-none'>
-          Tenho interesse <PlaneIcon />
-        </button>
+        <InterestButtonItinerary onClick={() => signal()} isLoading={isPending} />
       </div>
     </div>
   );
