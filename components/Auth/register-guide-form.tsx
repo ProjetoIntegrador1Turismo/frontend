@@ -21,6 +21,7 @@ import { Input } from '../ui/input';
 import CardWrapper from './card-wrapper';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
+import ReactInputMask from 'react-input-mask';
 
 const RegisterGuideForm = () => {
   const [error, setError] = useState<string | undefined>('');
@@ -113,12 +114,41 @@ const RegisterGuideForm = () => {
             />
             <FormField
               control={form.control}
+              name='phone'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefone</FormLabel>
+                  <FormControl>
+                    <ReactInputMask
+                      mask={'(99) 99999-9999'}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                      }}
+                      placeholder='(99) 99999-9999'
+                      value={field.value}
+                      children={<Input />}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name='cadastur'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Cadastur</FormLabel>
                   <FormControl>
-                    <Input disabled={isPending} {...field} placeholder='Seu cadastur' type='text' />
+                    <ReactInputMask
+                      mask={'99.999.999/9999-99'}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                      }}
+                      placeholder='99.999.999/9999-99'
+                      value={field.value}
+                      children={<Input />}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
