@@ -37,7 +37,7 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isInterestPointDialogOpen, setIsInterestPointDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); 
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const router = useRouter();
   const { data: sessionData } = useSession();
 
@@ -52,8 +52,6 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
       title: itinerary.title
     }
   });
-
-  const imgCoverRef = form.register('imgCover');
 
   const addInterestPoint = (id: number) => {
     form.getValues().interestPointIds.includes(id)
@@ -104,7 +102,6 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
       });
     });
   };
-
 
   const handleDelete = () => {
     axios
@@ -312,9 +309,10 @@ const EditItineraryForm = ({ itinerary }: { itinerary: Itinerary }) => {
                   Tem certeza que deseja excluir este roteiro?
                 </DialogTitle>
                 <p>
-                  {' '}
-                  Essa ação não pode ser desfeita! Você perderá todas as informações e <u>turistas
-                  interessados.</u>
+                  <br />
+                  Essa ação não pode ser desfeita! Você perderá todas as informações e
+                  <br />
+                  <u>turistas interessados.</u>
                 </p>
               </DialogHeader>
               <DialogFooter>
