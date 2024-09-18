@@ -11,6 +11,7 @@ declare module 'next-auth' {
     userType: string;
     authTokenExpiresIn: string;
     refreshToken: string;
+    phone: string;
     refreshTokenExpiresIn: string;
     cadasturCode?: string;
     profileImageUrl: string;
