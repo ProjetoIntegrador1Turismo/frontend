@@ -29,7 +29,7 @@ const GuideTable = ({ guides, actionButton }: GuideTableProps) => {
         <TableBody>
           {guides.map((guide) => (
             <TableRow key={guide.id}>
-              <TableCell>{guide.firstName}</TableCell>
+              <TableCell>{`${guide.firstName} ${guide.lastName}`}</TableCell>
               <TableCell>{guide.cadasturCode}</TableCell>
               <TableCell className='flex justify-evenly'>{actionButton(guide.id)}</TableCell>
             </TableRow>
