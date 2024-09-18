@@ -37,13 +37,21 @@ const GuideCardItinerary = ({
       return data;
     },
     onSuccess: () => {
-      toast({ title: 'Sucesso!', variant: 'default', className: 'bg-green-500 text-white', description: `Demonstrou interesse no roteiro de ${name}`});
+      toast({
+        title: 'Sucesso!',
+        variant: 'default',
+        className: 'bg-green-500 text-white',
+        description: `Demonstrou interesse no roteiro de ${name}`
+      });
     },
     onError: () => {
-      toast({ title: 'Erro', variant: 'destructive', description: `Você já demonstrou interesse nesse roteiro!` });
+      toast({
+        title: 'Erro',
+        variant: 'destructive',
+        description: 'Você já demonstrou interesse nesse roteiro!'
+      });
     }
-  })
-
+  });
 
   return (
     <div className='grid grid-cols-[70px_1fr_1fr_270px] gap-4 items-center border-black border p-2 rounded-full min-w-[750px] max-w-[750px] max-h-[85px] shadow-lg shadow-gray-400'>
