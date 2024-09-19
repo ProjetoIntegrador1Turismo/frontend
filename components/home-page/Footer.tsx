@@ -5,6 +5,7 @@ import {
   GitHubLogoIcon,
   PaperPlaneIcon
 } from '@radix-ui/react-icons';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const Footer = () => {
@@ -12,7 +13,13 @@ const Footer = () => {
     <div className='w-screen h-[150px] bg-gradient-to-r from-tl-red to-tl-purple -ml-[120px] select-none'>
       <div className='flex justify-around items-center h-full text-white'>
         <div className='flex flex-col items-center'>
-          <img src='/tl.png' className='w-[96px] h-[60px]' />
+          <Image
+            src='/tl-white.png'
+            className='w-[96px] h-[60px]'
+            alt='TourLink Logo'
+            width={96}
+            height={60}
+          />
           <div className='flex gap-1'>
             <LinkedInLogoIcon />
             <TwitterLogoIcon />

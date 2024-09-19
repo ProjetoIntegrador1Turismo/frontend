@@ -1,5 +1,5 @@
 'use client';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { useState, useTransition } from 'react';
 import { Form } from '@/components/ui/form';
@@ -10,6 +10,7 @@ import { InterestPointFormSchema } from '@/schemas';
 import { FormError } from '../Auth/form-error';
 import { FormSucess } from '../Auth/form-sucess';
 import { useRouter } from 'next/navigation';
+import { JSX } from 'react';
 import ControlledInput from './ControlledInput';
 import InterestPointTypes from './InterestPointTypes';
 import ControlledTextArea from './ControlledTextArea';

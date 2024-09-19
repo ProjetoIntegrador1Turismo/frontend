@@ -14,6 +14,7 @@ export interface SliderCardProps {
   image: string;
   title: string;
   id: number;
+  type: 'tour' | 'itinerary';
 }
 
 export interface HomeSliderProps {
@@ -110,12 +111,14 @@ export interface FirstSlider {
   id: number;
   name: string;
   imageCoverUrl: string;
+  interestPointType: string;
 }
 
 export interface SecondSlider {
   id: number;
   name: string;
   imageCoverUrl: string;
+  interestPointType: string;
 }
 
 export interface TopGuide {

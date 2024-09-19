@@ -21,6 +21,7 @@ import { parseISO } from 'date-fns';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import ControlledSingleFileInput from './ControlledSingleFileInput';
+import { JSX } from 'react';
 
 import {
   Dialog,

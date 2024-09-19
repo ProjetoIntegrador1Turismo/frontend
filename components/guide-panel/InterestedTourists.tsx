@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import InterestedTouristsTable from './InterestedTouristsTable';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { useSession } from 'next-auth/react';
+import { FC } from 'react';
 
 interface Tourist {
   tourist: {
@@ -23,7 +24,7 @@ interface Tourist {
   };
 }
 
-const InterestedTourists: React.FC = () => {
+const InterestedTourists: FC = () => {
   const [tourists, setTourists] = useState<Tourist[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
@@ -44,7 +45,7 @@ const InterestedTourists: React.FC = () => {
       }
     };
     fetchTourists();
-  }, []);
+  }, [sessionData?.user.authToken]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

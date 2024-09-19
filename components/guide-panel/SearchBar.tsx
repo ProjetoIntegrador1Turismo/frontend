@@ -1,9 +1,12 @@
+import { ChangeEvent, FC } from 'react';
+
 interface SearchBarProps {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
+const SearchBar: FC<SearchBarProps> = ({ value, onChange }) => {
   return (
     <input
       type='text'

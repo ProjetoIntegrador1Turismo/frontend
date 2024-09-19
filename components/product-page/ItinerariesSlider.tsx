@@ -20,7 +20,7 @@ const ItinerariesSlider = ({ slides }: { slides: GuideItineraries }) => {
     >
       <CarouselContent>
         {slides.map((itinerary, index) => (
-          <CarouselItem key={index} className='lg:basis-1/5'>
+          <CarouselItem key={index} className='lg:basis-1/4'>
             <ItinerarySliderCard
               id={itinerary.id}
               imageCoverUrl={itinerary.imageCoverUrl}

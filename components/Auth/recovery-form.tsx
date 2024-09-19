@@ -11,43 +11,40 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormError } from './form-error';
-import { LoginSchema } from '@/schemas';
-import { login } from '@/actions/login';
+import { RecoverySchema } from '@/schemas';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import CardWrapper from './card-wrapper';
 import * as z from 'zod';
+import { recoverPassword } from '@/actions/recoverPassword';
+import { FormSucess } from './form-sucess';
 
-const LoginForm = () => {
+const RecoveryForm = () => {
   const [error, setError] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
-
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: '',
-      password: ''
-    }
+  const [success, setSuccess] = useState<string | undefined>('');
+  const form = useForm<z.infer<typeof RecoverySchema>>({
+    resolver: zodResolver(RecoverySchema)
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof RecoverySchema>) => {
     setError('');
-
     startTransition(() => {
-      login(values).then(async (data) => {
+      recoverPassword(values).then(async (data) => {
         setError(data?.error);
+        setSuccess(data.success);
       });
     });
   };
 
   return (
     <CardWrapper
-      headerTitle='Login'
-      headerLabel='Bem vindo de volta!'
+      headerTitle='Recuperar senha'
+      headerLabel='Insira seu e-mail e você receberá um link na sua caixa de entrada para criar uma nova senha.'
       backButtons={[
         {
-          href: '/recovery',
-          label: 'Esqueceu sua senha?'
+          href: '/login',
+          label: 'Fazer login'
         },
         {
           href: '/register',
@@ -65,20 +62,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input disabled={isPending} {...field} placeholder='Seu email' type='text' />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <Input disabled={isPending} {...field} placeholder='******' type='password' />
+                    <Input disabled={isPending} {...field} placeholder='Seu email' type='email' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -86,12 +70,13 @@ const LoginForm = () => {
             />
           </div>
           <FormError message={error} />
+          <FormSucess message={success} />
           <Button
             disabled={isPending}
             type='submit'
             className='w-full bg-gradient-to-r from-tl-red to-tl-purple'
           >
-            Login
+            Criar nova senha
           </Button>
         </form>
       </Form>
@@ -99,4 +84,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RecoveryForm;

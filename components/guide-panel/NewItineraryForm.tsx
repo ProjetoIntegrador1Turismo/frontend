@@ -20,7 +20,6 @@ import { NewItineraryFormSchema } from '@/schemas';
 import { FormError } from '../Auth/form-error';
 import { FormSucess } from '../Auth/form-sucess';
 import { useRouter } from 'next/navigation';
-import { createInterestPoint } from '@/actions/createInterestPoint';
 import ControlledInput from '../admin-panel/ControlledInput';
 import ControlledTextArea from '../admin-panel/ControlledTextArea';
 import ControlledSingleFileInput from '../admin-panel/ControlledSingleFileInput';
@@ -47,8 +46,6 @@ const NewItineraryForm = () => {
       interestPointIds: []
     }
   });
-
-  const imgCoverRef = form.register('imgCover');
 
   const addInterestPoint = (id: number) => {
     form.getValues().interestPointIds.includes(id)

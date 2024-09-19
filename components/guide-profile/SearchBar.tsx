@@ -4,6 +4,7 @@ import { Input } from '../ui/input';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { XIcon } from 'lucide-react';
 
+// eslint-disable-next-line no-unused-vars
 const SearchBar = ({ setText, text }: { setText: (text: string) => void; text: string }) => {
   return (
     <div className='flex shadow-md shadow-gray-400 border border-black gap-3 rounded-full h-[50px] items-center w-[250px] p-3'>

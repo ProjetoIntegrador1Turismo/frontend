@@ -7,7 +7,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 const SelectedInterestPointCard = ({ id }: { id: number }) => {
   const { data: sessionData } = useSession();
 
-  const { data, error, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['selectedInterestPoint', id],
     queryFn: async () => {
       return axios.get(`http://localhost:8081/interestpoint/${id}`, {

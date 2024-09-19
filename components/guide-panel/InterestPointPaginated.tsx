@@ -33,6 +33,7 @@ interface InterestPoint {
 interface InterestPointsPageProps {
   type: string;
   title?: string;
+  // eslint-disable-next-line no-unused-vars
   addInterestPoint: (id: number) => void;
 }
 const apiTypeMap: Record<string, string> = {
@@ -114,7 +115,6 @@ const InterestPointPaginated = ({ type, title, addInterestPoint }: InterestPoint
             <DialogClose key={point.id}>
               <InterestPointPaginatedCard
                 key={point.id}
-                id={point.id}
                 imageCoverUrl={point.imageCoverUrl}
                 name={point.name}
                 onClick={() => addInterestPoint(point.id)}

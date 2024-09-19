@@ -13,6 +13,10 @@ const MyReviews = ({ reviews, profilePic }: { reviews: Review[]; profilePic: str
 
   const currentData = reviews.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  if (currentData.length === 0 && currentPage > 1) {
+    setCurrentPage(1);
+  }
+
   const handleNext = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -66,9 +70,7 @@ const MyReviews = ({ reviews, profilePic }: { reviews: Review[]; profilePic: str
         <CardContent>
           <div className='grid grid-cols-2 grid-rows-3 gap-4'>
             {currentData.map((review) => {
-              return (
-                <ReviewCardProfile review={{ ...review, avatarUrl: profilePic }} key={review.id} />
-              );
+              return <ReviewCardProfile review={review} profilePic={profilePic} key={review.id} />;
             })}
           </div>
         </CardContent>

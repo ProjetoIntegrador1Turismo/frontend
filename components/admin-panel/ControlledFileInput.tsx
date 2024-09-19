@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
-import { cn } from '@/lib/utils';
 
 interface ControlledFileInputProps {
   control: any;
