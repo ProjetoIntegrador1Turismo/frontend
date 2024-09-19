@@ -126,8 +126,9 @@ const RegisterGuideForm = () => {
                       }}
                       placeholder='(99) 99999-9999'
                       value={field.value}
-                      children={<Input />}
-                    />
+                    >
+                      <Input />
+                    </ReactInputMask>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -147,8 +148,9 @@ const RegisterGuideForm = () => {
                       }}
                       placeholder='99.999.999/9999-99'
                       value={field.value}
-                      children={<Input />}
-                    />
+                    >
+                      <Input />
+                    </ReactInputMask>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

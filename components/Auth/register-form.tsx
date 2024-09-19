@@ -121,8 +121,9 @@ const RegisterForm = () => {
                       }}
                       placeholder='(99) 99999-9999'
                       value={field.value}
-                      children={<Input />}
-                    />
+                    >
+                      <Input />
+                    </ReactInputMask>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
