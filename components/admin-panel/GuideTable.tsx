@@ -8,11 +8,13 @@ import {
   TableHeader,
   TableRow
 } from '../ui/table';
+import { ReactNode } from 'react';
 import { Guide } from '@/lib/interfaces';
 
 interface GuideTableProps {
   guides: Guide[];
-  actionButton: (id: number) => React.ReactNode;
+  // eslint-disable-next-line no-unused-vars
+  actionButton: (id: number) => ReactNode;
 }
 
 const GuideTable = ({ guides, actionButton }: GuideTableProps) => {
