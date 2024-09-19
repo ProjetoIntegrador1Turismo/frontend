@@ -28,7 +28,7 @@ const GuideTable = ({ guides, actionButton }: GuideTableProps) => {
             <TableHead className='text-center'>Ação</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className='min-h-[467px]'>
           {guides.map((guide) => (
             <TableRow key={guide.id}>
               <TableCell>{`${guide.firstName} ${guide.lastName}`}</TableCell>
