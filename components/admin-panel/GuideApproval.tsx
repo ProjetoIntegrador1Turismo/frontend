@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { Guide } from '@/lib/interfaces';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState, useEffect } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -14,7 +14,7 @@ import { Button } from '../ui/button';
 import { Check, CircleXIcon } from 'lucide-react';
 import { useToast } from '../ui/use-toast';
 
-// TODO: AJUSTAR PRA VOLTAR PRA PÁGINA ANTERIOR AUTOMATICAMENTE QUANDO A LISTA FICAR VAZIA
+// TODO: AJUSTAR PRA VOLTAR PRA PÁGINA ANTERIOR AUTOMATICAMENTE QUANDO A LISTA FICAR VAZIA nao deu tempo
 
 interface QueryReturn {
   data: Guide[];
@@ -195,7 +195,6 @@ const GuideApproval = () => {
             </TabsContent>
           </Tabs>
         </CardContent>
-        <CardFooter></CardFooter>
       </Card>
     </div>
   );
