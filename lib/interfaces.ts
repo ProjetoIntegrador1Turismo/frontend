@@ -118,6 +118,7 @@ export interface SecondSlider {
   id: number;
   name: string;
   imageCoverUrl: string;
+  interestPointType: string;
 }
 
 export interface TopGuide {
