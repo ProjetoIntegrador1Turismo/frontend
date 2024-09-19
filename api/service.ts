@@ -326,3 +326,12 @@ export const selectTop3Home = async (values: z.infer<typeof SelectTop3FormSchema
     return false;
   }
 };
+
+export const passwordRecovery = async (email: string) => {
+  try {
+    const response = await axios.post(`http://localhost:8081/user/recovery?email=${email}`);
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
+};
