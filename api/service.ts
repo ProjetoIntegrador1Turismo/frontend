@@ -25,18 +25,22 @@ export async function RegisterUser({
   password,
   phone
 }: z.infer<typeof RegisterSchema>) {
-  const [firstName, ...rest] = name.split(' ');
-  const lastName = rest.join(' ');
+  try {
+    const [firstName, ...rest] = name.split(' ');
+    const lastName = rest.join(' ');
 
-  const response = await axios.post('http://localhost:8081/user/create', {
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    password: password,
-    phone: phone
-  });
+    const response = await axios.post('http://localhost:8081/user/create', {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      phone: phone
+    });
 
-  return response.status === 200;
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
 }
 
 export const fetchHomepageData = async () => {
@@ -51,27 +55,31 @@ export async function updateUser({
   email,
   phone
 }: z.infer<typeof UpdateProfileSchema>) {
-  const [firstName, ...rest] = name.split(' ');
-  const lastName = rest.join(' ');
+  try {
+    const [firstName, ...rest] = name.split(' ');
+    const lastName = rest.join(' ');
 
-  const response = await axios.put(
-    'http://localhost:8081/user/update',
-    {
-      email: email,
-      firstName: firstName,
-      lastName: lastName,
-      newPassword: password || null,
-      phone: phone
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${await getAuthToken()}`
+    const response = await axios.put(
+      'http://localhost:8081/user/update',
+      {
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        newPassword: password || null,
+        phone: phone
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${await getAuthToken()}`
+        }
       }
-    }
-  );
+    );
 
-  return response.status === 200;
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function interestPointCreate(values: z.infer<typeof InterestPointFormSchema>) {
@@ -192,14 +200,17 @@ export async function interestPointUpdate(
     default:
       return false;
   }
-
   const data = { ...baseData, ...extraData };
 
-  const response = await axios.put(`http://localhost:8081/interestpoint/${id}`, data, {
-    headers: { Authorization: `Bearer ${await getAuthToken()}` }
-  });
+  try {
+    const response = await axios.put(`http://localhost:8081/interestpoint/${id}`, data, {
+      headers: { Authorization: `Bearer ${await getAuthToken()}` }
+    });
 
-  return response.status === 200;
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function RegisterGuide({
@@ -209,19 +220,23 @@ export async function RegisterGuide({
   cadastur,
   phone
 }: z.infer<typeof RegisterGuideSchema>) {
-  const [firstName, ...rest] = name.split(' ');
-  const lastName = rest.join(' ');
+  try {
+    const [firstName, ...rest] = name.split(' ');
+    const lastName = rest.join(' ');
 
-  const response = await axios.post('http://localhost:8081/user/create', {
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    cadasturCode: cadastur,
-    password: password,
-    phone: phone
-  });
+    const response = await axios.post('http://localhost:8081/user/create', {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      cadasturCode: cadastur,
+      password: password,
+      phone: phone
+    });
 
-  return response.status === 200;
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
 }
 
 export const ItineraryCreate = async (values: z.infer<typeof NewItineraryFormSchema>) => {
