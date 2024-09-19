@@ -1,14 +1,10 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
 
 const InterestPointPaginatedCard = ({
-  id,
   imageCoverUrl,
   name,
   onClick
 }: {
-  id: number;
   imageCoverUrl: string;
   name: string;
   onClick?: () => void;

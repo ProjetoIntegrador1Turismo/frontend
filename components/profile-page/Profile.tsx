@@ -8,7 +8,6 @@ import { redirect } from 'next/navigation';
 import MyComments from './MyComments';
 import MyReviews from './MyReviews';
 import MyInterestedItineraries from './MyInterestedItineraries';
-import { Title } from '@radix-ui/react-toast';
 import { User, Star, MessageCircle, Map } from 'lucide-react';
 
 interface UserPageSource {

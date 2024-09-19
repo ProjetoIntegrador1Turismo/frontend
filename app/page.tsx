@@ -1,6 +1,5 @@
 import PlaneDivisor from '@/components/home-page/PlaneDivisor';
 import MainCard from '@/components/home-page/MainCard';
-import { mockGuides, mockSlides, mockTour } from '@/lib/mocks';
 import SliderWithHeader from '@/components/home-page/SliderWithHeader';
 import BondeDivisor from '@/components/home-page/BondeDivisor';
 import WeekGuides from '@/components/home-page/WeekGuides';
