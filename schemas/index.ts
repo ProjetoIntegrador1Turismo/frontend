@@ -1,7 +1,9 @@
 import * as z from 'zod';
 
 export const LoginSchema = z.object({
-  email: z.string({ required_error: 'E-mail é obrigatorio!' }).email({ message: 'Insira um e-mail válido!' }),
+  email: z
+    .string({ required_error: 'E-mail é obrigatorio!' })
+    .email({ message: 'Insira um e-mail válido!' }),
   password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' })
 });
 
@@ -14,7 +16,7 @@ export const RegisterSchema = z.object({
     .string()
     .min(1, { message: 'Nome é obrigatório!' })
     .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
-  phone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, {
+  phone: z.string({ required_error: 'Telefone é obrigátorio!' }).regex(/^\(\d{2}\) \d{5}-\d{4}$/, {
     message: 'O número de telefone deve estar no formato (99) 99999-9999'
   })
 });
@@ -46,10 +48,10 @@ export const RegisterGuideSchema = z.object({
     .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
   cadastur: z
     .string({ required_error: 'Cadastur é obrigatório para cadastro de guia!' })
-    .regex(/^[0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2}$/, {
+    .regex(/^[0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2}$/, {
       message: 'O número de Cadastur deve estar no formato 99.999.999/9999-99'
     }),
-  phone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, {
+  phone: z.string({ required_error: 'Telefone é obrigátorio!' }).regex(/^\(\d{2}\) \d{5}-\d{4}$/, {
     message: 'O número de telefone deve estar no formato (99) 99999-9999'
   })
 });
