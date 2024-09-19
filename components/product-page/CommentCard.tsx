@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 type Comment = {
   avatar: string;
   touristName: string;
@@ -12,7 +14,13 @@ type CommentProps = {
 const CommentCard = ({ comment }: CommentProps) => (
   <div className='w-60 bg-white p-4 shadow-md rounded-lg'>
     <div className='flex items-center mb-2'>
-      <img src={comment.avatar} className='w-10 h-10 rounded-full' />
+      <Image
+        src={comment.avatar}
+        className='w-10 h-10 rounded-full'
+        width={40}
+        height={40}
+        alt={`${comment.touristName} profile picture`}
+      />
       <div className='ml-4'>
         <span className='block font-semibold'>{comment.touristName}</span>
         <span className='block text-sm text-gray-500'>{comment.date}</span>

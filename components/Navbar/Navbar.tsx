@@ -4,13 +4,20 @@ import NavbarButtonsContainer from './NavBarButtonsContainer';
 import { NavBarButtons } from '@/lib/config';
 import AuthArea from './AuthArea';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Navbar = () => {
   return (
     <>
       <div className={styles.NavbarContainer}>
         <Link href='/'>
-          <img src='/tl.png' className='w-[96px] h-[60px]' />
+          <Image
+            src='/tl.png'
+            className='w-[96px] h-[60px]'
+            width={96}
+            height={60}
+            alt='TourLink logo'
+          />
         </Link>
         <NavbarButtonsContainer buttons={NavBarButtons} />
         <AuthArea />

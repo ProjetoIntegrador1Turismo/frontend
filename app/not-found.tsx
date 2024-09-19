@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -12,7 +13,13 @@ const NotFound = () => {
         Parece que você se perdeu em algum lugar nas maravilhas do turismo. Não se preocupe, nós
         estamos aqui para ajudar a encontrar o caminho de volta!
       </p>
-      <img src='/404.svg' alt='Viajante Perdido' className='w-64 h-64 mt-6' />
+      <Image
+        src='/404.svg'
+        alt='Viajante Perdido'
+        className='w-64 h-64 mt-6'
+        width={256}
+        height={256}
+      />
       <Link
         href='/'
         className='mt-8 inline-block px-6 py-3 bg-gradient-to-r from-tl-red to-tl-purple text-white text-lg font-medium rounded-md shadow-md hover:from-tl-red-2 hover:to-tl-purple-2 transition-colors duration-200'
