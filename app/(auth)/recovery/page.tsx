@@ -1,7 +1,7 @@
-import RecoveryForm from "@/components/Auth/recovery-form";
+import RecoveryForm from '@/components/Auth/recovery-form';
 
 const RecoveryPage = () => {
-  return <RecoveryForm />
+  return <RecoveryForm />;
 };
 
 export default RecoveryPage;
