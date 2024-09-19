@@ -13,7 +13,7 @@ const MyReviews = ({ reviews, profilePic }: { reviews: Review[]; profilePic: str
 
   const currentData = reviews.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  if (currentData.length === 0) {
+  if (currentData.length === 0 && currentPage > 1) {
     setCurrentPage(1);
   }
 

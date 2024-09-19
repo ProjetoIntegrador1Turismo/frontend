@@ -13,7 +13,7 @@ const MyComments = ({ comments, profilePic }: { comments: Comment[]; profilePic:
 
   const currentData = comments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  if (currentData.length === 0) {
+  if (currentData.length === 0 && currentPage > 1) {
     setCurrentPage(1);
   }
 
