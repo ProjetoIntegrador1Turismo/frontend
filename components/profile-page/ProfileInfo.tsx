@@ -44,26 +44,26 @@ const ProfileInfo = () => {
   });
 
   const onSubmitUpdateProfile = (values: z.infer<typeof UpdateProfileSchema>) => {
-    console.log(values);
     setError('');
     setSuccess('');
-
     const { avatar, ...updateValues } = values;
-
-    console.log(avatar);
-
     updateProfile(updateValues).then(async (data) => {
-      const imgFormData = new FormData();
-      if (data.success) {
-        let imageResponse;
-        if (avatar) {
-          imgFormData.append('file', avatar);
-          imageResponse = await axios.post('http://localhost:8081/file/upload/user', imgFormData, {
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+      const nameParts = updateValues.name.trim().split(' ');
+      if (avatar) {
+        const imgFormData = new FormData();
+        imgFormData.append('file', avatar);
+        const imageResponse = await axios.post(
+          'http://localhost:8081/file/upload/user',
+          imgFormData,
+          {
             headers: { Authorization: `Bearer ${SessionData?.user.authToken}` }
-          });
-        }
-        const nameParts = updateValues.name.trim().split(' ');
-        if (imageResponse && imageResponse.status === 200) {
+          }
+        );
+        if (imageResponse.status === 200) {
           await updateSession({
             ...SessionData,
             user: {
@@ -74,9 +74,14 @@ const ProfileInfo = () => {
               phone: updateValues.phone
             }
           });
+          setSuccess(data.success);
+          setEdit((prevState) => {
+            return !prevState;
+          });
+          router.refresh();
+          return;
         }
-
-        if (imageResponse && imageResponse?.status !== 200) {
+        if (imageResponse.status !== 200) {
           setError('Erro com a foto de perfil!');
           await updateSession({
             ...SessionData,
@@ -87,17 +92,31 @@ const ProfileInfo = () => {
               phone: updateValues.phone
             }
           });
+          setSuccess(data.success);
+          setEdit((prevState) => {
+            return !prevState;
+          });
+          router.refresh();
+          return;
         }
       }
+
+      await updateSession({
+        ...SessionData,
+        user: {
+          ...SessionData?.user,
+          firstName: nameParts[0],
+          lastName: nameParts.slice(1).join(' '),
+          phone: updateValues.phone
+        }
+      });
+
       setSuccess(data.success);
-      setError(data.error);
       setEdit((prevState) => {
         return !prevState;
       });
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      if (data.success) {
-        router.refresh();
-      }
+      router.refresh();
+      return;
     });
   };
 
