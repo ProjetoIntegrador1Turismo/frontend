@@ -10,7 +10,7 @@ import MyReviews from './MyReviews';
 import MyInterestedItineraries from './MyInterestedItineraries';
 import { User, Star, MessageCircle, Map } from 'lucide-react';
 
-interface UserPageSource {
+export interface UserPageSource {
   id: number;
   userName: string;
   firstName: string;
@@ -32,6 +32,8 @@ export interface Guide {
   id: number;
   firstName: string;
   lastName: string;
+  cadasturCode: string;
+  averageRating: number;
   profileImageUrl: string;
 }
 
@@ -44,18 +46,17 @@ export interface Comment {
   tourist: Tourist;
 }
 
-export interface Tourist {
-  id: number;
-  interestPoint?: InterestPoint;
-  touristName: string;
-  profileImageUrl: string;
-}
-
-interface InterestPoint {
+export interface InterestPoint {
   id: number;
   name: string;
   imageCoverUrl: string;
   interestPointType: string;
+}
+
+export interface Tourist {
+  id: number;
+  touristName: string;
+  profileImageUrl: string;
 }
 
 export interface Review {
@@ -64,7 +65,7 @@ export interface Review {
   text: string;
   date: string;
   rating: number;
-  avatarUrl?: string;
+  guide: Guide;
 }
 
 export async function Profile() {
