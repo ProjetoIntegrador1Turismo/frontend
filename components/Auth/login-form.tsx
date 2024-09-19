@@ -46,6 +46,10 @@ const LoginForm = () => {
       headerLabel='Bem vindo de volta!'
       backButtons={[
         {
+          href: '/recovery',
+          label: 'Esqueceu sua senha?'
+        },
+        {
           href: '/register',
           label: 'Não tem uma conta?'
         }
