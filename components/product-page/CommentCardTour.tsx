@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import Image from 'next/image';
 import Rating from '../home-page/Rating';
-import { CommentDialog } from '../profile-page/CommentDialog';
+import { CommentDialogTour } from './CommentDialogTour';
 
 export interface Comment {
   id: number;
@@ -46,7 +46,7 @@ const CommentCardTour = ({ comment }: { comment: Comment }) => {
       </div>
       <div className='flex h-[60%]'>
         <p className='text-base line-clamp-3'>{comment.text}</p>
-        <CommentDialog text={comment.text} />
+        <CommentDialogTour comment={comment} profilePic={comment.tourist.profileImageUrl} />
       </div>
     </div>
   );
