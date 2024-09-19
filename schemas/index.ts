@@ -1,12 +1,12 @@
 import * as z from 'zod';
 
 export const LoginSchema = z.object({
-  email: z.string().email({ message: 'Insira um e-mail válido!' }),
+  email: z.string({ required_error: 'E-mail é obrigatorio!' }).email({ message: 'Insira um e-mail válido!' }),
   password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' })
 });
 
 export const RegisterSchema = z.object({
-  email: z.string().email({
+  email: z.string({ required_error: 'E-mail é obrigatorio!' }).email({
     message: 'Insira um e-mail válido!'
   }),
   password: z.string().min(5, { message: 'Senha deve ter no minimo 5 caracteres!' }),
@@ -16,6 +16,12 @@ export const RegisterSchema = z.object({
     .regex(/^[a-zA-Z]+(?:\s[a-zA-Z]+)+$/, 'Nome completo é obrigatório!'),
   phone: z.string().regex(/^\(\d{2}\) \d{5}-\d{4}$/, {
     message: 'O número de telefone deve estar no formato (99) 99999-9999'
+  })
+});
+
+export const RecoverySchema = z.object({
+  email: z.string({ required_error: 'E-mail é obrigatorio!' }).email({
+    message: 'Insira um e-mail válido!'
   })
 });
 
