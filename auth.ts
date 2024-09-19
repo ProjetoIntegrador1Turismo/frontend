@@ -8,6 +8,7 @@ export const {
   signIn,
   signOut
 } = NextAuth({
+  trustHost: true,
   callbacks: {
     async jwt({ token, user, trigger, session, account }) {
       if (trigger === 'update') {
