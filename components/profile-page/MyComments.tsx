@@ -13,6 +13,10 @@ const MyComments = ({ comments, profilePic }: { comments: Comment[]; profilePic:
 
   const currentData = comments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
+  if (currentData.length === 0) {
+    setCurrentPage(1);
+  }
+
   const handleNext = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
